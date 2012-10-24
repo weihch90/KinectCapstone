@@ -22,6 +22,11 @@ namespace WindowsFormsApplication1
     {
         private KinectSensorChooser _chooser;
         private Bitmap _bitmap;
+        private ushort[] depthBitmap;
+        private int snapshotCount = 0;
+        private int index = 0; // index of the closest point
+        private ushort[] convertedDepthPixels;
+        private const int RSIZE = 150;
 
         public Form1()
         {
@@ -32,7 +37,7 @@ namespace WindowsFormsApplication1
         {
             _chooser = new KinectSensorChooser();
             _chooser.KinectChanged += ChooserSensorChanged;
-            _chooser.Start(); 
+            _chooser.Start();
         }
 
         void ChooserSensorChanged(object sender, KinectChangedEventArgs e)
@@ -99,49 +104,35 @@ namespace WindowsFormsApplication1
         {
             if (frame != null)
             {
-                //var bitmapImage = new Bitmap(frame.Width, frame.Height, PixelFormat.Format16bppRgb565);
-                /*var bitmapImage = new Bitmap(frame.Width, frame.Height, PixelFormat.Format32bppRgb);
-                var g = Graphics.FromImage(bitmapImage);
-                g.Clear(Color.FromArgb(0, 34, 68));
-
-                //Copy the depth frame data onto the bitmap  
-                var _pixelData = new short[frame.PixelDataLength];
-                frame.CopyPixelDataTo(_pixelData);
-                BitmapData bmapdata = bitmapImage.LockBits(new Rectangle(0, 0, frame.Width,
-                 frame.Height), ImageLockMode.WriteOnly, bitmapImage.PixelFormat);
-                IntPtr ptr = bmapdata.Scan0;
-                Marshal.Copy(_pixelData, 0, ptr, frame.Width * frame.Height);
-                bitmapImage.UnlockBits(bmapdata);*/
-
                 var bitmapImage = new Bitmap(frame.Width, frame.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                 var g = Graphics.FromImage(bitmapImage);
                 g.Clear(System.Drawing.Color.FromArgb(0, 34, 68));
 
-
                 // Allocate space to put the depth pixels we'll receive
                 short[] depthPixels = new short[frame.PixelDataLength];
+                convertedDepthPixels = new ushort[frame.PixelDataLength];
 
                 // Allocate space to put the color pixels we'll create
                 byte[] colorPixels = new byte[frame.PixelDataLength * sizeof(int)];
 
                 // This is the bitmap we'll display on-screen
-                WriteableBitmap colorBitmap = new WriteableBitmap(frame.Width, frame.Height, 96.0, 96.0, PixelFormats.Bgr32, null);
+                //WriteableBitmap depthBitmap = new WriteableBitmap(frame.Width, frame.Height, 96.0, 96.0, PixelFormats.Gray16, null);
 
 
                 // Copy the pixel data from the image to a temporary array
                 frame.CopyPixelDataTo(depthPixels);
-                int rSize = 150;
                 // Convert the depth to RGB
                 int colorPixelIndex = 0;
-                int index = 0;
-                short closest = 2047;
+                ushort closest = 2047;
                 for (int i = 0; i < depthPixels.Length; ++i)
                 {
                     // discard the portion of the depth that contains only the player index
-                    short depth = (short)(depthPixels[i] >> DepthImageFrame.PlayerIndexBitmaskWidth);
+                    ushort depth = (ushort)(depthPixels[i] >> DepthImageFrame.PlayerIndexBitmaskWidth);
+                    convertedDepthPixels[i] = depth;
                     if (depth < closest && depth > 300)
                     {
                         closest = depth;
+                        //rtbMessages.Text = depth.ToString();
                         index = i;
                     }
 
@@ -165,56 +156,45 @@ namespace WindowsFormsApplication1
                     ++colorPixelIndex;
                 }
 
+                // Save the depth info of the selected area into the array.
+                depthBitmap = new ushort[RSIZE * RSIZE];
+                int width = frame.Width;
+                int height = frame.Height;
+                int n = 0;
+                if ((index / 480) - RSIZE / 2 >= 0 && (index % 640) - RSIZE / 2 >= 0 && (index / 480) + RSIZE / 2 <= height && (index % 640) + RSIZE / 2 <= width)
+                {
+                    for (int i = (index / 480) - RSIZE / 2; i < (index / 480) + RSIZE / 2; i++) //y, row number
+                    {
+                        for (int j = (index % 640) - RSIZE / 2; j < (index % 640) + RSIZE / 2; j++) //x, column number
+                        {
+                            if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
+                                depthBitmap[n] = convertedDepthPixels[i * width + j];
+                            else
+                                depthBitmap[n] = 0;
+                            n++;
+                        }
+                    }
+                }
 
-                // Write the pixel data into our bitmap
-                /*colorBitmap.WritePixels(
-                    new Int32Rect(0, 0, colorBitmap.PixelWidth, colorBitmap.PixelHeight),
-                    colorPixels,
-                    colorBitmap.PixelWidth * sizeof(int),
-                    0);*/
+                Bitmap croppedImage = new Bitmap(RSIZE, RSIZE, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                byte[] croppedData = this.depthBitmap.SelectMany(s => new byte[] { (byte)(s >> 8), (byte)(s), 0, 0 }).ToArray();
+                var lockedData = croppedImage.LockBits(new Rectangle(0, 0, RSIZE, RSIZE), ImageLockMode.WriteOnly, croppedImage.PixelFormat);
+                IntPtr ptr = lockedData.Scan0;
+                Marshal.Copy(croppedData, 0, ptr, croppedData.Length);
+                croppedImage.UnlockBits(lockedData);
+                pictureBox1.Image = croppedImage;
 
-                BitmapData bmapdata = bitmapImage.LockBits(new Rectangle(0, 0, frame.Width,
-                 frame.Height), ImageLockMode.WriteOnly, bitmapImage.PixelFormat);
-                IntPtr ptr = bmapdata.Scan0;
-                Marshal.Copy(colorPixels, 0, ptr, frame.Width * frame.Height * 4);
+                BitmapData bmapdata = bitmapImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bitmapImage.PixelFormat);
+                ptr = bmapdata.Scan0;
+                Marshal.Copy(colorPixels, 0, ptr, width * height * 4);
                 bitmapImage.UnlockBits(bmapdata);
 
                 var gobject = Graphics.FromImage(bitmapImage);
-                
+
                 System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, 5);
-                gobject.DrawRectangle(pen, (index % 640), (index / 480), 1, 1); 
-                gobject.DrawRectangle(pen, (index % 640) - rSize/2, (index / 480) - rSize/2, rSize, rSize);
-
-
-                // create a png bitmap encoder which knows how to save a .png file
-                BitmapEncoder encoder = new PngBitmapEncoder();
-
-                // create frame from the writable bitmap and add to encoder
-                encoder.Frames.Add(BitmapFrame.Create(bmapdata));
-
-                string time = System.DateTime.Now.ToString("hh'-'mm'-'ss", CultureInfo.CurrentUICulture.DateTimeFormat);
-
-                string myPhotos = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-
-                string path = Path.Combine(myPhotos, "KinectSnapshot-" + time + ".png");
-
-                // write the new file to disk
-                try
-                {
-                    using (FileStream fs = new FileStream(path, FileMode.Create))
-                    {
-                        encoder.Save(fs);
-                    }
-
-                    this.statusBarText.Text = string.Format("{0} {1}", Properties.Resources.ScreenshotWriteSuccess, path);
-                }
-                catch (IOException)
-                {
-                    this.statusBarText.Text = string.Format("{0} {1}", Properties.Resources.ScreenshotWriteFailed, path);
-                }
-
+                gobject.DrawRectangle(pen, (index % 640), (index / 480), 1, 1);
+                gobject.DrawRectangle(pen, (index % 640) - RSIZE / 2, (index / 480) - RSIZE / 2, RSIZE, RSIZE);
                 
-
                 return bitmapImage;
             }
             return null;
