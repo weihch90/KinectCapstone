@@ -141,8 +141,8 @@ namespace WindowsFormsApplication1
                     // we're preserving detail, although the intensity will "wrap"
                     // add 1 so that too far/unknown is mapped to black
                     byte intensity = (byte)((depth + 1) & byte.MaxValue);
-                    // Write out blue byte
 
+                    // Write out blue byte
                     colorPixels[colorPixelIndex++] = intensity;
 
                     // Write out green byte
@@ -160,12 +160,14 @@ namespace WindowsFormsApplication1
                 depthBitmap = new ushort[RSIZE * RSIZE];
                 int width = frame.Width;
                 int height = frame.Height;
+                int startX = (index % 640) - RSIZE / 2;
+                int startY = (index / 480) - RSIZE / 2;
                 int n = 0;
-                if ((index / 480) - RSIZE / 2 >= 0 && (index % 640) - RSIZE / 2 >= 0 && (index / 480) + RSIZE / 2 <= height && (index % 640) + RSIZE / 2 <= width)
+                if (startX >= 0 && startY >= 0 && startX + RSIZE <= height && startY + RSIZE <= width) // the selected area is within the scene
                 {
-                    for (int i = (index / 480) - RSIZE / 2; i < (index / 480) + RSIZE / 2; i++) //y, row number
+                    for (int i = startY; i < startY + RSIZE; i++) //y, row number
                     {
-                        for (int j = (index % 640) - RSIZE / 2; j < (index % 640) + RSIZE / 2; j++) //x, column number
+                        for (int j = startX; j < startX + RSIZE; j++) //x, column number
                         {
                             if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
                                 depthBitmap[n] = convertedDepthPixels[i * width + j];
@@ -176,6 +178,8 @@ namespace WindowsFormsApplication1
                     }
                 }
 
+                // Save the array containing depth info to a new bitmap with 32bpp rgb format. Details saved on green channel, highlight saved on blue channel.
+                // Display it on the pictureBox.
                 Bitmap croppedImage = new Bitmap(RSIZE, RSIZE, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                 byte[] croppedData = this.depthBitmap.SelectMany(s => new byte[] { (byte)(s >> 8), (byte)(s), 0, 0 }).ToArray();
                 var lockedData = croppedImage.LockBits(new Rectangle(0, 0, RSIZE, RSIZE), ImageLockMode.WriteOnly, croppedImage.PixelFormat);
@@ -184,17 +188,19 @@ namespace WindowsFormsApplication1
                 croppedImage.UnlockBits(lockedData);
                 pictureBox1.Image = croppedImage;
 
+                // DepthImage displayed on the main window.
                 BitmapData bmapdata = bitmapImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, bitmapImage.PixelFormat);
                 ptr = bmapdata.Scan0;
                 Marshal.Copy(colorPixels, 0, ptr, width * height * 4);
                 bitmapImage.UnlockBits(bmapdata);
 
+                // Draw the selected region out.
                 var gobject = Graphics.FromImage(bitmapImage);
 
                 System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, 5);
                 gobject.DrawRectangle(pen, (index % 640), (index / 480), 1, 1);
-                gobject.DrawRectangle(pen, (index % 640) - RSIZE / 2, (index / 480) - RSIZE / 2, RSIZE, RSIZE);
-                
+                gobject.DrawRectangle(pen, startX, startY, RSIZE, RSIZE);
+
                 return bitmapImage;
             }
             return null;
