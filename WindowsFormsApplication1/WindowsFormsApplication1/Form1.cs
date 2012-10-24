@@ -163,7 +163,7 @@ namespace WindowsFormsApplication1
                 int startX = (index % 640) - RSIZE / 2;
                 int startY = (index / 480) - RSIZE / 2;
                 int n = 0;
-                if (startX >= 0 && startY >= 0 && startX + RSIZE <= height && startY + RSIZE <= width) // the selected area is within the scene
+                if (startX >= 0 && startY >= 0 && startX + RSIZE < width && startY + RSIZE < height) // the selected area is within the scene
                 {
                     for (int i = startY; i < startY + RSIZE; i++) //y, row number
                     {
