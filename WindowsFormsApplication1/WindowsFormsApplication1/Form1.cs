@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
 
+
+
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
@@ -129,7 +131,7 @@ namespace WindowsFormsApplication1
                     // discard the portion of the depth that contains only the player index
                     ushort depth = (ushort)(depthPixels[i] >> DepthImageFrame.PlayerIndexBitmaskWidth);
                     convertedDepthPixels[i] = depth;
-                    if (depth < closest && depth > 300)
+                    if (depth < closest)
                     {
                         closest = depth;
                         //rtbMessages.Text = depth.ToString();
@@ -156,33 +158,81 @@ namespace WindowsFormsApplication1
                     ++colorPixelIndex;
                 }
 
+
+
                 // Save the depth info of the selected area into the array.
-                depthBitmap = new ushort[RSIZE * RSIZE];
+               
+                
                 int width = frame.Width;
                 int height = frame.Height;
-                int startX = (index % 640) - RSIZE / 2;
-                int startY = (index / 480) - RSIZE / 2;
-                int n = 0;
-                if (startX >= 0 && startY >= 0 && startX + RSIZE < width && startY + RSIZE < height) // the selected area is within the scene
+                
+                Queue<int> q = new Queue<int>();
+                int zz = 0;
+
+                for (int i = 0; i < height; i++) //y, row 
+                    for (int j = 0; j < width; j++) //x, column 
+                        if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
+                            q.Enqueue(i * width + j);
+
+                int[] rect = new int[4];
+                int tmp = q.Peek();
+                rect[0] = rect[2] = tmp % width;
+                rect[1] = rect[3] = tmp / width;
+            
+                foreach (int i in q)
                 {
-                    for (int i = startY; i < startY + RSIZE; i++) //y, row number
+                   int x = i % width;
+                   int y = i / width;
+                   rect[0] = Math.Min(x, rect[0]);
+                   rect[1] = Math.Min(y, rect[1]);
+
+                   rect[2] = Math.Max(x, rect[2]);
+                   rect[3] = Math.Max(y, rect[3]);
+                }
+
+
+                int startX = rect[0];
+                int startY = rect[1];
+                int endX = rect[2];
+                int endY = rect[3];
+                int n = 0;
+
+                int croppedWidth = (endX - startX + 1);
+                int croppedHeight = (endY - startY + 1);
+                depthBitmap = new ushort[croppedHeight * croppedWidth];
+                foreach (int i in q)
+                {
+                    int x = i % width;
+                    int y = i / width;
+                    int offset = startY * width + startX;
+                    int transposedX = x - startX;
+                    int transposedY = y - startY;
+                    int index = transposedX + transposedY * croppedWidth;
+                    depthBitmap[index] = convertedDepthPixels[i];
+                }
+                
+                /*
+                for (int i = startY; i < endY; i++) //y, row number
+                {
+                    for (int j = startX; j < endX; j++) //x, column number
                     {
-                        for (int j = startX; j < startX + RSIZE; j++) //x, column number
-                        {
-                            if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
-                                depthBitmap[n] = convertedDepthPixels[i * width + j];
-                            else
-                                depthBitmap[n] = 0;
-                            n++;
-                        }
+                        if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
+                            depthBitmap[n] = convertedDepthPixels[i * width + j];
+                        else
+                            depthBitmap[n] = 0;
+                        n++;
                     }
                 }
+                */
+
+
+
 
                 // Save the array containing depth info to a new bitmap with 32bpp rgb format. Details saved on green channel, highlight saved on blue channel.
                 // Display it on the pictureBox.
-                Bitmap croppedImage = new Bitmap(RSIZE, RSIZE, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                Bitmap croppedImage = new Bitmap(croppedWidth, croppedHeight, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                 byte[] croppedData = this.depthBitmap.SelectMany(s => new byte[] { (byte)(s >> 8), (byte)(s), 0, 0 }).ToArray();
-                var lockedData = croppedImage.LockBits(new Rectangle(0, 0, RSIZE, RSIZE), ImageLockMode.WriteOnly, croppedImage.PixelFormat);
+                var lockedData = croppedImage.LockBits(new Rectangle(0, 0, croppedWidth, croppedHeight), ImageLockMode.WriteOnly, croppedImage.PixelFormat);
                 IntPtr ptr = lockedData.Scan0;
                 Marshal.Copy(croppedData, 0, ptr, croppedData.Length);
                 croppedImage.UnlockBits(lockedData);
@@ -198,8 +248,8 @@ namespace WindowsFormsApplication1
                 var gobject = Graphics.FromImage(bitmapImage);
 
                 System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, 5);
-                gobject.DrawRectangle(pen, (index % 640), (index / 480), 1, 1);
-                gobject.DrawRectangle(pen, startX, startY, RSIZE, RSIZE);
+                gobject.DrawRectangle(pen, startX + croppedWidth / 2, startY + croppedHeight / 2, 1, 1);
+                gobject.DrawRectangle(pen, startX, startY, croppedWidth, croppedHeight);
 
                 return bitmapImage;
             }
