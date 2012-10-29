@@ -27,8 +27,12 @@ namespace WindowsFormsApplication1
         private ushort[] depthBitmap;
         private int snapshotCount = 0;
         private int index = 0; // index of the closest point
+
         private ushort[] convertedDepthPixels;
         private const int RSIZE = 150;
+        
+        private const int MAXEDGE = 200;
+        private const int MAX_SIZE = 10000;
 
         public Form1()
         {
@@ -126,12 +130,15 @@ namespace WindowsFormsApplication1
                 // Convert the depth to RGB
                 int colorPixelIndex = 0;
                 ushort closest = 2047;
+                int width = frame.Width;
+                int height = frame.Height;
+                
                 for (int i = 0; i < depthPixels.Length; ++i)
                 {
                     // discard the portion of the depth that contains only the player index
                     ushort depth = (ushort)(depthPixels[i] >> DepthImageFrame.PlayerIndexBitmaskWidth);
                     convertedDepthPixels[i] = depth;
-                    if (depth < closest)
+                    if (depth < closest && depth > 200)
                     {
                         closest = depth;
                         //rtbMessages.Text = depth.ToString();
@@ -159,20 +166,69 @@ namespace WindowsFormsApplication1
                 }
 
 
+                Queue<int> q = new Queue<int>();
+                List<int> l = new List<int>();
+                HashSet<int> discovered = new HashSet<int>();
+                q.Enqueue(index);
+
+                int[] rect = new int[4];
+                rect[0] = rect[2] = index % width;
+                rect[1] = rect[3] = index / width;
+
+                while(q.Count != 0 && l.Count < MAX_SIZE) {
+                    int n = q.Dequeue();
+
+                    int x = n % width;
+                    int y = n / width;
+                    // check if the index is already discovered
+                    if (!discovered.Contains(n)) {
+                        // check if the index is within the range
+                        if (0 <= x && x < width && 0 <= y && y < height) {
+                            // check if the index is within the distance
+                            if (convertedDepthPixels[y * width + x] - convertedDepthPixels[index] <= 200)
+                            {
+                                rect[0] = Math.Min(x, rect[0]);
+                                rect[1] = Math.Min(y, rect[1]);
+
+                                rect[2] = Math.Max(x, rect[2]);
+                                rect[3] = Math.Max(y, rect[3]);
+                                l.Add(n);
+
+                                // add node in each direction
+                                if (!discovered.Contains(y * width + x + 1))
+                                    q.Enqueue(y * width + x + 1);    // east
+
+                                if (!discovered.Contains(y * width + x - 1))
+                                    q.Enqueue(y * width + x - 1);    // west
+                            
+                                if (!discovered.Contains((y + 1) * width + x))
+                                    q.Enqueue((y + 1) * width + x);  // south
+
+                                if (!discovered.Contains((y - 1) * width + x))
+                                    q.Enqueue((y - 1) * width + x);  // north
+
+                            }
+                        }
+                    }
+                    discovered.Add(n);
+
+                }
+
+
 
                 // Save the depth info of the selected area into the array.
-               
-                
-                int width = frame.Width;
-                int height = frame.Height;
-                
-                Queue<int> q = new Queue<int>();
-                int zz = 0;
+
+
+
+
+                /*Queue<int> q = new Queue<int>();
 
                 for (int i = 0; i < height; i++) //y, row 
-                    for (int j = 0; j < width; j++) //x, column 
-                        if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
-                            q.Enqueue(i * width + j);
+                    for (int j = 0; j < width; j++) //x, column
+                        // check if the point is within the maximum range of the box
+                        if (Math.Abs(j - xIndex) < MAXEDGE && Math.Abs(i - yIndex) < MAXEDGE)
+                            if (convertedDepthPixels[i * width + j] - convertedDepthPixels[index] <= 200)
+                                q.Enqueue(i * width + j);
 
                 int[] rect = new int[4];
                 int tmp = q.Peek();
@@ -189,26 +245,29 @@ namespace WindowsFormsApplication1
                    rect[2] = Math.Max(x, rect[2]);
                    rect[3] = Math.Max(y, rect[3]);
                 }
-
+                */
 
                 int startX = rect[0];
                 int startY = rect[1];
                 int endX = rect[2];
                 int endY = rect[3];
-                int n = 0;
 
                 int croppedWidth = (endX - startX + 1);
                 int croppedHeight = (endY - startY + 1);
+                
+                //depthBitmap = new ushort[Math.Min(croppedHeight * croppedWidth, 4 * MAXEDGE * MAXEDGE)];
+
+
                 depthBitmap = new ushort[croppedHeight * croppedWidth];
-                foreach (int i in q)
+                foreach (int i in l)
                 {
                     int x = i % width;
                     int y = i / width;
                     int offset = startY * width + startX;
                     int transposedX = x - startX;
                     int transposedY = y - startY;
-                    int index = transposedX + transposedY * croppedWidth;
-                    depthBitmap[index] = convertedDepthPixels[i];
+                    int transposedIndex = transposedX + transposedY * croppedWidth;
+                    depthBitmap[transposedIndex] = convertedDepthPixels[i];
                 }
                 
                 /*
