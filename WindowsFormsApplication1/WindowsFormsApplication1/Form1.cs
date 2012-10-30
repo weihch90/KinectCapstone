@@ -30,6 +30,7 @@ namespace WindowsFormsApplication1
 
         private ushort[] convertedDepthPixels;
         private const int RSIZE = 150;
+        private Bitmap croppedImage;
         
         private const int MAXEDGE = 200;
         private const int MAX_SIZE = 10000;
@@ -289,7 +290,7 @@ namespace WindowsFormsApplication1
 
                 // Save the array containing depth info to a new bitmap with 32bpp rgb format. Details saved on green channel, highlight saved on blue channel.
                 // Display it on the pictureBox.
-                Bitmap croppedImage = new Bitmap(croppedWidth, croppedHeight, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+                croppedImage = new Bitmap(croppedWidth, croppedHeight, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
                 byte[] croppedData = this.depthBitmap.SelectMany(s => new byte[] { (byte)(s >> 8), (byte)(s), 0, 0 }).ToArray();
                 var lockedData = croppedImage.LockBits(new Rectangle(0, 0, croppedWidth, croppedHeight), ImageLockMode.WriteOnly, croppedImage.PixelFormat);
                 IntPtr ptr = lockedData.Scan0;
@@ -310,7 +311,47 @@ namespace WindowsFormsApplication1
                 gobject.DrawRectangle(pen, startX + croppedWidth / 2, startY + croppedHeight / 2, 1, 1);
                 gobject.DrawRectangle(pen, startX, startY, croppedWidth, croppedHeight);
 
+                // If checkbox checked, save image to the folder.
+                CheckState state = checkBox1.CheckState;
+                switch (state)
+                {  
+                    case CheckState.Indeterminate:
+                        break;
+                    case CheckState.Unchecked:
+                        break;
+                    case CheckState.Checked:
+                        {
+                            saveImage();
+                            break;
+                        }
+                }
+
                 return bitmapImage;
+            }
+            return null;
+        }
+
+        private void saveImage()
+        {
+            snapshotCount++;
+            EncoderParameters encoderParameters = new EncoderParameters(1);
+            encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+            String name = filename.Text;
+            String path = "C:\\Users\\Administrator\\Kinect\\KinectCapstone\\sampleImages\\" + name + "\\" + name + "_2\\" + name + "_" + snapshotCount + ".png";
+            croppedImage.Save(@path, GetEncoder(ImageFormat.Png), encoderParameters);
+        }
+
+        public static ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
             }
             return null;
         }
