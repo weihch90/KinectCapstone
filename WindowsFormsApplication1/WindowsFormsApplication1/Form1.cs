@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -23,6 +24,7 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private KinectSensorChooser _chooser;
+        private KinectSensor sensor;
         private Bitmap _bitmap;
         private ushort[] depthBitmap;
         private int snapshotCount = 0;
@@ -45,6 +47,15 @@ namespace WindowsFormsApplication1
             _chooser = new KinectSensorChooser();
             _chooser.KinectChanged += ChooserSensorChanged;
             _chooser.Start();
+            foreach (var potentialSensor in KinectSensor.KinectSensors)
+            {
+                if (potentialSensor.Status == KinectStatus.Connected)
+                {
+                    this.sensor = potentialSensor;
+                    break;
+                }
+            }
+
         }
 
         void ChooserSensorChanged(object sender, KinectChangedEventArgs e)
@@ -165,7 +176,13 @@ namespace WindowsFormsApplication1
                     // If we were outputting BGRA, we would write alpha here.
                     ++colorPixelIndex;
                 }
-
+                if (this.raw_depth_to_meters(index) < 1) {
+                    this.sensor.DepthStream.Range = DepthRange.Near;
+                    this.label1.Text = "Near";
+                } else {
+                    this.sensor.DepthStream.Range = DepthRange.Default;
+                    this.label1.Text = "Default";
+                }
 
                 Queue<int> q = new Queue<int>();
                 List<int> l = new List<int>();
@@ -355,5 +372,28 @@ namespace WindowsFormsApplication1
             }
             return null;
         }
+
+        private float raw_depth_to_meters(int raw_depth)
+        {
+            if (raw_depth < 2047)
+            {
+                return (float)(1.0 / (raw_depth * -0.0030711016 + 3.3309495161));
+            }
+            return 0;
+        }
+
+
+        private void WindowMP()
+        {
+            Process[] processes = Process.GetProcessesByName("media player");
+
+            if (processes.Length == 0)
+                return;
+
+            IntPtr WindowHandle = processes[0].MainWindowHandle;
+
+
+        }
+
     }
 }
