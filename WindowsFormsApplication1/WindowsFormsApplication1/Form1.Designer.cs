@@ -31,6 +31,9 @@ namespace WindowsFormsApplication1
             this.rtbMessages = new System.Windows.Forms.RichTextBox();
             this.video = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.filename = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.video)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -59,11 +62,42 @@ namespace WindowsFormsApplication1
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(722, 235);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(76, 23);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "TakeImages";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // filename
+            // 
+            this.filename.Location = new System.Drawing.Point(722, 209);
+            this.filename.Name = "filename";
+            this.filename.Size = new System.Drawing.Size(147, 20);
+            this.filename.TabIndex = 6;
+            this.filename.Text = "Gesture";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(722, 284);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "label1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 709);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.filename);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.video);
             this.Controls.Add(this.rtbMessages);
@@ -73,6 +107,7 @@ namespace WindowsFormsApplication1
             ((System.ComponentModel.ISupportInitialize)(this.video)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -81,6 +116,9 @@ namespace WindowsFormsApplication1
         private System.Windows.Forms.RichTextBox rtbMessages;
         private System.Windows.Forms.PictureBox video;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox filename;
+        private System.Windows.Forms.Label label1;
     }
 }
 
