@@ -31,6 +31,12 @@ namespace WindowsFormsApplication1
             MWStructArray fea_first = new MWStructArray(1, 1, new string[] { "feapath", "type", "maxsize", "savedir" });
             MWStructArray dic_first = new MWStructArray(1, 1, new string[] { "dicsize", "patchsize", "samplenum", "dic" });
             MWStructArray encoder_first = new MWStructArray(1, 1, new string[] { "coding", "pooling", "sparsity" });
+            MWStructArray fea_final = new MWStructArray(1, 1, new string[] { "feapath" });
+            MWStructArray encoder_final = new MWStructArray(1, 1, new string[] { "coding", "pooling", "patchsize" });
+            MWCellArray feapath1 = new MWCellArray("../../sampleImages/good/good_1/good_1_depthcrop.png");
+            MWCellArray feapath2 = new MWCellArray("./features/rgbdhomp_ksvd_first_16x16_fea_first/000001.mat");
+
+
             fea_first["feapath", 1] = "sampleImages/good/good_1/good_100_depthcrop.png"; // relative to bin/Debug/
             fea_first["type", 1] = "depth";
             fea_first["maxsize", 1] = 150;
@@ -45,8 +51,21 @@ namespace WindowsFormsApplication1
             encoder_first["pooling", 1] = 4;
             encoder_first["sparsity", 1] = 4;
 
+            fea_final["feapath", 1] = feapath2;
+
+            encoder_final["coding", 1] = "omp";
+            encoder_final["pooling", 1] = new MWNumericArray(1, 3, new int[]{1, 2, 3});
+            encoder_final["patchsize", 1] = 1;
+
             LibOmp.LibOmp omp = new LibOmp.LibOmp();
+
             omp.omp_pooling_layer1_batch(fea_first, dic_first, encoder_first);
+            MWArray rgbdfea = omp.omp_pooling_final_batch_single(fea_final, encoder_final); // 2D ushort array
+            //ushort[] fea_vector = new ushort[rgbdfea.Dimensions[0]];
+            Array fea_vector = rgbdfea.ToArray();
+            for (int i = 0; i < 100; i++)
+                for(int j = 0; j < rgbdfea.Dimensions[1]; j++)
+                    Console.WriteLine(fea_vector.GetValue(i, j));
         }
 
         private double[] flatenArray(double[][] array, int height, int width)
