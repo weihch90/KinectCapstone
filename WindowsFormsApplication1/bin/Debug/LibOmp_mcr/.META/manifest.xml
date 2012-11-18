@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<manifest component-name="LibOmp" default-config="__xsd_binder_auto_id_1" mcr-major-version="7" mcr-minor-version="17" mcr-release-version="0" need_exclusive_mcr_process="0" need_java="1" signature="" uuid="LibOmp_5B637D2A859D05B6A91884A8AB0479BC">
+
+  <directory id="DIR_LibOmp_" path="LibOmp/"/>
+
+  <directory id="DIR__TOOLBOXDEPLOYDIR_" path="$TOOLBOXDEPLOYDIR/"/>
+
+  <directory id="DIR_omp_layer1_" path="omp_layer1/"/>
+
+  <directory id="DIR_ksvdbox_ompbox_" path="ksvdbox/ompbox/"/>
+
+  <directory id="DIR_ksvdbox_ompbox_speedup_" path="ksvdbox/ompbox/speedup/"/>
+
+  <directory id="DIR_ksvdbox_speedup_" path="ksvdbox/speedup/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_demos_" path="$TOOLBOXMATLABDIR/demos/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_graph2d_" path="$TOOLBOXMATLABDIR/graph2d/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_graph3d_" path="$TOOLBOXMATLABDIR/graph3d/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_graphics_" path="$TOOLBOXMATLABDIR/graphics/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_plottools_" path="$TOOLBOXMATLABDIR/plottools/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_scribe_" path="$TOOLBOXMATLABDIR/scribe/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_specgraph_" path="$TOOLBOXMATLABDIR/specgraph/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_uitools_" path="$TOOLBOXMATLABDIR/uitools/"/>
+
+  <directory id="DIR_toolbox_local_" path="toolbox/local/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_general_" path="$TOOLBOXMATLABDIR/general/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_ops_" path="$TOOLBOXMATLABDIR/ops/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_lang_" path="$TOOLBOXMATLABDIR/lang/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_elmat_" path="$TOOLBOXMATLABDIR/elmat/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_randfun_" path="$TOOLBOXMATLABDIR/randfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_elfun_" path="$TOOLBOXMATLABDIR/elfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_specfun_" path="$TOOLBOXMATLABDIR/specfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_matfun_" path="$TOOLBOXMATLABDIR/matfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_datafun_" path="$TOOLBOXMATLABDIR/datafun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_polyfun_" path="$TOOLBOXMATLABDIR/polyfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_funfun_" path="$TOOLBOXMATLABDIR/funfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_sparfun_" path="$TOOLBOXMATLABDIR/sparfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_strfun_" path="$TOOLBOXMATLABDIR/strfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_iofun_" path="$TOOLBOXMATLABDIR/iofun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_timefun_" path="$TOOLBOXMATLABDIR/timefun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_datatypes_" path="$TOOLBOXMATLABDIR/datatypes/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_verctrl_" path="$TOOLBOXMATLABDIR/verctrl/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_codetools_" path="$TOOLBOXMATLABDIR/codetools/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_helptools_" path="$TOOLBOXMATLABDIR/helptools/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_winfun_" path="$TOOLBOXMATLABDIR/winfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_winfun_NET_" path="$TOOLBOXMATLABDIR/winfun/NET/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_hds_" path="$TOOLBOXMATLABDIR/hds/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_guide_" path="$TOOLBOXMATLABDIR/guide/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_datamanager_" path="$TOOLBOXMATLABDIR/datamanager/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_optimfun_" path="$TOOLBOXMATLABDIR/optimfun/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_audiovideo_" path="$TOOLBOXMATLABDIR/audiovideo/"/>
+
+  <directory id="DIR_toolbox_compiler_" path="toolbox/compiler/"/>
+
+  <directory id="DIR_toolbox_images_colorspaces_" path="toolbox/images/colorspaces/"/>
+
+  <directory id="DIR_toolbox_images_images_" path="toolbox/images/images/"/>
+
+  <directory id="DIR_toolbox_images_iptformats_" path="toolbox/images/iptformats/"/>
+
+  <directory id="DIR_toolbox_images_iptutils_" path="toolbox/images/iptutils/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_imagesci_" path="$TOOLBOXMATLABDIR/imagesci/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_system_" path="$TOOLBOXMATLABDIR/system/"/>
+
+  <directory id="DIR__TOOLBOXMATLABDIR_timeseries_" path="$TOOLBOXMATLABDIR/timeseries/"/>
+
+  <directory id="DIR_java_jar_toolbox_images_jar" path="java/jar/toolbox/images.jar"/>
+
+  <directory id="DIR_bin_win64_" path="bin/win64/"/>
+
+  <directory id="DIR__matlab" path=".matlab"/>
+
+  <function id="FUNCTION_extract_feature">
+    <name>extract_feature</name>
+    <inputs>
+      <param name="fea_first"/>
+      <param name="dic_first"/>
+    </inputs>
+    <outputs>
+      <param name="feature"/>
+    </outputs>
+  </function>
+
+  <configuration id="__xsd_binder_auto_id_1" name="" require="">
+    <session-key>AB306C451A6F69C2D6003BFC2D65AD815B756615F75DE8DE7CA17F8A28FB42B8F5DC99E92CA1F7917BEB6E3038C38114DCE15D2421C9270CE554892761B2AF63A9F339235CAB8854C32EEAA06A38219817610E822940C01B99C65F6F81173C477FEE04BBE83990814DC190CE88DF3B86F0DB09D3656B639A599460B63B7F737A</session-key>
+    <public-key>30819D300D06092A864886F70D010101050003818B0030818702818100C49CAC34ED13A520658F6F8E0138C4315B4315277ED3F7DAE53099DB08EE589F804D4B981326A52CCE4382E9F2B4D085EB950C7AB12EDE2D41297820E6377A5FEB5689D4E6032F60C43074A04C26AB72F54B51BB460578785B199014314A65F090B61FC20169453B58FC8BA43E6776EB7ECD3178B56AB0FA06DD64967CB149E5020111</public-key>
+    <matlab-path>
+      <path-item ref="DIR_LibOmp_"/>
+      <path-item ref="DIR__TOOLBOXDEPLOYDIR_"/>
+      <path-item ref="DIR_omp_layer1_"/>
+      <path-item ref="DIR_ksvdbox_ompbox_"/>
+      <path-item ref="DIR_ksvdbox_ompbox_speedup_"/>
+      <path-item ref="DIR_ksvdbox_speedup_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_demos_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_graph2d_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_graph3d_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_graphics_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_plottools_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_scribe_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_specgraph_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_uitools_"/>
+      <path-item ref="DIR_toolbox_local_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_general_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_ops_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_lang_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_elmat_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_randfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_elfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_specfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_matfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_datafun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_polyfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_funfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_sparfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_strfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_iofun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_timefun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_datatypes_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_verctrl_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_codetools_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_helptools_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_winfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_winfun_NET_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_hds_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_guide_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_datamanager_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_optimfun_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_audiovideo_"/>
+      <path-item ref="DIR_toolbox_compiler_"/>
+      <path-item ref="DIR_toolbox_images_colorspaces_"/>
+      <path-item ref="DIR_toolbox_images_images_"/>
+      <path-item ref="DIR_toolbox_images_iptformats_"/>
+      <path-item ref="DIR_toolbox_images_iptutils_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_imagesci_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_system_"/>
+      <path-item ref="DIR__TOOLBOXMATLABDIR_timeseries_"/>
+    </matlab-path>
+    <java-class-path>
+      <path-item ref="DIR_java_jar_toolbox_images_jar"/>
+    </java-class-path>
+    <library-path>
+      <path-item ref="DIR_bin_win64_"/>
+    </library-path>
+    <application-options/>
+    <runtime-options/>
+    <warning-state>
+      <option>off:MATLAB:dispatcher:nameConflict</option>
+    </warning-state>
+    <prefdir ref="DIR__matlab"/>
+    <main-function ref="FUNCTION_extract_feature"/>
+    <public-functions>
+      <function ref="FUNCTION_extract_feature"/>
+    </public-functions>
+  </configuration>
+
+</manifest>

@@ -11,7 +11,7 @@ dic_first.G = dic_first.dic'*dic_first.dic;
 
 % read raw data
 im = fea_first.pixels;
-threshold = 1200;
+threshold = 1500;
 im = double(im);
 
 im(im > threshold) = threshold;

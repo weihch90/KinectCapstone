@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace GestureStudio
 {
     partial class LoadingWindow
     {
@@ -28,25 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.loaderMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // loaderMessage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(179, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Loading Model and Kinect Sensor....";
+            this.loaderMessage.AutoSize = true;
+            this.loaderMessage.Location = new System.Drawing.Point(14, 41);
+            this.loaderMessage.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.loaderMessage.Name = "loaderMessage";
+            this.loaderMessage.Size = new System.Drawing.Size(142, 20);
+            this.loaderMessage.TabIndex = 0;
+            this.loaderMessage.Text = "Loader Message";
             // 
             // LoadingWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(287, 88);
-            this.Controls.Add(this.label1);
+            this.BackColor = System.Drawing.SystemColors.Info;
+            this.ClientSize = new System.Drawing.Size(378, 105);
+            this.Controls.Add(this.loaderMessage);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.Name = "LoadingWindow";
             this.Text = "LoadingWindow";
             this.ResumeLayout(false);
@@ -56,6 +60,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label loaderMessage;
     }
 }

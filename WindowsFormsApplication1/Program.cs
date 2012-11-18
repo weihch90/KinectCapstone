@@ -5,10 +5,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace GestureStudio
 {
-    static class Program
+    static class GestureStudio
     {
+        public const string GestureLib_DictionartyPath = @"Dictionary.dic";
+
+        static MainForm mainForm;
+        static LoadingWindow loadingWindow;
+        static SynchronizationContext mainThreadContext;
+
+        public static void DisplayLoadingWindow(string message)
+        {
+            mainThreadContext.Post((state) =>
+                {
+                    loadingWindow.LoaderMessage = message;
+                    loadingWindow.Location = mainForm.Location;
+
+                    loadingWindow.Show(mainForm);
+
+                }, null);
+        }
+
+        public static void HideLoadingWindow()
+        {
+            mainThreadContext.Post((state) =>
+                {
+                    loadingWindow.Hide();
+                }, null);
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,14 +44,11 @@ namespace WindowsFormsApplication1
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            LoadingWindow loadingWindow = new LoadingWindow();
-            loadingWindow.ShowDialog();
-            ImageClassifier classifer = loadingWindow.GetClassifier();
-            if (classifer != null)
-            {
-                MainForm mainForm = new MainForm(classifer);
-                Application.Run(mainForm);
-            }
+            mainForm = new MainForm();
+            loadingWindow = new LoadingWindow();
+            mainThreadContext = SynchronizationContext.Current;
+
+            Application.Run(mainForm);
         }
     }
 }

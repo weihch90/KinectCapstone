@@ -7,8 +7,8 @@
     <ProjectGuid>{CAB09C22-C1FB-41B0-A94C-70FCA25934CD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsApplication1</RootNamespace>
-    <AssemblyName>WindowsFormsApplication1</AssemblyName>
+    <RootNamespace>GestureStudio</RootNamespace>
+    <AssemblyName>GestureStudio</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,7 +37,8 @@
     <Reference Include="csmatio">
       <HintPath>lib\csmatio.dll</HintPath>
     </Reference>
-    <Reference Include="LibOmp">
+    <Reference Include="LibOmp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\LibOmp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -64,7 +65,11 @@
   <ItemGroup>
     <Compile Include="CallbackLock.cs" />
     <Compile Include="ContextEventWrapper.cs" />
-    <Compile Include="ImageClassifier.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="GestureClassifier.cs" />
+    <Compile Include="GestureLearner.cs" />
+    <Compile Include="FloodFill.cs" />
+    <Compile Include="GestureModel.cs" />
     <Compile Include="LoadingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,11 +139,11 @@
     <None Include="bin\Debug\LibOmp_mcr\toolbox\images\iptformats\dicom-dict.mat" />
     <None Include="bin\Debug\LibOmp_mcr\toolbox\local\ja\xlate" />
     <None Include="bin\Debug\model.svm" />
-    <None Include="bin\Debug\WindowsFormsApplication1.vshost.exe.config" />
-    <None Include="bin\Debug\WindowsFormsApplication1.vshost.exe.manifest" />
-    <None Include="model.svm">
+    <None Include="bin\Debug\GestureStudio.vshost.exe.config" />
+    <None Include="bin\Debug\GestureStudio.vshost.exe.manifest" />
+    <Content Include="Dictionary.dic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -227,7 +232,7 @@
     <Content Include="bin\Debug\LibOmp_mcr\toolbox\shared\optimlib\Contents.m" />
     <Content Include="bin\Debug\MWArray.dll" />
     <Content Include="bin\Debug\rawPixels.txt" />
-    <Content Include="bin\Debug\WindowsFormsApplication1.vshost.exe" />
+    <Content Include="bin\Debug\GestureStudio.vshost.exe" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\LibOmp_mcr\LibOmp_10B7869F2BA40420F2DB0F38732C9E22\" />

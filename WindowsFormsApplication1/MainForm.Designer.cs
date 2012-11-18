@@ -1,4 +1,4 @@
-namespace WindowsFormsApplication1
+namespace GestureStudio
 {
     partial class MainForm
     {
@@ -29,14 +29,17 @@ namespace WindowsFormsApplication1
         private void InitializeComponent()
         {
             this.message = new System.Windows.Forms.RichTextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.filename = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.fullFrameStream = new System.Windows.Forms.PictureBox();
             this.croppedFrameStream = new System.Windows.Forms.PictureBox();
             this.framesPerSecond = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.classifyModeButton = new System.Windows.Forms.RadioButton();
+            this.trainingModeButton = new System.Windows.Forms.RadioButton();
+            this.startButton = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fullFrameStream)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // message
@@ -44,37 +47,9 @@ namespace WindowsFormsApplication1
             this.message.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.message.Location = new System.Drawing.Point(12, 498);
             this.message.Name = "message";
-            this.message.Size = new System.Drawing.Size(800, 106);
+            this.message.Size = new System.Drawing.Size(819, 106);
             this.message.TabIndex = 0;
             this.message.Text = "";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Appearance = System.Windows.Forms.Appearance.Button;
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(662, 194);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 23);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "TakeImages";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // filename
-            // 
-            this.filename.Location = new System.Drawing.Point(662, 168);
-            this.filename.Name = "filename";
-            this.filename.Size = new System.Drawing.Size(147, 20);
-            this.filename.TabIndex = 6;
-            this.filename.Text = "Gesture";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(777, 204);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "label1";
             // 
             // fullFrameStream
             // 
@@ -88,7 +63,7 @@ namespace WindowsFormsApplication1
             // 
             this.croppedFrameStream.Location = new System.Drawing.Point(662, 12);
             this.croppedFrameStream.Name = "croppedFrameStream";
-            this.croppedFrameStream.Size = new System.Drawing.Size(150, 150);
+            this.croppedFrameStream.Size = new System.Drawing.Size(169, 200);
             this.croppedFrameStream.TabIndex = 9;
             this.croppedFrameStream.TabStop = false;
             // 
@@ -101,23 +76,78 @@ namespace WindowsFormsApplication1
             this.framesPerSecond.TabIndex = 10;
             this.framesPerSecond.Text = "label2";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.stopButton);
+            this.groupBox1.Controls.Add(this.startButton);
+            this.groupBox1.Controls.Add(this.trainingModeButton);
+            this.groupBox1.Controls.Add(this.classifyModeButton);
+            this.groupBox1.Location = new System.Drawing.Point(662, 218);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(169, 92);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Program Mode";
+            // 
+            // classifyModeButton
+            // 
+            this.classifyModeButton.AutoSize = true;
+            this.classifyModeButton.Location = new System.Drawing.Point(6, 19);
+            this.classifyModeButton.Name = "classifyModeButton";
+            this.classifyModeButton.Size = new System.Drawing.Size(90, 17);
+            this.classifyModeButton.TabIndex = 0;
+            this.classifyModeButton.TabStop = true;
+            this.classifyModeButton.Text = "Classify Mode";
+            this.classifyModeButton.UseVisualStyleBackColor = true;
+            // 
+            // trainingModeButton
+            // 
+            this.trainingModeButton.AutoSize = true;
+            this.trainingModeButton.Location = new System.Drawing.Point(6, 42);
+            this.trainingModeButton.Name = "trainingModeButton";
+            this.trainingModeButton.Size = new System.Drawing.Size(93, 17);
+            this.trainingModeButton.TabIndex = 1;
+            this.trainingModeButton.TabStop = true;
+            this.trainingModeButton.Text = "Training Mode";
+            this.trainingModeButton.UseVisualStyleBackColor = true;
+            // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(6, 63);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 2;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(87, 63);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 3;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(827, 620);
+            this.ClientSize = new System.Drawing.Size(841, 613);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.framesPerSecond);
             this.Controls.Add(this.croppedFrameStream);
             this.Controls.Add(this.fullFrameStream);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.filename);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.message);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Display";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fullFrameStream)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,12 +156,14 @@ namespace WindowsFormsApplication1
         #endregion
 
         private System.Windows.Forms.RichTextBox message;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox filename;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox fullFrameStream;
         private System.Windows.Forms.PictureBox croppedFrameStream;
         private System.Windows.Forms.Label framesPerSecond;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.RadioButton trainingModeButton;
+        private System.Windows.Forms.RadioButton classifyModeButton;
     }
 }
 

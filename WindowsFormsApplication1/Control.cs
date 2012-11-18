@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
-namespace WindowsFormsApplication1
+namespace GestureStudio
 {
     public class Control
     {

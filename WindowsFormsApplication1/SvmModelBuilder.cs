@@ -3,7 +3,7 @@ using csmatio.types;
 using libsvm;
 using System.IO;
 
-namespace WindowsFormsApplication1
+namespace GestureStudio
 {
     /// <summary>
     /// this is the SVM interface

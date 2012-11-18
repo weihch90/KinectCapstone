@@ -1,0 +1,14 @@
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\csmatio.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\LibOmp.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\zlib.net.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\LibOmp.ctf
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\GestureStudio.exe.config
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\GestureStudio.exe
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\GestureStudio.pdb
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.LoadingWindow.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.MainForm.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.Properties.Resources.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.exe
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.pdb
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\Dictionary.dic

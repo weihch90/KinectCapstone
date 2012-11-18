@@ -1,0 +1,14 @@
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\csmatio.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\LibOmp.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\MWArray.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\zlib.net.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\LibOmp.ctf
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.LoadingWindow.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.MainForm.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.Properties.Resources.resources
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.csproj.GenerateResource.Cache
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.exe
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.pdb
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.exe.config
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.exe
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.pdb
