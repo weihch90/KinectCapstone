@@ -6,18 +6,44 @@ namespace GestureStudio
 {   
     public class FloodFill
     {
-        private const int MAX_SIZE = 20000;
-        private const int SPREAD_METHOD = 1;
-
+        private const int MAX_SIZE = 10000;
+        private const int SPREAD_METHOD = 0;
+        private const int CLOSEST_DEPTH_DISTANCE = 80;
+        private const int MAX_DISTANCE = 2047;
+        private const int HAND_DEPTH = 200;
+        private const int MIN_DEPTH = 200;
+        
+        private bool activateSecondHand;
         private short closestDistance;
+        private short secondClosestDistance;
         private int cropStartX;        
         private int cropStartY;
 
         public FloodFill()
         {
-            this.closestDistance = 0;
+            this.closestDistance = MAX_DISTANCE;
+            this.secondClosestDistance = MAX_DISTANCE;
             this.cropStartX = 0;
             this.cropStartY = 0;
+            activateSecondHand = false;
+        }
+
+        public bool ActivateSecondHand
+        {
+            get
+            {
+                return activateSecondHand;
+            }
+
+            set
+            {
+                activateSecondHand = value;
+            }
+        }
+
+        public short SecondClosestDistance
+        {
+            get { return secondClosestDistance; }
         }
 
         public short ClosestDistance
@@ -37,9 +63,13 @@ namespace GestureStudio
 
         public DepthFrame Process(short[] depthPixels, int height, int width)
         {
+            short[] secondDepthPixels = null;
+            if (activateSecondHand) {
+                secondDepthPixels = (short[])depthPixels.Clone();
+            }
             // initialize flood fill data
             FloodFillImageData floodFillData = new FloodFillImageData();
-            int closestIndex = this.FindClosestPixel(depthPixels, new HashSet<int>(floodFillData.l));
+            int closestIndex = this.FindClosestPixel(depthPixels, new HashSet<int>(floodFillData.l), out this.closestDistance);
 
             int[] rect = new int[4];
             rect[0] = rect[2] = closestIndex % width;
@@ -49,12 +79,12 @@ namespace GestureStudio
             //Perform flood fill on the current frame and find the cropping area.
             DoFill(depthPixels, width, height, closestIndex, floodFillData);
 
-            //int secondClosestIndex;
-            //short secondClosest;
-            //this.FindClosestPixel(secondDepthPixels, new HashSet<int>(floodFillData.l), out secondClosestIndex, out secondClosest);
-            //if (Math.Abs(secondClosest - closest) < 80)
-            //    FloodFill(depthPixels, frame.Width, frame.Height, secondClosestIndex, floodFillData);
-
+            if (activateSecondHand)
+            {
+                int secondClosestIndex = this.FindClosestPixel(secondDepthPixels, new HashSet<int>(floodFillData.l), out this.secondClosestDistance);
+                if (Math.Abs(this.secondClosestDistance - this.closestDistance) < CLOSEST_DEPTH_DISTANCE)
+                    DoFill(secondDepthPixels, width, height, secondClosestIndex, floodFillData);
+            }
             this.cropStartX = floodFillData.rect[0];
             this.cropStartY = floodFillData.rect[1];
             return cropImage(floodFillData, width, depthPixels);
@@ -85,17 +115,17 @@ namespace GestureStudio
             return new DepthFrame() { Pixels = filledCrop, Width = croppedWidth, Height = croppedHeight };
         }
 
-        private int FindClosestPixel(short[] depthPixels, HashSet<int> ignorePixels)
+        private int FindClosestPixel(short[] depthPixels, HashSet<int> ignorePixels, out short closestDistance)
         {
             int closestIndex = 0;
-            this.closestDistance = 2047;
+            closestDistance = MAX_DISTANCE;
             for (int i = 0; i < depthPixels.Length; ++i)
             {
                 // discard the portion of the depth that contains only the player index
                 short depth = (short)(depthPixels[i] >> DepthImageFrame.PlayerIndexBitmaskWidth);
                 depthPixels[i] = depth;
 
-                if (!ignorePixels.Contains(i) && depth > 200 && depth < closestDistance)
+                if (!ignorePixels.Contains(i) && depth > MIN_DEPTH && depth < closestDistance)
                 {
                     closestDistance = depth;
                     closestIndex = i;
@@ -155,7 +185,7 @@ namespace GestureStudio
                     if (0 <= x && x < width && 0 <= y && y < height)
                     {
                         // check if the index is within the distance
-                        if ((ushort)rawDepth[n] - (ushort)rawDepth[closestIndex] <= 200)
+                        if ((ushort)rawDepth[n] - (ushort)rawDepth[closestIndex] <= HAND_DEPTH)
                         {
                             rect[0] = Math.Min(x, rect[0]);
                             rect[1] = Math.Min(y, rect[1]);
@@ -163,7 +193,7 @@ namespace GestureStudio
                             rect[2] = Math.Max(x, rect[2]);
                             rect[3] = Math.Max(y, rect[3]);
                             l.Add(n);
-
+                            count++;
                             if (SPREAD_METHOD == 0)
                             {
                                 // add node in each direction
@@ -197,7 +227,7 @@ namespace GestureStudio
                 }
 
                 discovered.Add(n);
-                count++;
+                
             }
 
             floodFillData.rect = rect;
