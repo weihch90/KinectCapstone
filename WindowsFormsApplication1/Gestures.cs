@@ -6,6 +6,31 @@ using System.IO;
 
 namespace GestureStudio
 {
+    public class AppKeyInfo {
+        private int id; // app id
+        private string command; // app command
+
+        public AppKeyInfo(int id, string command)
+        {
+            this.id = id;
+            this.command = command;
+        }
+    }
+
+    public class GestureInfo
+    {
+        private string name;
+        private int id;
+        private List<AppKeyInfo> appkeys;
+
+        public GestureInfo(int id, string name)
+        {
+            this.id = id;
+            this.name = name;
+            this.appkeys = new List<AppInfo>();
+        }
+    }
+
     public class Gestures
     {
  
@@ -17,7 +42,6 @@ namespace GestureStudio
         private int gestureCount;
 
         public Gestures() {
-
             loadData(DATA_FILE_PATH);
         }
 
