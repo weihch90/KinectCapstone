@@ -2,6 +2,10 @@
 using csmatio.types;
 using libsvm;
 using System.IO;
+using System.Collections.Generic;
+using RgbdfeaLib;
+﻿using MathWorks.MATLAB.NET.Arrays;
+using System.Linq;
 
 namespace GestureStudio
 {
@@ -304,6 +308,18 @@ namespace GestureStudio
             };
 
             this.model = svm.svm_train(problem, param);
+        }
+
+        public void TrainModel(string featureFilePath, List<double[]> featureVector)
+        {
+            int dataLength = featureVector[0].Length;
+            double[] featureData = MatrixUtil.FlattenMatrix(featureVector);
+            MWCharArray rgbdFile = new MWCharArray(featureFilePath);
+            MWNumericArray newFeature = new MWNumericArray(dataLength, featureVector.Count, featureData);
+            rgbdfea rgbdfea = new rgbdfea();
+            rgbdfea.appendFeature(rgbdFile, newFeature);
+
+            TrainModel(featureFilePath);
         }
     }
 }

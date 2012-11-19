@@ -99,15 +99,14 @@ namespace GestureStudio
         {
             this.modelBuilder = new SvmModelBuilder();
 
-            string modelFileName = "model.svm";
+            String modelFileName = GestureStudio.ModelFileName;
             if (!this.modelBuilder.LoadFromFile(modelFileName))
             {
                 // first time usage, train from feature file
-                string problemFile = @"D:\Github\KinectCap\GestureStudio\rgbdfea_depth_first_small_dict_threshold1500.mat";
-                //label1.Text = "Training new model from " + problemFile;
+                string problemFile = @"..\..\rgbdfea_depth_first_small_dict_threshold1500.mat";
                 this.modelBuilder.TrainModel(problemFile);
 
-                //Console.WriteLine("Trainning finished. Saving Model as {0}", modelFileName);
+                //Console.WriteLine("Training finished. Saving Model as {0}", modelFileName);
                 this.modelBuilder.SaveModel(modelFileName);
             }
         }

@@ -12,3 +12,7 @@ D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.Properties.
 D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.exe
 D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.pdb
 D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\Dictionary.dic
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+D:\Github\KinectCap\WindowsFormsApplication1\obj\Debug\GestureStudio.TrainingStartForm.resources
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\LibLinear.dll
+D:\Github\KinectCap\WindowsFormsApplication1\bin\Debug\RgbdfeaLib.dll
