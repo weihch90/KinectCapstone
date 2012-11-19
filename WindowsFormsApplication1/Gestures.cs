@@ -34,13 +34,16 @@ namespace GestureStudio
                 // if it is bined to specific key command to specific application
                 if (line.IndexOf(":") + 1 != line.Length)
                 {
-                    string keyAssignment = line.Substring(line.IndexOf("{") + 1, line.Length - 2);
+                    string keyAssignment = line.Substring(line.IndexOf("{") + 1, line.IndexOf("}") - line.IndexOf("{") - 1);
                     string[] assignments = keyAssignment.Split(',');
                     gestureKeys[i] = new string[assignments.Length];
                     // assign application key commands
                     for (int j = 0; j < assignments.Length; j++)
                     {
-                        gestureKeys[i][j] = assignments[j];
+                        if (assignments[j] != "")
+                            gestureKeys[i][j] = assignments[j];
+                        else
+                            gestureKeys[i][j] = null;
                     }
 
                 }
@@ -48,6 +51,12 @@ namespace GestureStudio
             }
         }
 
+        /*
+         * data format
+         * GestureName:{command,command,....,command}
+         * GestureName2:{command,command,....,command}
+         * ...
+         */
         public void saveData(string path)
         {
             using (StreamWriter file = new StreamWriter(path))
@@ -59,7 +68,7 @@ namespace GestureStudio
                     {
                         line += ":{";
                         for (int j = 0; j < gestureKeys[i].Length; j++)
-                        {
+                        {    
                             line += gestureKeys[i][j] + ",";
                         }
                         line += "}";
@@ -81,11 +90,20 @@ namespace GestureStudio
         {
             if (gestureCount >= gestureNames.Length)
             {
-                string[] furtherItems = new string[ARRAY_EXPAND_SIZE];
-                List<string> list = gestureNames.ToList<string>();
-                list.Add(gestureName);
-                list.AddRange(furtherItems);
-                gestureNames = list.ToArray();
+                // extend gestureName array
+                string[] furtherNames = new string[ARRAY_EXPAND_SIZE];
+                List<string> listNames = gestureNames.ToList<string>();
+                listNames.Add(gestureName);
+                listNames.AddRange(furtherNames);
+                gestureNames = listNames.ToArray();
+
+                //extend gestureKeys array
+                List<string[]> listKeys = gestureKeys.ToList<string[]>();
+                for (int i = 0; i < ARRAY_EXPAND_SIZE; i++)
+                {
+                    listKeys.Add(new string[ARRAY_EXPAND_SIZE]);
+                }
+                gestureKeys = listKeys.ToArray();
             }
             else
             {
@@ -118,19 +136,26 @@ namespace GestureStudio
 
         public void setAppKeyForGesture(int gestureIndex, int appIndex, string command)
         {
-            if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex)
+            if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
+                && gestureKeys[gestureIndex].Length > appIndex)
             {
+                // if no command set for this gesture.
                 if (gestureKeys[gestureIndex] == null)
                 {
-                    gestureKeys[gestureIndex] = new string[1] { command };
+                    gestureKeys[gestureIndex] = new string[appIndex + 1];
                 }
-                else
-                {
-                    List<string> list = gestureKeys[gestureIndex].ToList<string>();
-                    list.Add(command);
-                    gestureKeys[gestureIndex] = list.ToArray();
-                }
+                gestureKeys[gestureIndex][appIndex] = command;
+                
             }
+        }
+
+        public void deleteAppKeyForGesture(int gestureIndex, int appIndex) {
+            if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
+                && gestureKeys[gestureIndex].Length > appIndex)
+            {
+                gestureKeys[gestureIndex][appIndex] = null;
+            }
+
         }
     }
 }
