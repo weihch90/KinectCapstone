@@ -27,7 +27,7 @@ namespace GestureStudio
         {
             this.id = id;
             this.name = name;
-            this.appkeys = new List<AppInfo>();
+            this.appkeys = new List<AppKeyInfo>();
         }
     }
 
