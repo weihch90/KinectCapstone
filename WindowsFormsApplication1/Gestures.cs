@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace GestureStudio
+{
+    public class Gestures
+    {
+ 
+        private const string DATA_FILE_PATH = @"data/gesturesInfo.data";
+        private const int ARRAY_EXPAND_SIZE = 2;
+
+        private string[] gestureNames;
+        private string[][] gestureKeys;
+        private int gestureCount;
+
+        public Gestures() {
+
+            loadData(DATA_FILE_PATH);
+        }
+
+        public void loadData(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            gestureCount = lines.Length;
+            gestureNames = new string[lines.Length + ARRAY_EXPAND_SIZE];
+            gestureKeys = new string[lines.Length + ARRAY_EXPAND_SIZE][];
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string name = line.Substring(0, line.IndexOf(":"));
+                // if it is bined to specific key command to specific application
+                if (line.IndexOf(":") + 1 != line.Length)
+                {
+                    string keyAssignment = line.Substring(line.IndexOf("{") + 1, line.Length - 2);
+                    string[] assignments = keyAssignment.Split(',');
+                    gestureKeys[i] = new string[assignments.Length];
+                    // assign application key commands
+                    for (int j = 0; j < assignments.Length; j++)
+                    {
+                        gestureKeys[i][j] = assignments[j];
+                    }
+
+                }
+                gestureNames[i] = name;
+            }
+        }
+
+        public void saveData(string path)
+        {
+            using (StreamWriter file = new StreamWriter(path))
+            {
+                for (int i = 0; i < gestureCount; i++)
+                {
+                    string line = gestureNames[i] + ":";
+                    if (gestureKeys != null && gestureKeys.Length != 0)
+                    {
+                        line += ":{";
+                        for (int j = 0; j < gestureKeys[i].Length; j++)
+                        {
+                            line += gestureKeys[i][j] + ",";
+                        }
+                        line += "}";
+                    }
+                    file.WriteLine(line);
+                }
+            }
+        }
+
+        public string getGestureName(int index)
+        {
+            if (index > gestureCount || index < 0) {
+                return null;
+            }
+            return gestureNames[index];
+        }
+
+        public void addNewGesture(string gestureName)
+        {
+            if (gestureCount >= gestureNames.Length)
+            {
+                string[] furtherItems = new string[ARRAY_EXPAND_SIZE];
+                List<string> list = gestureNames.ToList<string>();
+                list.Add(gestureName);
+                list.AddRange(furtherItems);
+                gestureNames = list.ToArray();
+            }
+            else
+            {
+                gestureNames[gestureCount] = gestureName;
+            }
+            gestureCount++;
+        }
+
+        public bool containGestureName(string gestureName)
+        {
+            for (int i = 0; i < gestureCount; i++)
+            {
+                if (gestureName.Equals(gestureNames[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public string getAppKeyForGesture(int gestureIndex, int appIndex)
+        {
+            if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
+                && gestureKeys[gestureIndex] != null && gestureKeys[gestureIndex].Length > appIndex)
+            {
+                return gestureKeys[gestureIndex][appIndex];
+            }
+            return null;
+        }
+
+        public void setAppKeyForGesture(int gestureIndex, int appIndex, string command)
+        {
+            if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex)
+            {
+                if (gestureKeys[gestureIndex] == null)
+                {
+                    gestureKeys[gestureIndex] = new string[1] { command };
+                }
+                else
+                {
+                    List<string> list = gestureKeys[gestureIndex].ToList<string>();
+                    list.Add(command);
+                    gestureKeys[gestureIndex] = list.ToArray();
+                }
+            }
+        }
+    }
+}
