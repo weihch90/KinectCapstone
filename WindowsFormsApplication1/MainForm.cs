@@ -1,22 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.IO;
-using System.Windows.Forms;
-using Microsoft.Kinect;
-using Microsoft.Kinect.Toolkit;
 using System.Threading;
-
-
+using System.Windows.Forms;
 
 namespace GestureStudio
 {
@@ -24,20 +9,36 @@ namespace GestureStudio
     {
         private int framesCount = 0;
         private GestureModel model;
+        private bool disabled;
 
         public MainForm()
         {
             this.model = new GestureModel();
+            this.disabled = false;
             InitializeComponent();
         }
-        
+
+        public void Disable()
+        {
+            this.disabled = true;
+        }
+
+        public void Enable()
+        {
+            this.disabled = false;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
                 {
+                    if (disabled)
+                    {
+                        return;
+                    }
+
                     Bitmap fullFrame = this.model.RawDepthFrame.ToBitmap();
                     Bitmap croppedFrame = this.model.CroppedFrame.ToBitmap();
                     using (Graphics g = Graphics.FromImage(fullFrame))
@@ -60,24 +61,58 @@ namespace GestureStudio
                 };
 
             this.model.CategoryDetected += (s, args) =>
+            {
+                if (disabled)
+                {
+                    return;
+                }
+
+                ctx.Post((o) =>
+                {
+                    int label = (int)o;
+                    this.message.Text = LabelToString(label);
+                }, args.CategoryLabel);
+            };
+
+            this.model.ImageCollectionFinished += (s, args) =>
+                {
+                    this.model.Stop();
+                    ctx.Post((o) =>
+                    {
+                        this.message.Text = "Image collection finished. Building new prediction model now...";
+                    }, null);
+                };
+
+            this.model.NewModelReady += (s, args) =>
                 {
                     ctx.Post((o) =>
                     {
-                        int label = (int)o;
-                        this.message.Text = LabelToString(label);
-                    }, args.CategoryLabel);
+                        this.message.Text = "New prediction model ready.";
+                    }, null);
+                };
+
+            this.model.StatusChanged += (s, args) =>
+                {
+                    ctx.Post((o) =>
+                        {
+                            this.modelStatusDisplay.Text = args.Status;
+                        }, null);
                 };
 
             System.Timers.Timer fpsCounter = new System.Timers.Timer(1000);
             fpsCounter.AutoReset = true;
             fpsCounter.Elapsed += (src, args) =>
+            {
+                if (disabled)
                 {
-                    ctx.Post((o) =>
-                    {
-                        this.framesPerSecond.Text = "FPS = " + framesCount;
-                        framesCount = 0;
-                    }, null);
-                };
+                    return;
+                }
+                ctx.Post((o) =>
+                {
+                    this.framesPerSecond.Text = "FPS = " + framesCount;
+                    framesCount = 0;
+                }, null);
+            };
 
             fpsCounter.Start();
 
@@ -100,6 +135,10 @@ namespace GestureStudio
                     return "Rock";
                 case 6:
                     return "Scissor";
+                case 7:
+                    return "Circle";
+                case 8:
+                    return "Stop";
             }
             return "";
         }
@@ -116,7 +155,7 @@ namespace GestureStudio
             }
             else
             {
-                MessageBox.Show("Pick a program mode to run");
+                MessageBox.Show("Pick a program mode to run.");
             }
         }
 

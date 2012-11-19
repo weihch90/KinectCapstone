@@ -33,13 +33,16 @@ namespace GestureStudio
             this.croppedFrameStream = new System.Windows.Forms.PictureBox();
             this.framesPerSecond = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.classifyModeButton = new System.Windows.Forms.RadioButton();
-            this.trainingModeButton = new System.Windows.Forms.RadioButton();
-            this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
+            this.trainingModeButton = new System.Windows.Forms.RadioButton();
+            this.classifyModeButton = new System.Windows.Forms.RadioButton();
+            this.mainStatusDisplay = new System.Windows.Forms.StatusStrip();
+            this.modelStatusDisplay = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.fullFrameStream)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.mainStatusDisplay.SuspendLayout();
             this.SuspendLayout();
             // 
             // message
@@ -47,7 +50,7 @@ namespace GestureStudio
             this.message.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.message.Location = new System.Drawing.Point(12, 498);
             this.message.Name = "message";
-            this.message.Size = new System.Drawing.Size(819, 106);
+            this.message.Size = new System.Drawing.Size(819, 38);
             this.message.TabIndex = 0;
             this.message.Text = "";
             // 
@@ -89,16 +92,25 @@ namespace GestureStudio
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Program Mode";
             // 
-            // classifyModeButton
+            // stopButton
             // 
-            this.classifyModeButton.AutoSize = true;
-            this.classifyModeButton.Location = new System.Drawing.Point(6, 19);
-            this.classifyModeButton.Name = "classifyModeButton";
-            this.classifyModeButton.Size = new System.Drawing.Size(90, 17);
-            this.classifyModeButton.TabIndex = 0;
-            this.classifyModeButton.TabStop = true;
-            this.classifyModeButton.Text = "Classify Mode";
-            this.classifyModeButton.UseVisualStyleBackColor = true;
+            this.stopButton.Location = new System.Drawing.Point(87, 63);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 3;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(6, 63);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 2;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // trainingModeButton
             // 
@@ -111,31 +123,39 @@ namespace GestureStudio
             this.trainingModeButton.Text = "Training Mode";
             this.trainingModeButton.UseVisualStyleBackColor = true;
             // 
-            // startButton
+            // classifyModeButton
             // 
-            this.startButton.Location = new System.Drawing.Point(6, 63);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 2;
-            this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.classifyModeButton.AutoSize = true;
+            this.classifyModeButton.Location = new System.Drawing.Point(6, 19);
+            this.classifyModeButton.Name = "classifyModeButton";
+            this.classifyModeButton.Size = new System.Drawing.Size(90, 17);
+            this.classifyModeButton.TabIndex = 0;
+            this.classifyModeButton.TabStop = true;
+            this.classifyModeButton.Text = "Classify Mode";
+            this.classifyModeButton.UseVisualStyleBackColor = true;
             // 
-            // stopButton
+            // mainStatusDisplay
             // 
-            this.stopButton.Location = new System.Drawing.Point(87, 63);
-            this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 3;
-            this.stopButton.Text = "Stop";
-            this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.mainStatusDisplay.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modelStatusDisplay});
+            this.mainStatusDisplay.Location = new System.Drawing.Point(0, 547);
+            this.mainStatusDisplay.Name = "mainStatusDisplay";
+            this.mainStatusDisplay.Size = new System.Drawing.Size(841, 22);
+            this.mainStatusDisplay.TabIndex = 12;
+            this.mainStatusDisplay.Text = "Ready...";
+            // 
+            // modelStatusDisplay
+            // 
+            this.modelStatusDisplay.Name = "modelStatusDisplay";
+            this.modelStatusDisplay.Size = new System.Drawing.Size(85, 17);
+            this.modelStatusDisplay.Text = "Model Status...";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 613);
+            this.ClientSize = new System.Drawing.Size(841, 569);
+            this.Controls.Add(this.mainStatusDisplay);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.framesPerSecond);
             this.Controls.Add(this.croppedFrameStream);
@@ -148,6 +168,8 @@ namespace GestureStudio
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.mainStatusDisplay.ResumeLayout(false);
+            this.mainStatusDisplay.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,6 +186,8 @@ namespace GestureStudio
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.RadioButton trainingModeButton;
         private System.Windows.Forms.RadioButton classifyModeButton;
+        private System.Windows.Forms.StatusStrip mainStatusDisplay;
+        private System.Windows.Forms.ToolStripStatusLabel modelStatusDisplay;
     }
 }
 

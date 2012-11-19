@@ -35,7 +35,7 @@ namespace GestureStudio
         {
             // Initialize the parameters of feature (data).
             MWStructArray fea_first = new MWStructArray(1, 1, new string[] { "pixels", "maxsize" });
-            fea_first.SetField("pixels", new MWNumericArray(pixelData)); //"../../sampleImages/good/good_1/good_100_depthcrop.png"
+            fea_first.SetField("pixels", new MWNumericArray(pixelData));
             fea_first.SetField("maxsize", 100);
 
             // Initialize the parameters of dictionary.

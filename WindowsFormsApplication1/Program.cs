@@ -10,20 +10,41 @@ namespace GestureStudio
     static class GestureStudio
     {
         public const string GestureLib_DictionartyPath = @"Dictionary.dic";
+        public const string ModelFileName = @"model_new.svm";
 
         static MainForm mainForm;
         static LoadingWindow loadingWindow;
+        static TrainingStartForm trainerForm;
         static SynchronizationContext mainThreadContext;
 
+        public static void DisplayTrainerForm(Action startCallback)
+        {
+            trainerForm.StartCallback = () =>
+                {
+                    if (startCallback != null)
+                    {
+                        startCallback();
+                    }
+
+                    mainThreadContext.Post((state) =>
+                        {
+                            trainerForm.Hide();
+                        }, null);
+                };
+            
+            mainThreadContext.Post((state) =>
+                {
+                    trainerForm.Show(mainForm);
+                }, null);
+        }
+        
         public static void DisplayLoadingWindow(string message)
         {
             mainThreadContext.Post((state) =>
                 {
-                    loadingWindow.LoaderMessage = message;
-                    loadingWindow.Location = mainForm.Location;
-
+                    loadingWindow.LoaderMessage = message;                    
+                    mainForm.Disable();
                     loadingWindow.Show(mainForm);
-
                 }, null);
         }
 
@@ -31,6 +52,7 @@ namespace GestureStudio
         {
             mainThreadContext.Post((state) =>
                 {
+                    mainForm.Enable();
                     loadingWindow.Hide();
                 }, null);
         }
@@ -46,6 +68,8 @@ namespace GestureStudio
 
             mainForm = new MainForm();
             loadingWindow = new LoadingWindow();
+            trainerForm = new TrainingStartForm();
+
             mainThreadContext = SynchronizationContext.Current;
 
             Application.Run(mainForm);

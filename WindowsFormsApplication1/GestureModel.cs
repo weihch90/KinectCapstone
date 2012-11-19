@@ -26,6 +26,9 @@ namespace GestureStudio
         /// </summary>
         public event EventHandler<DepthFrameEventArgs> FrameReady;
         public event EventHandler<CategoryEventArgs> CategoryDetected;
+        public event EventHandler ImageCollectionFinished;
+        public event EventHandler NewModelReady;
+        public event EventHandler<ModelEventArgs> StatusChanged;
         
         // Kinect Interface
         private KinectSensorChooser _chooser;
@@ -78,20 +81,21 @@ namespace GestureStudio
         {
             get { return this.floodFill.CropStartY; }
         }
-
+        
         public void BeginInitialize()
         {
             this.floodFill = new FloodFill();
             this.mode = ProgramMode.Idle;
             this.classifier = null;
             this.trainer = null;
-
+            
             GestureStudio.DisplayLoadingWindow("Loading Kinect Sensor...");
             ThreadPool.QueueUserWorkItem((state) =>
             {
                 // init kinect
                 this.StartKinectSensor();
                 GestureStudio.HideLoadingWindow();
+                this.UpdateStatus("Ready");
             });
         }
 
@@ -199,6 +203,7 @@ namespace GestureStudio
         public void Stop()
         {
             this.mode = ProgramMode.Idle;
+            this.UpdateStatus("Ready");
 
             // reset classifier/trainer
             this.classifier = null;
@@ -220,7 +225,12 @@ namespace GestureStudio
 
             if (this.classifier.Initialized)
             {
+                this.UpdateStatus("Classifying");
                 this.classifier.ClassifyImage(this.croppedFrame);
+            }
+            else
+            {
+                this.UpdateStatus("Loading Classifier...");
             }
         }
 
@@ -237,7 +247,81 @@ namespace GestureStudio
             if (this.trainer == null)
             {
                 this.trainer = new GestureLearner();
+                this.trainer.ImageCollectionFinished += trainer_ImageCollectionFinished;
+                this.trainer.NewModelReady += trainer_NewModelReady;
+                GestureStudio.DisplayLoadingWindow("Loading Image Trainer...");
+                this.trainer.BeginInitialize(() =>
+                {
+                    GestureStudio.HideLoadingWindow();
+                });
             }
+
+            if (this.trainer.Initialized)
+            {
+                if (!this.trainer.GestureDataReady)
+                {
+                    this.UpdateStatus("Collecting Gesture " + this.trainer.CurrentSampleCount + " of 50");
+                    this.trainer.LearnGesture(this.croppedFrame);
+                }
+                else if (!this.trainer.ModelBuildStarted)
+                {
+                    this.UpdateStatus("Building Prediction Model...");
+
+                    GestureStudio.DisplayLoadingWindow("Building Prediction Model...");
+                    this.trainer.BuildModel(() =>
+                    {
+                        GestureStudio.HideLoadingWindow();
+                    });
+                }
+                else
+                {
+                    // training finished
+                    this.Stop();
+                }
+            }
+            else
+            {
+                // waiting for init, do nothing
+            }
+        }
+        
+        void trainer_ImageCollectionFinished(object sender, EventArgs e)
+        {
+            if (this.ImageCollectionFinished != null)
+            {
+                this.ImageCollectionFinished(sender, null);
+            }
+        }
+
+        void trainer_NewModelReady(object sender, EventArgs e)
+        {
+            if (this.NewModelReady != null)
+            {
+                this.NewModelReady(sender, null);
+            }
+        }
+
+        void UpdateStatus(string status)
+        {
+            if (this.StatusChanged != null)
+            {
+                this.StatusChanged(this, new ModelEventArgs() { Status = status });
+            }
+        }
+    }
+    
+    public class ModelEventArgs : EventArgs
+    {
+
+        public ModelEventArgs()
+        {
+
+        }
+
+        public string Status
+        {
+            get;
+            set;
         }
     }
 
