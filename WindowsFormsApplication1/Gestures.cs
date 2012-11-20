@@ -31,21 +31,41 @@ namespace GestureStudio
         }
     }
 
-    public class Gestures
+    /*
+     * Singleton of Gestures
+     * Cannot be inherited
+     */
+    public sealed class Gestures
     {
  
         private const string DATA_FILE_PATH = @"data/gesturesInfo.data";
         private const int ARRAY_EXPAND_SIZE = 2;
 
-        private string[] gestureNames;
-        private string[][] gestureKeys;
-        private int gestureCount;
+        private static string[] gestureNames;
+        private static string[][] gestureKeys;
+        private static int gestureCount;
 
-        public Gestures() {
+        private static Gestures instance;
+
+        public static Gestures Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Gestures();
+                }
+                return instance;
+            }
+
+        }
+
+        // private constructor
+        private Gestures() {
             loadData(DATA_FILE_PATH);
         }
 
-        public void loadData(string path)
+        public static void loadData(string path)
         {
             string[] lines = File.ReadAllLines(path);
             gestureCount = lines.Length;
@@ -81,7 +101,7 @@ namespace GestureStudio
          * GestureName2:{command,command,....,command}
          * ...
          */
-        public void saveData(string path)
+        public static void saveData(string path)
         {
             using (StreamWriter file = new StreamWriter(path))
             {
@@ -102,7 +122,7 @@ namespace GestureStudio
             }
         }
 
-        public string getGestureName(int index)
+        public static string getGestureName(int index)
         {
             if (index > gestureCount || index < 0) {
                 return null;
@@ -110,7 +130,7 @@ namespace GestureStudio
             return gestureNames[index];
         }
 
-        public void addNewGesture(string gestureName)
+        public static void addNewGesture(string gestureName)
         {
             if (gestureCount >= gestureNames.Length)
             {
@@ -136,7 +156,7 @@ namespace GestureStudio
             gestureCount++;
         }
 
-        public bool containGestureName(string gestureName)
+        public static bool containGestureName(string gestureName)
         {
             for (int i = 0; i < gestureCount; i++)
             {
@@ -148,7 +168,7 @@ namespace GestureStudio
             return false;
         }
 
-        public string getAppKeyForGesture(int gestureIndex, int appIndex)
+        public static string getAppKeyForGesture(int gestureIndex, int appIndex)
         {
             if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
                 && gestureKeys[gestureIndex] != null && gestureKeys[gestureIndex].Length > appIndex)
@@ -158,7 +178,7 @@ namespace GestureStudio
             return null;
         }
 
-        public void setAppKeyForGesture(int gestureIndex, int appIndex, string command)
+        public static void setAppKeyForGesture(int gestureIndex, int appIndex, string command)
         {
             if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
                 && gestureKeys[gestureIndex].Length > appIndex)
@@ -173,7 +193,7 @@ namespace GestureStudio
             }
         }
 
-        public void deleteAppKeyForGesture(int gestureIndex, int appIndex) {
+        public static void deleteAppKeyForGesture(int gestureIndex, int appIndex) {
             if (0 <= appIndex && 0 <= gestureIndex && gestureCount > gestureIndex 
                 && gestureKeys[gestureIndex].Length > appIndex)
             {
