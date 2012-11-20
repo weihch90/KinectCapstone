@@ -11,7 +11,9 @@ namespace GestureStudio
     {
         public const string GestureLib_DictionartyPath = @"Dictionary.dic";
         public const string ModelFileName = @"model_new.svm";
-        private static bool useNewDesign = true;
+        
+        private const bool useNewDesign = true;
+        public static bool GENERIC_GESTURES = false;
 
         static MainForm mainForm;
         static MainWindow mainWindow;

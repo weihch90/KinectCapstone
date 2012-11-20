@@ -39,9 +39,14 @@
             this.BindToApplications = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.mainWindowTabs.SuspendLayout();
             this.Home.SuspendLayout();
+            this.AddNewGestures.SuspendLayout();
             this.BindToApplications.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // mainWindowTabs
@@ -52,7 +57,7 @@
             this.mainWindowTabs.Location = new System.Drawing.Point(1, 1);
             this.mainWindowTabs.Name = "mainWindowTabs";
             this.mainWindowTabs.SelectedIndex = 0;
-            this.mainWindowTabs.Size = new System.Drawing.Size(595, 375);
+            this.mainWindowTabs.Size = new System.Drawing.Size(817, 504);
             this.mainWindowTabs.TabIndex = 0;
             // 
             // Home
@@ -65,7 +70,7 @@
             this.Home.Location = new System.Drawing.Point(4, 22);
             this.Home.Name = "Home";
             this.Home.Padding = new System.Windows.Forms.Padding(3);
-            this.Home.Size = new System.Drawing.Size(587, 349);
+            this.Home.Size = new System.Drawing.Size(809, 478);
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.UseVisualStyleBackColor = true;
@@ -73,9 +78,9 @@
             // controlButton
             // 
             this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.controlButton.Location = new System.Drawing.Point(114, 157);
+            this.controlButton.Location = new System.Drawing.Point(184, 179);
             this.controlButton.Name = "controlButton";
-            this.controlButton.Size = new System.Drawing.Size(177, 150);
+            this.controlButton.Size = new System.Drawing.Size(215, 198);
             this.controlButton.TabIndex = 0;
             this.controlButton.Text = "Start";
             this.controlButton.UseVisualStyleBackColor = true;
@@ -84,7 +89,7 @@
             // currentGesture
             // 
             this.currentGesture.AutoSize = true;
-            this.currentGesture.Location = new System.Drawing.Point(7, 323);
+            this.currentGesture.Location = new System.Drawing.Point(25, 439);
             this.currentGesture.Name = "currentGesture";
             this.currentGesture.Size = new System.Drawing.Size(81, 13);
             this.currentGesture.TabIndex = 4;
@@ -92,9 +97,9 @@
             // 
             // bindToApplicationButton
             // 
-            this.bindToApplicationButton.Location = new System.Drawing.Point(341, 246);
+            this.bindToApplicationButton.Location = new System.Drawing.Point(451, 296);
             this.bindToApplicationButton.Name = "bindToApplicationButton";
-            this.bindToApplicationButton.Size = new System.Drawing.Size(138, 61);
+            this.bindToApplicationButton.Size = new System.Drawing.Size(180, 81);
             this.bindToApplicationButton.TabIndex = 3;
             this.bindToApplicationButton.Text = "Bind To Applications";
             this.bindToApplicationButton.UseVisualStyleBackColor = true;
@@ -102,9 +107,9 @@
             // 
             // addGestureButton
             // 
-            this.addGestureButton.Location = new System.Drawing.Point(341, 157);
+            this.addGestureButton.Location = new System.Drawing.Point(451, 179);
             this.addGestureButton.Name = "addGestureButton";
-            this.addGestureButton.Size = new System.Drawing.Size(138, 61);
+            this.addGestureButton.Size = new System.Drawing.Size(180, 81);
             this.addGestureButton.TabIndex = 2;
             this.addGestureButton.Text = "Add New Gestures";
             this.addGestureButton.UseVisualStyleBackColor = true;
@@ -113,19 +118,21 @@
             // homeLabel
             // 
             this.homeLabel.AutoSize = true;
-            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 35.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.homeLabel.Location = new System.Drawing.Point(105, 43);
+            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 43.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.homeLabel.Location = new System.Drawing.Point(172, 55);
             this.homeLabel.Name = "homeLabel";
-            this.homeLabel.Size = new System.Drawing.Size(374, 53);
+            this.homeLabel.Size = new System.Drawing.Size(459, 67);
             this.homeLabel.TabIndex = 5;
             this.homeLabel.Text = "Gesture Controller";
             // 
             // AddNewGestures
             // 
+            this.AddNewGestures.Controls.Add(this.pictureBox2);
+            this.AddNewGestures.Controls.Add(this.pictureBox1);
             this.AddNewGestures.Location = new System.Drawing.Point(4, 22);
             this.AddNewGestures.Name = "AddNewGestures";
             this.AddNewGestures.Padding = new System.Windows.Forms.Padding(3);
-            this.AddNewGestures.Size = new System.Drawing.Size(587, 349);
+            this.AddNewGestures.Size = new System.Drawing.Size(809, 478);
             this.AddNewGestures.TabIndex = 1;
             this.AddNewGestures.Text = "Add New Gestures";
             this.AddNewGestures.UseVisualStyleBackColor = true;
@@ -170,11 +177,27 @@
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(542, 327);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(551, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(195, 181);
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 376);
+            this.ClientSize = new System.Drawing.Size(819, 508);
             this.Controls.Add(this.mainWindowTabs);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
@@ -182,7 +205,10 @@
             this.mainWindowTabs.ResumeLayout(false);
             this.Home.ResumeLayout(false);
             this.Home.PerformLayout();
+            this.AddNewGestures.ResumeLayout(false);
             this.BindToApplications.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -200,5 +226,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label currentGesture;
         private System.Windows.Forms.Button controlButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

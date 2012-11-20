@@ -21,6 +21,7 @@ namespace GestureStudio
         public MainWindow()
         {
             this.model = new GestureModel();
+            Gestures gestures = Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
@@ -70,7 +71,10 @@ namespace GestureStudio
                 ctx.Post((o) =>
                 {
                     int label = (int)o;
-                    this.currentGesture.Text = "Your Gesture: [" + LabelToString(label) + "]";
+                    if (GestureStudio.GENERIC_GESTURES)
+                        this.currentGesture.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
+                    else
+                        this.currentGesture.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);
             };
 

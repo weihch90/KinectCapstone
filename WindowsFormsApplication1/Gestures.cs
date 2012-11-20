@@ -47,16 +47,14 @@ namespace GestureStudio
 
         private static Gestures instance;
 
-        public static Gestures Instance
+        public static Gestures GetInstance()
         {
-            get
-            {
                 if (instance == null)
                 {
                     instance = new Gestures();
                 }
                 return instance;
-            }
+            
 
         }
 
