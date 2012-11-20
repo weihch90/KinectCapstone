@@ -98,7 +98,7 @@
             // 
             this.homeLabel.AutoSize = true;
             this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 35.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.homeLabel.Location = new System.Drawing.Point(105, 29);
+            this.homeLabel.Location = new System.Drawing.Point(105, 43);
             this.homeLabel.Name = "homeLabel";
             this.homeLabel.Size = new System.Drawing.Size(374, 53);
             this.homeLabel.TabIndex = 0;
@@ -107,7 +107,7 @@
             // 
             // addGestureButton
             // 
-            this.addGestureButton.Location = new System.Drawing.Point(114, 246);
+            this.addGestureButton.Location = new System.Drawing.Point(341, 157);
             this.addGestureButton.Name = "addGestureButton";
             this.addGestureButton.Size = new System.Drawing.Size(138, 61);
             this.addGestureButton.TabIndex = 2;
@@ -162,9 +162,9 @@
             // controlButton
             // 
             this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.controlButton.Location = new System.Drawing.Point(229, 158);
+            this.controlButton.Location = new System.Drawing.Point(114, 157);
             this.controlButton.Name = "controlButton";
-            this.controlButton.Size = new System.Drawing.Size(138, 61);
+            this.controlButton.Size = new System.Drawing.Size(177, 150);
             this.controlButton.TabIndex = 1;
             this.controlButton.Text = "Start";
             this.controlButton.UseVisualStyleBackColor = true;

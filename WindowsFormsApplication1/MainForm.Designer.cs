@@ -61,6 +61,7 @@ namespace GestureStudio
             this.fullFrameStream.Size = new System.Drawing.Size(640, 480);
             this.fullFrameStream.TabIndex = 8;
             this.fullFrameStream.TabStop = false;
+            this.fullFrameStream.Click += new System.EventHandler(this.fullFrameStream_Click);
             // 
             // croppedFrameStream
             // 
