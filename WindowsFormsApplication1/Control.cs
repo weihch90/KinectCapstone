@@ -55,7 +55,7 @@ namespace GestureStudio
                 return false;
 
             System.Threading.Thread.Sleep(delay);
-            holdOptionsThenPress(new ushort[] { 0x1a }, ch);
+            holdOptionsThenPress(new ushort[] { 0x2a }, ch);
 
             return true;
         }
@@ -64,7 +64,7 @@ namespace GestureStudio
         private bool checkBuffer()
         {
             stopWatch.Stop();
-            if (firstRun || stopWatch.ElapsedMilliseconds < buffer) // another command has not been issued too soon
+            if (firstRun || stopWatch.ElapsedMilliseconds > buffer) // another command has not been issued too soon
             {
                 firstRun = false;
                 stopWatch.Reset();
