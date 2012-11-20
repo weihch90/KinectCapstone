@@ -9,27 +9,109 @@ namespace GestureStudio
 {
     public class Control
     {
-        public static void ctrlThenPress(char ch, int delay = 100)
+        int buffer;
+        bool firstRun;
+        Stopwatch stopWatch;
+        
+        public Control(int delaybuffer = 400)
         {
-            Process[] processes = Process.GetProcessesByName("wmplayer");
+            stopWatch = new Stopwatch();
+            buffer = delaybuffer;
+            firstRun = true;
+        }
+
+        public void startApp(string name, string args = "")
+        {
+            if (checkBuffer())
+                Process.Start(name, args);
+            stopWatch.Start();
+        }
+
+        public bool ctrlShiftThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        {
+            if (!focusApp(app))
+                return false;
+
+            System.Threading.Thread.Sleep(delay);
+            holdOptionsThenPress(new ushort[] { 0x1d, 0x2a}, ch);
+
+            return true;
+        }
+
+        public bool ctrlThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        {
+            if (!focusApp(app))
+                return false;
+
+            System.Threading.Thread.Sleep(delay);
+            holdOptionsThenPress(new ushort[] {0x1d}, ch);
+
+            return true;
+        }
+
+        public bool shiftThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        {
+            if (!focusApp(app))
+                return false;
+
+            System.Threading.Thread.Sleep(delay);
+            holdOptionsThenPress(new ushort[] { 0x1a }, ch);
+
+            return true;
+        }
+
+        // checks to see that another command wasn't issued recently.
+        private bool checkBuffer()
+        {
+            stopWatch.Stop();
+            if (firstRun || stopWatch.ElapsedMilliseconds < buffer) // another command has not been issued too soon
+            {
+                firstRun = false;
+                stopWatch.Reset();
+                return true;
+            }
+            return false;
+        }
+
+        // holds down the keys specified in array, presses the key ch, then releases the keys.
+        public void holdOptionsThenPress(ushort[] options, char ch) {
+            for (int i = 0; i < options.Length; i++) {
+                KeyDown(options[i]);
+                System.Threading.Thread.Sleep(50);
+            }
+            PressKey(ch, true);
+            System.Threading.Thread.Sleep(100);
+            PressKey(ch, false);
+            for (int i = options.Length - 1; i > - 1; i--) {
+                System.Threading.Thread.Sleep(50);
+                KeyUp(options[i]);
+            }
+            stopWatch.Start();
+        }
+        
+        private bool focusApp(string app)
+        {
+            if (!checkBuffer())
+            {
+                stopWatch.Start();
+                return false;
+            }
+               
+            Process[] processes = Process.GetProcessesByName(app);
 
             if (processes.Length == 0)
-                throw new Exception("Could not find process");
-
+            {
+                stopWatch.Start();
+                return false;
+            }
             IntPtr WindowHandle = processes[0].MainWindowHandle;
 
             WMP.SwitchWindow(WindowHandle);
-
-            System.Threading.Thread.Sleep(delay);
-            KeyDown((ushort)0x1d);
-            PressKey(ch, true);
-
-            System.Threading.Thread.Sleep(100);
-            PressKey(ch, false);
-            KeyUp((ushort)0X1d);
+            return true;
         }
 
-        public static void PressKey(char ch, bool press)
+        // press or release a key ch based on the boolean press
+        private void PressKey(char ch, bool press)
         {
             byte vk = WMP.VkKeyScan(ch);
             ushort scanCode = (ushort)WMP.MapVirtualKey(vk, 0);
@@ -40,7 +122,8 @@ namespace GestureStudio
                 KeyUp(scanCode);
         }
 
-        public static void KeyDown(ushort scanCode)
+        // presses a key down
+        private void KeyDown(ushort scanCode)
         {
             INPUT[] inputs = new INPUT[1];
             inputs[0].type = WMP.INPUT_KEYBOARD;
@@ -54,7 +137,8 @@ namespace GestureStudio
             }
         }
 
-        public static void KeyUp(ushort scanCode)
+        // releases a key
+        private void KeyUp(ushort scanCode)
         {
             INPUT[] inputs = new INPUT[1];
             inputs[0].type = WMP.INPUT_KEYBOARD;
@@ -323,11 +407,11 @@ namespace GestureStudio
     {
         [FieldOffset(0)]
         public int type;
-        [FieldOffset(4)] //*
+        [FieldOffset(8)] //*
         public MOUSEINPUT mi;
-        [FieldOffset(4)] //*
+        [FieldOffset(8)] //*
         public KEYBDINPUT ki;
-        [FieldOffset(4)] //*
+        [FieldOffset(8)] //*
         public HARDWAREINPUT hi;
     }
 }
