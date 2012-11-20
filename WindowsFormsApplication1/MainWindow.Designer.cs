@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.Home = new System.Windows.Forms.TabPage();
+            this.controlButton = new System.Windows.Forms.Button();
+            this.currentGesture = new System.Windows.Forms.Label();
+            this.bindToApplicationButton = new System.Windows.Forms.Button();
+            this.addGestureButton = new System.Windows.Forms.Button();
+            this.homeLabel = new System.Windows.Forms.Label();
             this.AddNewGestures = new System.Windows.Forms.TabPage();
             this.BindToApplications = new System.Windows.Forms.TabPage();
-            this.homeLabel = new System.Windows.Forms.Label();
-            this.addGestureButton = new System.Windows.Forms.Button();
-            this.bindToApplicationButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
-            this.currentGesture = new System.Windows.Forms.Label();
-            this.controlButton = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.mainWindowTabs.SuspendLayout();
             this.Home.SuspendLayout();
             this.BindToApplications.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // mainWindowTabs
             // 
-            this.tabControl1.Controls.Add(this.Home);
-            this.tabControl1.Controls.Add(this.AddNewGestures);
-            this.tabControl1.Controls.Add(this.BindToApplications);
-            this.tabControl1.Location = new System.Drawing.Point(1, 1);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(595, 375);
-            this.tabControl1.TabIndex = 0;
+            this.mainWindowTabs.Controls.Add(this.Home);
+            this.mainWindowTabs.Controls.Add(this.AddNewGestures);
+            this.mainWindowTabs.Controls.Add(this.BindToApplications);
+            this.mainWindowTabs.Location = new System.Drawing.Point(1, 1);
+            this.mainWindowTabs.Name = "mainWindowTabs";
+            this.mainWindowTabs.SelectedIndex = 0;
+            this.mainWindowTabs.Size = new System.Drawing.Size(595, 375);
+            this.mainWindowTabs.TabIndex = 0;
             // 
             // Home
             // 
@@ -69,6 +69,56 @@
             this.Home.TabIndex = 0;
             this.Home.Text = "Home";
             this.Home.UseVisualStyleBackColor = true;
+            // 
+            // controlButton
+            // 
+            this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.controlButton.Location = new System.Drawing.Point(114, 157);
+            this.controlButton.Name = "controlButton";
+            this.controlButton.Size = new System.Drawing.Size(177, 150);
+            this.controlButton.TabIndex = 0;
+            this.controlButton.Text = "Start";
+            this.controlButton.UseVisualStyleBackColor = true;
+            this.controlButton.Click += new System.EventHandler(this.ControlButton_Click);
+            // 
+            // currentGesture
+            // 
+            this.currentGesture.AutoSize = true;
+            this.currentGesture.Location = new System.Drawing.Point(7, 323);
+            this.currentGesture.Name = "currentGesture";
+            this.currentGesture.Size = new System.Drawing.Size(81, 13);
+            this.currentGesture.TabIndex = 4;
+            this.currentGesture.Text = "Your Gesture: []";
+            // 
+            // bindToApplicationButton
+            // 
+            this.bindToApplicationButton.Location = new System.Drawing.Point(341, 246);
+            this.bindToApplicationButton.Name = "bindToApplicationButton";
+            this.bindToApplicationButton.Size = new System.Drawing.Size(138, 61);
+            this.bindToApplicationButton.TabIndex = 3;
+            this.bindToApplicationButton.Text = "Bind To Applications";
+            this.bindToApplicationButton.UseVisualStyleBackColor = true;
+            this.bindToApplicationButton.Click += new System.EventHandler(this.BindToApplications_Click);
+            // 
+            // addGestureButton
+            // 
+            this.addGestureButton.Location = new System.Drawing.Point(341, 157);
+            this.addGestureButton.Name = "addGestureButton";
+            this.addGestureButton.Size = new System.Drawing.Size(138, 61);
+            this.addGestureButton.TabIndex = 2;
+            this.addGestureButton.Text = "Add New Gestures";
+            this.addGestureButton.UseVisualStyleBackColor = true;
+            this.addGestureButton.Click += new System.EventHandler(this.AddNewGesturesButton_Click);
+            // 
+            // homeLabel
+            // 
+            this.homeLabel.AutoSize = true;
+            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 35.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.homeLabel.Location = new System.Drawing.Point(105, 43);
+            this.homeLabel.Name = "homeLabel";
+            this.homeLabel.Size = new System.Drawing.Size(374, 53);
+            this.homeLabel.TabIndex = 5;
+            this.homeLabel.Text = "Gesture Controller";
             // 
             // AddNewGestures
             // 
@@ -94,34 +144,14 @@
             this.BindToApplications.UseVisualStyleBackColor = true;
             this.BindToApplications.Click += new System.EventHandler(this.BindToApplications_Click);
             // 
-            // homeLabel
+            // button1
             // 
-            this.homeLabel.AutoSize = true;
-            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 35.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.homeLabel.Location = new System.Drawing.Point(105, 43);
-            this.homeLabel.Name = "homeLabel";
-            this.homeLabel.Size = new System.Drawing.Size(374, 53);
-            this.homeLabel.TabIndex = 0;
-            this.homeLabel.Text = "Gesture Controller";
-            this.homeLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // addGestureButton
-            // 
-            this.addGestureButton.Location = new System.Drawing.Point(341, 157);
-            this.addGestureButton.Name = "addGestureButton";
-            this.addGestureButton.Size = new System.Drawing.Size(138, 61);
-            this.addGestureButton.TabIndex = 2;
-            this.addGestureButton.Text = "Add New Gestures";
-            this.addGestureButton.UseVisualStyleBackColor = true;
-            // 
-            // bindToApplicationButton
-            // 
-            this.bindToApplicationButton.Location = new System.Drawing.Point(341, 246);
-            this.bindToApplicationButton.Name = "bindToApplicationButton";
-            this.bindToApplicationButton.Size = new System.Drawing.Size(138, 61);
-            this.bindToApplicationButton.TabIndex = 3;
-            this.bindToApplicationButton.Text = "Bind To Applications";
-            this.bindToApplicationButton.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(460, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "New Bind";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -140,44 +170,16 @@
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(460, 38);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "New Bind";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // currentGesture
-            // 
-            this.currentGesture.AutoSize = true;
-            this.currentGesture.Location = new System.Drawing.Point(7, 323);
-            this.currentGesture.Name = "currentGesture";
-            this.currentGesture.Size = new System.Drawing.Size(81, 13);
-            this.currentGesture.TabIndex = 4;
-            this.currentGesture.Text = "Your Gesture: []";
-            this.currentGesture.Click += new System.EventHandler(this.label1_Click_1);
-            // 
-            // controlButton
-            // 
-            this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.controlButton.Location = new System.Drawing.Point(114, 157);
-            this.controlButton.Name = "controlButton";
-            this.controlButton.Size = new System.Drawing.Size(177, 150);
-            this.controlButton.TabIndex = 1;
-            this.controlButton.Text = "Start";
-            this.controlButton.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(596, 379);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(594, 376);
+            this.Controls.Add(this.mainWindowTabs);
             this.Name = "MainWindow";
             this.Text = "MainWindow";
-            this.tabControl1.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.mainWindowTabs.ResumeLayout(false);
             this.Home.ResumeLayout(false);
             this.Home.PerformLayout();
             this.BindToApplications.ResumeLayout(false);
@@ -187,7 +189,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl mainWindowTabs;
         private System.Windows.Forms.TabPage Home;
         private System.Windows.Forms.TabPage AddNewGestures;
         private System.Windows.Forms.TabPage BindToApplications;

@@ -11,8 +11,10 @@ namespace GestureStudio
     {
         public const string GestureLib_DictionartyPath = @"Dictionary.dic";
         public const string ModelFileName = @"model_new.svm";
+        private static bool useNewDesign = true;
 
         static MainForm mainForm;
+        static MainWindow mainWindow;
         static LoadingWindow loadingWindow;
         static TrainingStartForm trainerForm;
         static SynchronizationContext mainThreadContext;
@@ -34,7 +36,10 @@ namespace GestureStudio
             
             mainThreadContext.Post((state) =>
                 {
-                    trainerForm.Show(mainForm);
+                    if (useNewDesign)
+                        trainerForm.Show(mainWindow);
+                    else
+                        trainerForm.Show(mainForm);
                 }, null);
         }
         
@@ -42,9 +47,17 @@ namespace GestureStudio
         {
             mainThreadContext.Post((state) =>
                 {
-                    loadingWindow.LoaderMessage = message;                    
-                    mainForm.Disable();
-                    loadingWindow.Show(mainForm);
+                    loadingWindow.LoaderMessage = message;
+                    if (useNewDesign)
+                    {
+                        mainWindow.Disable();
+                        loadingWindow.Show(mainWindow);
+                    }
+                    else
+                    {
+                        mainForm.Disable();
+                        loadingWindow.Show(mainForm);
+                    }
                 }, null);
         }
 
@@ -52,8 +65,16 @@ namespace GestureStudio
         {
             mainThreadContext.Post((state) =>
                 {
-                    mainForm.Enable();
-                    loadingWindow.Hide();
+                    if (useNewDesign)
+                    {
+                        mainWindow.Enable();
+                        loadingWindow.Hide();
+                    }
+                    else
+                    {
+                        mainForm.Enable();
+                        loadingWindow.Hide();
+                    }
                 }, null);
         }
 
@@ -65,14 +86,23 @@ namespace GestureStudio
         {            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            mainForm = new MainForm();
+            if (useNewDesign)
+            {
+                mainWindow = new MainWindow();
+            }
+            else
+            {
+                mainForm = new MainForm();
+            }
             loadingWindow = new LoadingWindow();
             trainerForm = new TrainingStartForm();
 
             mainThreadContext = SynchronizationContext.Current;
 
-            Application.Run(mainForm);
+            if (useNewDesign)
+                Application.Run(mainWindow);
+            else
+                Application.Run(mainForm);
         }
     }
 }
