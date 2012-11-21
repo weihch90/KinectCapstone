@@ -14,6 +14,7 @@ namespace GestureStudio
     {
         private int framesCount = 0;
         private GestureModel model;
+        private Gestures gestures;
         private bool disabled;
         private bool classifying;
 
@@ -21,7 +22,7 @@ namespace GestureStudio
         public MainWindow()
         {
             this.model = new GestureModel();
-            Gestures gestures = Gestures.GetInstance();
+            gestures = Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace GestureStudio
                 {
                     return;
                 }
-                /*
+                
                 Bitmap fullFrame = this.model.RawDepthFrame.ToBitmap();
                 Bitmap croppedFrame = this.model.CroppedFrame.ToBitmap();
 
@@ -47,18 +48,23 @@ namespace GestureStudio
                     int startY = this.model.CropStartY;
                     int croppedWidth = this.model.CroppedFrame.Width;
                     int croppedHeight = this.model.CroppedFrame.Height;
-
                     Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, 5);
                     g.DrawRectangle(pen, startX + croppedWidth / 2, startY + croppedHeight / 2, 1, 1);
                     g.DrawRectangle(pen, startX, startY, croppedWidth, croppedHeight);
                 }
                 ctx.Post((o) =>
                 {
-                    this.fullFrameStream.Image = fullFrame;
-                    this.croppedFrameStream.Image = croppedFrame;
+                    // resize images in order to fit into picture box in the home tab
+                    double croppedRatio_w_h = croppedFrame.Width / croppedFrame.Height;
+                    
+                    Bitmap fitFull = new Bitmap(fullFrame, this.mainWindow_full.Width, this.mainWindow_full.Height);
+                    Bitmap fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, this.mainWindow_cropped.Height);
+                    
+                    this.mainWindow_full.Image = fitFull;
+                    this.mainWindow_cropped.Image = fitCropped;
                     framesCount++;
                 }, null);
-                 */
+
             };
 
             this.model.CategoryDetected += (s, args) =>
@@ -72,9 +78,9 @@ namespace GestureStudio
                 {
                     int label = (int)o;
                     if (GestureStudio.GENERIC_GESTURES)
-                        this.currentGesture.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
+                        this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
                     else
-                        this.currentGesture.Text = "Your Gesture: [" + LabelToString(label) + "]";
+                        this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);
             };
 
@@ -151,23 +157,6 @@ namespace GestureStudio
             return "";
         }
 
-        private void ControlButton_Click(object sender, EventArgs e)
-        {
-            if (classifying)
-            {
-                classifying = false;
-                this.model.Stop();
-                this.controlButton.Text = "Start";
-            }
-            else
-            {
-                classifying = true;
-                this.model.StartClassify();
-                this.controlButton.Text = "Stop";
-            }
-                
-        }
-
         public void Disable()
         {
             this.disabled = true;
@@ -177,6 +166,51 @@ namespace GestureStudio
         {
             this.disabled = false;
         }
+
+
+        // button controls
+
+        // Home tab buttons
+        /*
+         * Start/Stop recognition
+         */
+        private void ControlButton_Click(object sender, EventArgs e)
+        {
+            if (classifying)
+            {
+                this.model.Stop();
+                this.controlButton.Text = "Start";
+            }
+            else
+            {
+                this.model.StartClassify();
+                this.controlButton.Text = "Stop";
+            }
+            this.classifying = !this.classifying;
+
+        }
+
+        /*
+         * Click on buttons on main window to go to different tabs
+         */
+        private void BindToApplications_Click(object sender, EventArgs e)
+        {
+            this.mainWindowTabs.SelectedTab = this.BindToApplications;
+        }
+
+        private void AddNewGesturesButton_Click(object sender, EventArgs e)
+        {
+            this.mainWindowTabs.SelectedTab = this.AddNewGestures;
+        }
+
+        private void TutorialButton_Click(object sender, EventArgs e)
+        {
+            this.mainWindowTabs.SelectedTab = this.tutorialTab;
+        }
+        
+        // end Home tab buttons
+
+
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
@@ -188,15 +222,18 @@ namespace GestureStudio
 
         }
 
-        private void BindToApplications_Click(object sender, EventArgs e)
+
+
+        private void homeLabel_Click(object sender, EventArgs e)
         {
-            this.mainWindowTabs.SelectedTab = this.BindToApplications;
+
         }
 
-        private void AddNewGesturesButton_Click(object sender, EventArgs e)
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
-            this.mainWindowTabs.SelectedTab = this.AddNewGestures;
+
         }
+
 
     }
 }

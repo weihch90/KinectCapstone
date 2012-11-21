@@ -37,8 +37,7 @@ namespace GestureStudio
      */
     public sealed class Gestures
     {
- 
-        private const string DATA_FILE_PATH = @"data/gesturesInfo.data";
+
         private const int ARRAY_EXPAND_SIZE = 2;
 
         private static string[] gestureNames;
@@ -60,7 +59,7 @@ namespace GestureStudio
 
         // private constructor
         private Gestures() {
-            loadData(DATA_FILE_PATH);
+            loadData(GestureStudio.Gestures_Data_Path);
         }
 
         public static void loadData(string path)
