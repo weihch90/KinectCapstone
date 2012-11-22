@@ -12,6 +12,7 @@ namespace GestureStudio
 {
     public partial class MainWindow : Form
     {
+        public static double Width_To_Height_Ratio = 1;
         private int framesCount = 0;
         private GestureModel model;
         private Gestures gestures;
@@ -54,12 +55,26 @@ namespace GestureStudio
                 }
                 ctx.Post((o) =>
                 {
-                    // resize images in order to fit into picture box in the home tab
-                    double croppedRatio_w_h = croppedFrame.Width / croppedFrame.Height;
-                    
                     Bitmap fitFull = new Bitmap(fullFrame, this.mainWindow_full.Width, this.mainWindow_full.Height);
-                    Bitmap fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, this.mainWindow_cropped.Height);
-                    
+                    Bitmap fitCropped;
+
+                    // make sure the cropped image has area
+                    if (croppedFrame.Height > 0 && croppedFrame.Width > 0)
+                    {
+                        // resize images in order to fit into picture box in the home tab
+                        double croppedRatio_w_h = (double)croppedFrame.Width / croppedFrame.Height;
+                        if (croppedRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
+                        {
+                            fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / croppedRatio_w_h));
+                        }
+                        else  // cropped image is long in vertical
+                        {
+                            fitCropped = new Bitmap(croppedFrame, (int)(this.mainWindow_cropped.Height * croppedRatio_w_h), this.mainWindow_cropped.Height);
+                        }
+                    }
+                    else
+                        fitCropped = null;
+
                     this.mainWindow_full.Image = fitFull;
                     this.mainWindow_cropped.Image = fitCropped;
                     framesCount++;

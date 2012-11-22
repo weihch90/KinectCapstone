@@ -117,9 +117,9 @@
             // tutorialButton
             // 
             this.tutorialButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.tutorialButton.Location = new System.Drawing.Point(627, 369);
+            this.tutorialButton.Location = new System.Drawing.Point(627, 368);
             this.tutorialButton.Name = "tutorialButton";
-            this.tutorialButton.Size = new System.Drawing.Size(71, 59);
+            this.tutorialButton.Size = new System.Drawing.Size(71, 60);
             this.tutorialButton.TabIndex = 7;
             this.tutorialButton.Text = "Tutorial";
             this.tutorialButton.UseVisualStyleBackColor = true;
@@ -138,9 +138,9 @@
             // 
             this.controlButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.controlButton.Location = new System.Drawing.Point(127, 369);
+            this.controlButton.Location = new System.Drawing.Point(127, 368);
             this.controlButton.Name = "controlButton";
-            this.controlButton.Size = new System.Drawing.Size(155, 59);
+            this.controlButton.Size = new System.Drawing.Size(155, 60);
             this.controlButton.TabIndex = 0;
             this.controlButton.Text = "Start";
             this.controlButton.UseVisualStyleBackColor = true;
