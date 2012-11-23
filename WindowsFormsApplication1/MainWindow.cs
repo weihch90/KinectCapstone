@@ -27,6 +27,38 @@ namespace GestureStudio
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
+            loadTable();
+        }
+
+        private void loadTable()
+        {
+            
+            string[] gesture_names = { "here", "are", "the", "gesture", "names", "six" };
+            string[][] key_binding_test = { new string[] {"a", "b"}, 
+                                       new string[] {"y"},
+                                        new string[] {"z", "x"},
+                                        new string [] {"test", "data"},
+                                        new string [] {"gangnam", "style"},
+                                        new string [] {"herp", "derp"}};
+
+
+            for (int j = 0; j < gesture_names.Length; j++)
+            {
+                Label l = new Label();
+                l.Text = gesture_names[j];
+                l.Size = new Size(200, 30);
+                gestureBindingsTable.Controls.Add(l, 0, j);
+            }
+            for (int row = 0; row < gesture_names.Length; row++)
+            {
+                for (int col = 0; col < key_binding_test[row].Length; col++)
+                {
+                    Label l = new Label();
+                    l.Text = key_binding_test[row][col];
+                    l.Size = new Size(200, 30);
+                    gestureBindingsTable.Controls.Add(l, col + 1, row);
+                }
+            }
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -210,12 +242,7 @@ namespace GestureStudio
          */
         private void BindToApplications_Click(object sender, EventArgs e)
         {
-            this.mainWindowTabs.SelectedTab = this.BindToApplications;
-        }
-
-        private void AddNewGesturesButton_Click(object sender, EventArgs e)
-        {
-            this.mainWindowTabs.SelectedTab = this.AddNewGestures;
+            this.mainWindowTabs.SelectedTab = this.settingsTab;
         }
 
         private void TutorialButton_Click(object sender, EventArgs e)
@@ -224,6 +251,8 @@ namespace GestureStudio
         }
         
         // end Home tab buttons
+
+        // Settings tab buttons
 
 
 
@@ -247,6 +276,26 @@ namespace GestureStudio
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void addGestureButton_Click(object sender, EventArgs e)
+        {
+            // returns a string form of the given keybinding or 
+            // null if no text was inputted to the text box;
+            //usage: 
+            using (MainForm mainForm = new MainForm())
+            {
+                if (DialogResult.OK == mainForm.ShowDialog())
+                {
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
+
+            }
+            
         }
 
 
