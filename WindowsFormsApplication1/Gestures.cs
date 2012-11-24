@@ -87,7 +87,7 @@ namespace GestureStudio
         private static Dictionary<int, GestureInfo> gestureList;  // dictionary<id, GestureInfo>
 
         private static Gestures instance;
-
+        public static string[] Applications = {"app1", "app2", "app3", "app4"};
         public static Gestures GetInstance()
         {
             if (instance == null)
@@ -142,6 +142,11 @@ namespace GestureStudio
             }
         }
 
+        public static void saveData()
+        {
+            saveData(GestureStudio.Gestures_Data_Path);
+        }
+
         /*
          * data format
          * gestureId:GestureName{id:command,id:command,....,id:command}
@@ -157,24 +162,26 @@ namespace GestureStudio
                 foreach (KeyValuePair<int, GestureInfo> pair in gestureList)
                 {
                     GestureInfo gesture = pair.Value;
-                    string line = pair.Key + ":" + gesture.getName();
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(pair.Key + ":" + gesture.getName());
                     if (gesture.getAllCommands().Count > 0)
                     {
-                        line += "{";
+                        sb.Append("{");
                         bool first = true;
                         // go over all the commands in the gesture
                         foreach (KeyValuePair<int, AppKeyInfo> commands in gesture.getAllCommands())
                         {
                             if (first)
                             {
-                                line += commands.Key + ":" + commands.Value.toString();
+                                sb.Append(commands.Key + ":" + commands.Value.toString());
                                 first = false;
-                            } else
-                                line +=  "," + commands + ":" + commands.Value.toString();
+                            }
+                            else
+                                sb.Append("," + commands.Key + ":" + commands.Value.toString());
                         }
-                        line += "}";
+                        sb.Append("}");
                     }
-                    file.WriteLine(line);
+                    file.WriteLine(sb.ToString());
                 }
             }
         }

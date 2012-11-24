@@ -15,15 +15,16 @@ namespace GestureStudio
         public static double Width_To_Height_Ratio = 1;
         private int framesCount = 0;
         private GestureModel model;
-        private Gestures gestures;
         private bool disabled;
         private bool classifying;
 
-
+        private const int TableCellHeight = 30;
+        private const int TableCellWidth = 100;
+ 
         public MainWindow()
         {
             this.model = new GestureModel();
-            gestures = Gestures.GetInstance();
+            Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
@@ -32,32 +33,45 @@ namespace GestureStudio
 
         private void loadTable()
         {
+            Dictionary<int, GestureInfo> gestures = Gestures.getGestures();
+            // create table with correct size first
+            this.gestureBindingsTable.RowCount = gestures.Keys.Count + 1;
+            this.gestureBindingsTable.ColumnCount = Gestures.Applications.Length + 1;
+            this.gestureBindingsTable.MinimumSize
+                = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, gestureBindingsTable.RowCount * TableCellHeight);
+            int row = 0;
             
-            string[] gesture_names = { "here", "are", "the", "gesture", "names", "six" };
-            string[][] key_binding_test = { new string[] {"a", "b"}, 
-                                       new string[] {"y"},
-                                        new string[] {"z", "x"},
-                                        new string [] {"test", "data"},
-                                        new string [] {"gangnam", "style"},
-                                        new string [] {"herp", "derp"}};
-
-
-            for (int j = 0; j < gesture_names.Length; j++)
+		    // set column width
+            foreach (ColumnStyle style in gestureBindingsTable.ColumnStyles)
             {
-                Label l = new Label();
-                l.Text = gesture_names[j];
-                l.Size = new Size(200, 30);
-                gestureBindingsTable.Controls.Add(l, 0, j);
+                style.SizeType = SizeType.Absolute;
+                style.Width = TableCellWidth;
             }
-            for (int row = 0; row < gesture_names.Length; row++)
+
+            // first row of the table
+            for (int col = 1; col < gestureBindingsTable.ColumnCount; col++)
             {
-                for (int col = 0; col < key_binding_test[row].Length; col++)
+                Label appName = new Label();
+                appName.Text = Gestures.Applications[col - 1];
+                gestureBindingsTable.Controls.Add(appName, col, row);
+            }
+            row++;
+
+            // then assign values in to the table
+            foreach (KeyValuePair<int, GestureInfo> gesturePairs in gestures)
+            {
+                Label gestureName = new Label();
+
+                gestureName.Text = gesturePairs.Value.getName();
+                gestureBindingsTable.Controls.Add(gestureName, 0, row);
+                foreach (KeyValuePair<int, AppKeyInfo> commands in gesturePairs.Value.getAllCommands())
                 {
-                    Label l = new Label();
-                    l.Text = key_binding_test[row][col];
-                    l.Size = new Size(200, 30);
-                    gestureBindingsTable.Controls.Add(l, col + 1, row);
+                    Label key = new Label();
+                    key.Text = commands.Value.toString();
+                    // save to the row associated with specific app index
+                    gestureBindingsTable.Controls.Add(key, commands.Key + 1, row);
                 }
+                row++;
             }
         }
 

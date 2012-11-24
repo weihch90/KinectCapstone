@@ -31,26 +31,26 @@
             this.tutorialTab = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
-            this.gestureBindingsTable = new System.Windows.Forms.TableLayoutPanel();
-            this.setKeyBind = new System.Windows.Forms.Button();
-            this.homeTab = new System.Windows.Forms.TabPage();
-            this.homeLabel = new System.Windows.Forms.Label();
-            this.settingsButton = new System.Windows.Forms.Button();
-            this.mainWindow_status = new System.Windows.Forms.Label();
-            this.controlButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tutorialButton = new System.Windows.Forms.Button();
-            this.mainWindow_full = new System.Windows.Forms.PictureBox();
-            this.mainWindow_cropped = new System.Windows.Forms.PictureBox();
-            this.mainWindowTabs = new System.Windows.Forms.TabControl();
-            this.addGestureButton = new System.Windows.Forms.Button();
             this.editAppButton = new System.Windows.Forms.Button();
+            this.addGestureButton = new System.Windows.Forms.Button();
+            this.setKeyBind = new System.Windows.Forms.Button();
+            this.gestureBindingsTable = new System.Windows.Forms.TableLayoutPanel();
+            this.homeTab = new System.Windows.Forms.TabPage();
+            this.mainWindow_cropped = new System.Windows.Forms.PictureBox();
+            this.mainWindow_full = new System.Windows.Forms.PictureBox();
+            this.tutorialButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.controlButton = new System.Windows.Forms.Button();
+            this.mainWindow_status = new System.Windows.Forms.Label();
+            this.settingsButton = new System.Windows.Forms.Button();
+            this.homeLabel = new System.Windows.Forms.Label();
+            this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
             this.homeTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).BeginInit();
             this.mainWindowTabs.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,25 +88,24 @@
             this.settingsTab.UseVisualStyleBackColor = true;
             this.settingsTab.Click += new System.EventHandler(this.BindToApplications_Click);
             // 
-            // gestureBindingsTable
+            // editAppButton
             // 
-            this.gestureBindingsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
-            this.gestureBindingsTable.ColumnCount = 3;
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.Location = new System.Drawing.Point(57, 51);
-            this.gestureBindingsTable.Name = "gestureBindingsTable";
-            this.gestureBindingsTable.RowCount = 5;
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.gestureBindingsTable.Size = new System.Drawing.Size(395, 189);
-            this.gestureBindingsTable.TabIndex = 0;
-            this.gestureBindingsTable.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            this.editAppButton.Location = new System.Drawing.Point(301, 396);
+            this.editAppButton.Name = "editAppButton";
+            this.editAppButton.Size = new System.Drawing.Size(135, 51);
+            this.editAppButton.TabIndex = 2;
+            this.editAppButton.Text = "Edit Application";
+            this.editAppButton.UseVisualStyleBackColor = true;
+            // 
+            // addGestureButton
+            // 
+            this.addGestureButton.Location = new System.Drawing.Point(160, 395);
+            this.addGestureButton.Name = "addGestureButton";
+            this.addGestureButton.Size = new System.Drawing.Size(135, 51);
+            this.addGestureButton.TabIndex = 1;
+            this.addGestureButton.Text = "New Gesture";
+            this.addGestureButton.UseVisualStyleBackColor = true;
+            this.addGestureButton.Click += new System.EventHandler(this.addGestureButton_Click);
             // 
             // setKeyBind
             // 
@@ -116,6 +115,27 @@
             this.setKeyBind.TabIndex = 3;
             this.setKeyBind.Text = "Edit Binding";
             this.setKeyBind.UseVisualStyleBackColor = true;
+            // 
+            // gestureBindingsTable
+            // 
+            this.gestureBindingsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
+            this.gestureBindingsTable.ColumnCount = 1;
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.Location = new System.Drawing.Point(57, 51);
+            this.gestureBindingsTable.Name = "gestureBindingsTable";
+            this.gestureBindingsTable.RowCount = 1;
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.Size = new System.Drawing.Size(76, 31);
+            this.gestureBindingsTable.TabIndex = 0;
+            this.gestureBindingsTable.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // homeTab
             // 
@@ -135,36 +155,47 @@
             this.homeTab.Text = "Home";
             this.homeTab.UseVisualStyleBackColor = true;
             // 
-            // homeLabel
+            // mainWindow_cropped
             // 
-            this.homeLabel.AutoSize = true;
-            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 43.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.homeLabel.Location = new System.Drawing.Point(129, 13);
-            this.homeLabel.Name = "homeLabel";
-            this.homeLabel.Size = new System.Drawing.Size(373, 67);
-            this.homeLabel.TabIndex = 5;
-            this.homeLabel.Text = "Gesture Studio";
-            this.homeLabel.Click += new System.EventHandler(this.homeLabel_Click);
+            this.mainWindow_cropped.BackColor = System.Drawing.Color.Black;
+            this.mainWindow_cropped.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.mainWindow_cropped.Location = new System.Drawing.Point(449, 111);
+            this.mainWindow_cropped.Name = "mainWindow_cropped";
+            this.mainWindow_cropped.Size = new System.Drawing.Size(120, 120);
+            this.mainWindow_cropped.TabIndex = 9;
+            this.mainWindow_cropped.TabStop = false;
             // 
-            // settingsButton
+            // mainWindow_full
             // 
-            this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.settingsButton.Location = new System.Drawing.Point(421, 368);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(71, 60);
-            this.settingsButton.TabIndex = 3;
-            this.settingsButton.Text = "Settings";
-            this.settingsButton.UseVisualStyleBackColor = true;
-            this.settingsButton.Click += new System.EventHandler(this.BindToApplications_Click);
+            this.mainWindow_full.BackColor = System.Drawing.Color.Black;
+            this.mainWindow_full.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.mainWindow_full.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.mainWindow_full.Location = new System.Drawing.Point(49, 111);
+            this.mainWindow_full.Name = "mainWindow_full";
+            this.mainWindow_full.Size = new System.Drawing.Size(360, 240);
+            this.mainWindow_full.TabIndex = 8;
+            this.mainWindow_full.TabStop = false;
             // 
-            // mainWindow_status
+            // tutorialButton
             // 
-            this.mainWindow_status.AutoSize = true;
-            this.mainWindow_status.Location = new System.Drawing.Point(22, 442);
-            this.mainWindow_status.Name = "mainWindow_status";
-            this.mainWindow_status.Size = new System.Drawing.Size(38, 13);
-            this.mainWindow_status.TabIndex = 4;
-            this.mainWindow_status.Text = "Ready";
+            this.tutorialButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.tutorialButton.Location = new System.Drawing.Point(498, 367);
+            this.tutorialButton.Name = "tutorialButton";
+            this.tutorialButton.Size = new System.Drawing.Size(71, 60);
+            this.tutorialButton.TabIndex = 7;
+            this.tutorialButton.Text = "Tutorial";
+            this.tutorialButton.UseVisualStyleBackColor = true;
+            this.tutorialButton.Click += new System.EventHandler(this.TutorialButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(195, 80);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(214, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Control your applications with hand gestures";
             // 
             // controlButton
             // 
@@ -178,47 +209,36 @@
             this.controlButton.UseVisualStyleBackColor = true;
             this.controlButton.Click += new System.EventHandler(this.ControlButton_Click);
             // 
-            // label1
+            // mainWindow_status
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(195, 80);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(214, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Control your applications with hand gestures";
+            this.mainWindow_status.AutoSize = true;
+            this.mainWindow_status.Location = new System.Drawing.Point(22, 442);
+            this.mainWindow_status.Name = "mainWindow_status";
+            this.mainWindow_status.Size = new System.Drawing.Size(38, 13);
+            this.mainWindow_status.TabIndex = 4;
+            this.mainWindow_status.Text = "Ready";
             // 
-            // tutorialButton
+            // settingsButton
             // 
-            this.tutorialButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.tutorialButton.Location = new System.Drawing.Point(498, 367);
-            this.tutorialButton.Name = "tutorialButton";
-            this.tutorialButton.Size = new System.Drawing.Size(71, 60);
-            this.tutorialButton.TabIndex = 7;
-            this.tutorialButton.Text = "Tutorial";
-            this.tutorialButton.UseVisualStyleBackColor = true;
-            this.tutorialButton.Click += new System.EventHandler(this.TutorialButton_Click);
+            this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.settingsButton.Location = new System.Drawing.Point(421, 368);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(71, 60);
+            this.settingsButton.TabIndex = 3;
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.UseVisualStyleBackColor = true;
+            this.settingsButton.Click += new System.EventHandler(this.BindToApplications_Click);
             // 
-            // mainWindow_full
+            // homeLabel
             // 
-            this.mainWindow_full.BackColor = System.Drawing.Color.Black;
-            this.mainWindow_full.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.mainWindow_full.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.mainWindow_full.Location = new System.Drawing.Point(49, 111);
-            this.mainWindow_full.Name = "mainWindow_full";
-            this.mainWindow_full.Size = new System.Drawing.Size(360, 240);
-            this.mainWindow_full.TabIndex = 8;
-            this.mainWindow_full.TabStop = false;
-            // 
-            // mainWindow_cropped
-            // 
-            this.mainWindow_cropped.BackColor = System.Drawing.Color.Black;
-            this.mainWindow_cropped.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.mainWindow_cropped.Location = new System.Drawing.Point(449, 111);
-            this.mainWindow_cropped.Name = "mainWindow_cropped";
-            this.mainWindow_cropped.Size = new System.Drawing.Size(120, 120);
-            this.mainWindow_cropped.TabIndex = 9;
-            this.mainWindow_cropped.TabStop = false;
+            this.homeLabel.AutoSize = true;
+            this.homeLabel.Font = new System.Drawing.Font("Times New Roman", 43.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.homeLabel.Location = new System.Drawing.Point(129, 13);
+            this.homeLabel.Name = "homeLabel";
+            this.homeLabel.Size = new System.Drawing.Size(373, 67);
+            this.homeLabel.TabIndex = 5;
+            this.homeLabel.Text = "Gesture Studio";
+            this.homeLabel.Click += new System.EventHandler(this.homeLabel_Click);
             // 
             // mainWindowTabs
             // 
@@ -230,25 +250,6 @@
             this.mainWindowTabs.SelectedIndex = 0;
             this.mainWindowTabs.Size = new System.Drawing.Size(621, 495);
             this.mainWindowTabs.TabIndex = 0;
-            // 
-            // addGestureButton
-            // 
-            this.addGestureButton.Location = new System.Drawing.Point(160, 395);
-            this.addGestureButton.Name = "addGestureButton";
-            this.addGestureButton.Size = new System.Drawing.Size(135, 51);
-            this.addGestureButton.TabIndex = 1;
-            this.addGestureButton.Text = "New Gesture";
-            this.addGestureButton.UseVisualStyleBackColor = true;
-            this.addGestureButton.Click += new System.EventHandler(this.addGestureButton_Click);
-            // 
-            // editAppButton
-            // 
-            this.editAppButton.Location = new System.Drawing.Point(301, 396);
-            this.editAppButton.Name = "editAppButton";
-            this.editAppButton.Size = new System.Drawing.Size(135, 51);
-            this.editAppButton.TabIndex = 2;
-            this.editAppButton.Text = "Edit Application";
-            this.editAppButton.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -264,8 +265,8 @@
             this.settingsTab.ResumeLayout(false);
             this.homeTab.ResumeLayout(false);
             this.homeTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).EndInit();
             this.mainWindowTabs.ResumeLayout(false);
             this.ResumeLayout(false);
 
