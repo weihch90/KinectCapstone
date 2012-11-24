@@ -150,7 +150,7 @@ namespace GestureStudio
                 case 6:
                     return "Scissor";
                 case 7:
-                    return "Circle";
+                    return "Six";
                 case 8:
                     return "Stop";
             }

@@ -61,6 +61,9 @@ namespace GestureStudio
 
         // mode
         private ProgramMode mode;
+
+        // feature file path
+        private string featureFilePath;
         
         private GestureModel()
         {  
@@ -104,6 +107,7 @@ namespace GestureStudio
             this.mode = ProgramMode.Idle;
             this.classifier = null;
             this.trainer = null;
+            this.featureFilePath = null;
             
             GestureStudio.DisplayLoadingWindow("Loading Kinect Sensor...");
             ThreadPool.QueueUserWorkItem((state) =>
@@ -216,6 +220,11 @@ namespace GestureStudio
             this.mode = ProgramMode.Learning;
         }
 
+        public void SetFeatureFilePath(string featureFilePath)
+        {
+            this.featureFilePath = featureFilePath;
+        }
+
         public void Stop()
         {
             this.mode = ProgramMode.Idle;
@@ -231,6 +240,7 @@ namespace GestureStudio
             if (this.classifier == null)
             {
                 this.classifier = new GestureClassifier();
+                this.classifier.ProblemFile = this.featureFilePath;
                 this.classifier.CategoryDetected += classifier_CategoryDetected;
                 GestureStudio.DisplayLoadingWindow("Loading Image Classifier...");
                 this.classifier.BeginInitialize(() =>
@@ -263,9 +273,10 @@ namespace GestureStudio
             if (this.trainer == null)
             {
                 this.trainer = new GestureLearner();
+                this.trainer.ProblemFile = this.featureFilePath;
                 this.trainer.ImageCollectionFinished += trainer_ImageCollectionFinished;
                 this.trainer.NewModelReady += trainer_NewModelReady;
-                GestureStudio.DisplayLoadingWindow("Loading Image Trainer...");
+                GestureStudio.DisplayLoadingWindow("Loading Gesture Trainer...");
                 this.trainer.BeginInitialize(() =>
                 {
                     GestureStudio.HideLoadingWindow();

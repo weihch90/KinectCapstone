@@ -310,7 +310,7 @@ namespace GestureStudio
             this.model = svm.svm_train(problem, param);
         }
 
-        public void TrainModel(string featureFilePath, List<double[]> featureVector)
+        public void TrainModel(string featureFilePath, string completeFeatureFilePath, List<double[]> featureVector)
         {
             int dataLength = featureVector[0].Length;
             double[] featureData = MatrixUtil.FlattenMatrix(featureVector);
@@ -319,7 +319,7 @@ namespace GestureStudio
             rgbdfea rgbdfea = new rgbdfea();
             rgbdfea.appendFeature(rgbdFile, newFeature);
 
-            TrainModel(featureFilePath);
+            TrainModel(completeFeatureFilePath);
         }
     }
 }

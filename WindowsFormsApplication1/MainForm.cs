@@ -163,5 +163,16 @@ namespace GestureStudio
         {
             this.model.Stop();
         }
+
+        private void chooseFeatureFileButton_Click(object sender, EventArgs e)
+        {
+            var FD = new System.Windows.Forms.OpenFileDialog();
+            if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
+                this.featureFilePath.Text = fileToOpen;
+                this.model.SetFeatureFilePath(@fileToOpen);
+            }
+        }
     }
 }

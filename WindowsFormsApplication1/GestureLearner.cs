@@ -25,6 +25,7 @@ namespace GestureStudio
         private bool learning = false;
         private List<double[]> featureVector;
         private bool buildModelStarted = false;
+        private string problemFile = null;
 
         public GestureLearner()
         {
@@ -50,6 +51,11 @@ namespace GestureStudio
             get { return this.currentSampleCount; }
         }
 
+        public string ProblemFile
+        {
+            get { return this.problemFile; }
+            set { this.problemFile = value; }
+        }
 
         public void BeginInitialize(Action initializeCallback)
         {
@@ -130,8 +136,12 @@ namespace GestureStudio
 
         void Build(Action buildCallBack)
         {
-            string problemFile = @"my_rgbdfea_depth_first.mat";
-            this.modelBuilder.TrainModel(problemFile, featureVector);
+            if (this.problemFile == null)
+            {
+                this.problemFile = GestureStudio.ProblemFile; // Original feature file (rgbdfea_depth_first_small_dict_threshold1500.mat)
+            }
+            string featureFile = GestureStudio.FeatureFile; // Updated feature file, used for creating model
+            this.modelBuilder.TrainModel(this.problemFile, featureFile, featureVector);
             this.modelBuilder.SaveModel(GestureStudio.ModelFileName);
 
             // Model ready
