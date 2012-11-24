@@ -8,7 +8,7 @@ using System.IO;
 namespace GestureStudio
 {
     public class AppKeyInfo {
-        private string command; // app command
+        private string command; // app command, we can user other ways to store commands
 
         public AppKeyInfo(string command)
         {
@@ -112,8 +112,12 @@ namespace GestureStudio
                 string line = lines[i];
 
                 string gestureId = line.Substring(0, line.IndexOf(":"));
-                string name = line.Substring(line.IndexOf(":") + 1, line.IndexOf("{") - line.IndexOf(":") - 1);
-                
+                string name;
+
+                if(line.IndexOf("{") == -1)
+                    name = line.Substring(line.IndexOf(":") + 1, line.Length - line.IndexOf(":") - 1);
+                else
+                    name = line.Substring(line.IndexOf(":") + 1, line.IndexOf("{") - line.IndexOf(":") - 1);
                 GestureInfo gesture = new GestureInfo(name);
 
                 // if it is bined to specific key command to specific application
@@ -228,6 +232,15 @@ namespace GestureStudio
             {
                 gestureList[gestureId].setAppCommand(appId, new AppKeyInfo(command));
             }
+        }
+
+        public static void setAppKeyForGesture(int gestureId, int appId, AppKeyInfo keyInfo)
+        {
+            if (containGestureId(gestureId))
+            {
+                gestureList[gestureId].setAppCommand(appId, keyInfo);
+            }
+
         }
 
         public static void deleteAppKeyForGesture(int gestureId, int appId) {
