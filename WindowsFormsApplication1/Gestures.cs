@@ -86,20 +86,24 @@ namespace GestureStudio
     {
         private static Dictionary<int, GestureInfo> gestureList;  // dictionary<id, GestureInfo>
 
-        private static Gestures instance;
+        private static Gestures instance = null;
 
-        public static Gestures GetInstance()
+        public static Gestures Instance
         {
-            if (instance == null)
+            get
             {
-                instance = new Gestures();
+                if (instance == null)
+                {
+                    instance = new Gestures();
+                }
+
+                return instance;
             }
-            return instance;
         }
 
         // private constructor
         private Gestures() {
-            loadData(GestureStudio.Gestures_Data_Path);
+            //loadData(GestureStudio.Gestures_Data_Path);
         }
 
         public static void loadData(string path)

@@ -21,6 +21,22 @@ namespace GestureStudio
     /// </summary>
     public class GestureModel
     {
+        private static GestureModel instance = null;
+
+        public static GestureModel Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GestureModel();
+                    instance.BeginInitialize();
+                }
+
+                return instance;
+            }
+        }
+
         /// <summary>
         /// Frame ready for view
         /// </summary>
@@ -46,8 +62,8 @@ namespace GestureStudio
         // mode
         private ProgramMode mode;
         
-        public GestureModel()
-        {            
+        private GestureModel()
+        {  
         }
 
         /// <summary>

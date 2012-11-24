@@ -13,7 +13,6 @@ namespace GestureStudio
 
         public MainForm()
         {
-            this.model = new GestureModel();
             this.disabled = false;
             InitializeComponent();
         }
@@ -30,6 +29,9 @@ namespace GestureStudio
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // instance initialization requires UI thread, wait until load
+            this.model = GestureModel.Instance;
+
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
@@ -115,8 +117,6 @@ namespace GestureStudio
             };
 
             fpsCounter.Start();
-
-            this.model.BeginInitialize();
         }
                 
         private String LabelToString(int i)

@@ -22,17 +22,13 @@ namespace GestureStudio
 
         public MainWindow()
         {
-            this.model = new GestureModel();
-            gestures = Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
-            loadTable();
         }
 
-        private void loadTable()
-        {
-            
+        private void LoadTable()
+        {            
             string[] gesture_names = { "here", "are", "the", "gesture", "names", "six" };
             string[][] key_binding_test = { new string[] {"a", "b"}, 
                                        new string[] {"y"},
@@ -63,6 +59,11 @@ namespace GestureStudio
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            // instance initialization requires UI thread, wait until load
+            this.model = GestureModel.Instance;
+            this.gestures = Gestures.Instance;
+            this.LoadTable();
+
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
@@ -130,54 +131,6 @@ namespace GestureStudio
                         this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);
             };
-
-            /*
-            this.model.ImageCollectionFinished += (s, args) =>
-            {
-                this.model.Stop();
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "Image collection finished. Building new prediction model now...";
-                }, null);
-            };
-            */
-            /*
-            this.model.NewModelReady += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "New prediction model ready.";
-                }, null);
-            };
-             */
-            /*
-            this.model.StatusChanged += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.modelStatusDisplay.Text = args.Status;
-                }, null);
-            };
-            */
-            /*
-            System.Timers.Timer fpsCounter = new System.Timers.Timer(1000);
-            fpsCounter.AutoReset = true;
-            fpsCounter.Elapsed += (src, args) =>
-            {
-                if (disabled)
-                {
-                    return;
-                }
-                ctx.Post((o) =>
-                {
-                    this.framesPerSecond.Text = "FPS = " + framesCount;
-                    framesCount = 0;
-                }, null);
-            };
-
-            fpsCounter.Start();
-            */
-            this.model.BeginInitialize();
         }
 
         private String LabelToString(int i)
