@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -27,6 +28,8 @@ namespace GestureStudio
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
+
+
         }
 
         private void loadTable()
@@ -47,6 +50,10 @@ namespace GestureStudio
             }
 
             // first row of the table
+            Label corner = new Label();
+            corner.Text = "Gesture\\App";
+            gestureBindingsTable.Controls.Add(corner, 0, 0);
+
             for (int col = 1; col < gestureBindingsTable.ColumnCount; col++)
             {
                 Label appName = new Label();
@@ -79,6 +86,38 @@ namespace GestureStudio
             this.model = GestureModel.Instance;
             this.gestures = Gestures.Instance;
             this.loadTable();
+
+            // direct to tutorial page if necessary
+            string[] lines = File.ReadAllLines(GestureStudio.SettingFile);
+            string[] directTutorial = lines[0].Split(':');
+            if (directTutorial[0] == "directTutorial" && directTutorial[1] == "yes")
+            {
+                using (DirectToTutorialForm directForm = new DirectToTutorialForm())
+                {
+                    DialogResult result = directForm.ShowDialog();
+                    if (DialogResult.Yes == result)
+                    {
+                        this.mainWindowTabs.SelectedTab = this.tutorialTab;
+                    }
+                    else if (DialogResult.No == result)
+                    {
+                        // don't show this dialog next time
+                        if (directForm.isIgnoreChecked())
+                        {
+                            using (StreamWriter file = new StreamWriter(GestureStudio.SettingFile))
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append(directTutorial[0] + ":no");
+                                file.WriteLine(sb.ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                    }
+
+                }
+            }
 
             SynchronizationContext ctx = SynchronizationContext.Current;
 
@@ -147,6 +186,8 @@ namespace GestureStudio
                         this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);
             };
+
+
         }
 
         private String LabelToString(int i)
@@ -269,40 +310,6 @@ namespace GestureStudio
                         gestureBindingsTable.Controls.Clear();
                         loadTable();
                         gestureBindingsTable.Show();
-
-                        //int rowIndex = Gestures.getGestureIndex(gestureName) + 1;
-                        //gestureBindingsTable.RowStyles.RemoveAt(rowIndex);
-                        
-                        // adding new row
-                        //GestureInfo gesture = Gestures.getGestures()[Gestures.getGestureId(gestureName)];
-                        //RowStyle style = new RowStyle();
-                        //gestureBindingsTable.RowStyles.Add(style);
-
-                        /*Dictionary<int, AppKeyInfo> commands = gesture.getAllCommands();
-                        for (int i = 1; i < gestureBindingsTable.ColumnCount; i++)
-                        {
-                            gestureBindingsTable.Controls.RemoveAt(i + rowIndex * gestureBindingsTable.ColumnCount);
-                            Label key = new Label();
-                            if (commands.ContainsKey(i))
-                                key.Text = commands[i].toString();
-                            else
-                                key.Text = "";
-                            // save to the row associated with specific app index
-                            gestureBindingsTable.Controls.Add(key, i, rowIndex);
-                        }
-                        */
-
-                        //gestureNameLabel.Text = gesture.getName();
-                        //gestureBindingsTable.Controls.Add(gestureNameLabel, 0, rowIndex);
-
-                        /*foreach (KeyValuePair<int, AppKeyInfo> commands in gesture.getAllCommands())
-                        {
-                            Label key = new Label();
-                            key.Text = commands.Value.toString();
-                            // save to the row associated with specific app index
-                            gestureBindingsTable.Controls.Add(key, commands.Key + 1, rowIndex);
-                        }
-                        */
 
                     }
                     //label1.Text = mainForm.getKeyBind();
