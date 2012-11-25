@@ -257,21 +257,18 @@ namespace GestureStudio
             {
                 if (DialogResult.OK == keyForm.ShowDialog())
                 {
-                    string temp = keyForm.getGestureName() + " " 
-                        + keyForm.getAppName() + " " + keyForm.getKeyBind();
-
                     string gestureName = keyForm.getGestureName();
                     string appName = keyForm.getAppName();
 
-                    this.mainWindow_status.Text = temp;
                     if (keyForm.getKeyBind() != null && keyForm.getKeyBind().Trim() != "" 
                         && keyForm.getGestureName() != null && keyForm.getAppName() != null)
                     {
                         Gestures.setAppKeyForGesture(gestureName, appName, keyForm.getKeyBind());
                         Gestures.saveData();
-
+                        gestureBindingsTable.Hide();
                         gestureBindingsTable.Controls.Clear();
                         loadTable();
+                        gestureBindingsTable.Show();
 
                         //int rowIndex = Gestures.getGestureIndex(gestureName) + 1;
                         //gestureBindingsTable.RowStyles.RemoveAt(rowIndex);
