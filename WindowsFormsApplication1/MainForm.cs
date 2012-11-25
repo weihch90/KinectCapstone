@@ -13,7 +13,6 @@ namespace GestureStudio
 
         public MainForm()
         {
-            this.model = new GestureModel();
             this.disabled = false;
             InitializeComponent();
         }
@@ -30,6 +29,9 @@ namespace GestureStudio
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // instance initialization requires UI thread, wait until load
+            this.model = GestureModel.Instance;
+
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
@@ -115,8 +117,6 @@ namespace GestureStudio
             };
 
             fpsCounter.Start();
-
-            this.model.BeginInitialize();
         }
                 
         private String LabelToString(int i)
@@ -162,6 +162,17 @@ namespace GestureStudio
         private void stopButton_Click(object sender, EventArgs e)
         {
             this.model.Stop();
+        }
+
+        private void chooseFeatureFileButton_Click(object sender, EventArgs e)
+        {
+            var FD = new System.Windows.Forms.OpenFileDialog();
+            if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
+                this.featureFilePath.Text = fileToOpen;
+                this.model.SetFeatureFilePath(@fileToOpen);
+            }
         }
     }
 }

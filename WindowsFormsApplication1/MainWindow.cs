@@ -15,6 +15,7 @@ namespace GestureStudio
         public static double Width_To_Height_Ratio = 1;
         private int framesCount = 0;
         private GestureModel model;
+        private Gestures gestures;
         private bool disabled;
         private bool classifying;
 
@@ -23,12 +24,9 @@ namespace GestureStudio
  
         public MainWindow()
         {
-            this.model = new GestureModel();
-            Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
-            loadTable();
         }
 
         private void loadTable()
@@ -77,6 +75,11 @@ namespace GestureStudio
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            // instance initialization requires UI thread, wait until load
+            this.model = GestureModel.Instance;
+            this.gestures = Gestures.Instance;
+            this.loadTable();
+
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
@@ -144,54 +147,6 @@ namespace GestureStudio
                         this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);
             };
-
-            /*
-            this.model.ImageCollectionFinished += (s, args) =>
-            {
-                this.model.Stop();
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "Image collection finished. Building new prediction model now...";
-                }, null);
-            };
-            */
-            /*
-            this.model.NewModelReady += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "New prediction model ready.";
-                }, null);
-            };
-             */
-            /*
-            this.model.StatusChanged += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.modelStatusDisplay.Text = args.Status;
-                }, null);
-            };
-            */
-            /*
-            System.Timers.Timer fpsCounter = new System.Timers.Timer(1000);
-            fpsCounter.AutoReset = true;
-            fpsCounter.Elapsed += (src, args) =>
-            {
-                if (disabled)
-                {
-                    return;
-                }
-                ctx.Post((o) =>
-                {
-                    this.framesPerSecond.Text = "FPS = " + framesCount;
-                    framesCount = 0;
-                }, null);
-            };
-
-            fpsCounter.Start();
-            */
-            this.model.BeginInitialize();
         }
 
         private String LabelToString(int i)
@@ -211,7 +166,7 @@ namespace GestureStudio
                 case 6:
                     return "Scissor";
                 case 7:
-                    return "Circle";
+                    return "Six";
                 case 8:
                     return "Stop";
             }

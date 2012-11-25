@@ -88,13 +88,18 @@ namespace GestureStudio
 
         private static Gestures instance;
         public static string[] Applications = {"WMP", "PP", "app3", "app4"};
-        public static Gestures GetInstance()
+
+        public static Gestures Instance
         {
-            if (instance == null)
+            get
             {
-                instance = new Gestures();
+                if (instance == null)
+                {
+                    instance = new Gestures();
+                }
+
+                return instance;
             }
-            return instance;
         }
 
         // private constructor
