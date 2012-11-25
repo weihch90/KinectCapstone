@@ -76,6 +76,13 @@
     <Compile Include="GestureLearner.cs" />
     <Compile Include="FloodFill.cs" />
     <Compile Include="GestureModel.cs" />
+    <Compile Include="Gestures.cs" />
+    <Compile Include="KeyBindForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyBindForm.Designer.cs">
+      <DependentUpon>KeyBindForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadingWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +104,12 @@
     <Compile Include="LibSVM\svm_node.cs" />
     <Compile Include="LibSVM\svm_parameter.cs" />
     <Compile Include="LibSVM\svm_problem.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MatrixUtil.cs" />
     <Compile Include="Png16Reader.cs" />
     <Compile Include="Program.cs" />
@@ -110,11 +123,17 @@
     <Compile Include="TrainingStartForm.Designer.cs">
       <DependentUpon>TrainingStartForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="KeyBindForm.resx">
+      <DependentUpon>KeyBindForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoadingWindow.resx">
       <DependentUpon>LoadingWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,6 +178,7 @@
     <Content Include="Dictionary.dic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="data\gesturesInfo.data" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
