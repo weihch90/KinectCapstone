@@ -38,8 +38,8 @@ namespace GestureStudio
             // create table with correct size first
             this.gestureBindingsTable.RowCount = gestures.Keys.Count + 1;
             this.gestureBindingsTable.ColumnCount = Gestures.Applications.Length + 1;
-            this.gestureBindingsTable.MinimumSize
-                = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, gestureBindingsTable.RowCount * TableCellHeight);
+            this.gestureBindingsTable.Size
+                = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, (gestureBindingsTable.RowCount + 1) * TableCellHeight);
             int row = 0;
             
 		    // set column width
@@ -322,11 +322,26 @@ namespace GestureStudio
             }
         }
 
-        private void addTableRow(int index)
+        private void chooseDataFile_Click(object sender, EventArgs e)
         {
-
-
+            DialogResult result = chooseFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string file = chooseFileDialog.FileName;
+                try
+                {
+                    Gestures.loadData(file);
+                    gestureBindingsTable.Hide();
+                    gestureBindingsTable.Controls.Clear();
+                    loadTable();
+                    gestureBindingsTable.Show();
+                }
+                catch (IOException)
+                {
+                }
+            }
         }
+
 
         // end settings tab buttons
 
@@ -351,6 +366,12 @@ namespace GestureStudio
         {
 
         }
+
+        private void chooseDataFileDialog_Ok(object sender, CancelEventArgs e)
+        {
+
+        }
+
 
 
     }

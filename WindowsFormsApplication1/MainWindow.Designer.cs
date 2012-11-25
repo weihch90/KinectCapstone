@@ -45,6 +45,8 @@
             this.settingsButton = new System.Windows.Forms.Button();
             this.homeLabel = new System.Windows.Forms.Label();
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
+            this.chooseDataFileButton = new System.Windows.Forms.Button();
+            this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
@@ -75,6 +77,7 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.chooseDataFileButton);
             this.settingsTab.Controls.Add(this.editAppButton);
             this.settingsTab.Controls.Add(this.addGestureButton);
             this.settingsTab.Controls.Add(this.setKeyBind);
@@ -90,9 +93,9 @@
             // 
             // editAppButton
             // 
-            this.editAppButton.Location = new System.Drawing.Point(301, 396);
+            this.editAppButton.Location = new System.Drawing.Point(168, 401);
             this.editAppButton.Name = "editAppButton";
-            this.editAppButton.Size = new System.Drawing.Size(135, 51);
+            this.editAppButton.Size = new System.Drawing.Size(135, 52);
             this.editAppButton.TabIndex = 2;
             this.editAppButton.Text = "Edit Application";
             this.editAppButton.UseVisualStyleBackColor = true;
@@ -100,7 +103,7 @@
             // 
             // addGestureButton
             // 
-            this.addGestureButton.Location = new System.Drawing.Point(160, 395);
+            this.addGestureButton.Location = new System.Drawing.Point(27, 401);
             this.addGestureButton.Name = "addGestureButton";
             this.addGestureButton.Size = new System.Drawing.Size(135, 51);
             this.addGestureButton.TabIndex = 1;
@@ -110,9 +113,9 @@
             // 
             // setKeyBind
             // 
-            this.setKeyBind.Location = new System.Drawing.Point(442, 395);
+            this.setKeyBind.Location = new System.Drawing.Point(309, 401);
             this.setKeyBind.Name = "setKeyBind";
-            this.setKeyBind.Size = new System.Drawing.Size(135, 51);
+            this.setKeyBind.Size = new System.Drawing.Size(135, 52);
             this.setKeyBind.TabIndex = 3;
             this.setKeyBind.Text = "Edit Binding";
             this.setKeyBind.UseVisualStyleBackColor = true;
@@ -122,19 +125,19 @@
             // 
             this.gestureBindingsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
             this.gestureBindingsTable.ColumnCount = 1;
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.Location = new System.Drawing.Point(57, 51);
+            this.gestureBindingsTable.Location = new System.Drawing.Point(44, 40);
             this.gestureBindingsTable.Name = "gestureBindingsTable";
             this.gestureBindingsTable.RowCount = 1;
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.gestureBindingsTable.Size = new System.Drawing.Size(76, 31);
             this.gestureBindingsTable.TabIndex = 0;
             this.gestureBindingsTable.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
@@ -253,6 +256,20 @@
             this.mainWindowTabs.Size = new System.Drawing.Size(621, 495);
             this.mainWindowTabs.TabIndex = 0;
             // 
+            // chooseDataFileButton
+            // 
+            this.chooseDataFileButton.Location = new System.Drawing.Point(450, 401);
+            this.chooseDataFileButton.Name = "chooseDataFileButton";
+            this.chooseDataFileButton.Size = new System.Drawing.Size(135, 52);
+            this.chooseDataFileButton.TabIndex = 4;
+            this.chooseDataFileButton.Text = "Choose Data File";
+            this.chooseDataFileButton.UseVisualStyleBackColor = true;
+            this.chooseDataFileButton.Click += new System.EventHandler(this.chooseDataFile_Click);
+            // 
+            // chooseFileDialog
+            // 
+            this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,6 +310,8 @@
         private System.Windows.Forms.TabControl mainWindowTabs;
         private System.Windows.Forms.Button editAppButton;
         private System.Windows.Forms.Button addGestureButton;
+        private System.Windows.Forms.Button chooseDataFileButton;
+        private System.Windows.Forms.OpenFileDialog chooseFileDialog;
 
     }
 }

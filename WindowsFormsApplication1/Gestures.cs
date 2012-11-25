@@ -88,6 +88,7 @@ namespace GestureStudio
 
         private static Gestures instance;
         public static string[] Applications = {"WMP", "PP", "app3", "app4"};
+        private static string dataPath = GestureStudio.Gestures_Data_Path;
 
         public static Gestures Instance
         {
@@ -107,8 +108,14 @@ namespace GestureStudio
             loadData(GestureStudio.Gestures_Data_Path);
         }
 
+        public static string getPath()
+        {
+            return dataPath;
+        }
+
         public static void loadData(string path)
         {
+            dataPath = path;
             string[] lines = File.ReadAllLines(path);
 
             gestureList = new Dictionary<int, GestureInfo>();
@@ -149,7 +156,7 @@ namespace GestureStudio
 
         public static void saveData()
         {
-            saveData(GestureStudio.Gestures_Data_Path);
+            saveData(dataPath);
         }
 
         /*
