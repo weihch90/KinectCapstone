@@ -67,7 +67,7 @@ namespace GestureStudio
                 foreach (KeyValuePair<int, AppKeyInfo> commands in gesturePairs.Value.getAllCommands())
                 {
                     Label key = new Label();
-                    key.Text = commands.Value.toString();
+                    key.Text = commands.Value.ToString();
                     // save to the row associated with specific app index
                     gestureBindingsTable.Controls.Add(key, commands.Key + 1, row);
                 }
@@ -268,7 +268,108 @@ namespace GestureStudio
 
         // Settings tab buttons
 
+        private void addGestureButton_Click(object sender, EventArgs e)
+        {
+            // returns a string form of the given keybinding or 
+            // null if no text was inputted to the text box;
+            //usage: 
+            using (MainForm mainForm = new MainForm())
+            {
+                if (DialogResult.OK == mainForm.ShowDialog())
+                {
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
 
+            }
+
+        }
+
+        private void editApplicationButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editBindingButton_Click(object sender, EventArgs e)
+        {
+            // returns a string form of the given keybinding or 
+            // null if no text was inputted to the text box;
+            //usage: 
+            using (KeyBindForm keyForm = new KeyBindForm())
+            {
+                if (DialogResult.OK == keyForm.ShowDialog())
+                {
+                    string temp = keyForm.getGestureName() + " " 
+                        + keyForm.getAppName() + " " + keyForm.getKeyBind();
+
+                    string gestureName = keyForm.getGestureName();
+                    string appName = keyForm.getAppName();
+
+                    this.mainWindow_status.Text = temp;
+                    if (keyForm.getKeyBind() != null && keyForm.getKeyBind().Trim() != "" 
+                        && keyForm.getGestureName() != null && keyForm.getAppName() != null)
+                    {
+                        Gestures.setAppKeyForGesture(gestureName, appName, keyForm.getKeyBind());
+                        Gestures.saveData();
+
+                        gestureBindingsTable.Controls.Clear();
+                        loadTable();
+
+                        //int rowIndex = Gestures.getGestureIndex(gestureName) + 1;
+                        //gestureBindingsTable.RowStyles.RemoveAt(rowIndex);
+                        
+                        // adding new row
+                        //GestureInfo gesture = Gestures.getGestures()[Gestures.getGestureId(gestureName)];
+                        //RowStyle style = new RowStyle();
+                        //gestureBindingsTable.RowStyles.Add(style);
+
+                        /*Dictionary<int, AppKeyInfo> commands = gesture.getAllCommands();
+                        for (int i = 1; i < gestureBindingsTable.ColumnCount; i++)
+                        {
+                            gestureBindingsTable.Controls.RemoveAt(i + rowIndex * gestureBindingsTable.ColumnCount);
+                            Label key = new Label();
+                            if (commands.ContainsKey(i))
+                                key.Text = commands[i].toString();
+                            else
+                                key.Text = "";
+                            // save to the row associated with specific app index
+                            gestureBindingsTable.Controls.Add(key, i, rowIndex);
+                        }
+                        */
+
+                        //gestureNameLabel.Text = gesture.getName();
+                        //gestureBindingsTable.Controls.Add(gestureNameLabel, 0, rowIndex);
+
+                        /*foreach (KeyValuePair<int, AppKeyInfo> commands in gesture.getAllCommands())
+                        {
+                            Label key = new Label();
+                            key.Text = commands.Value.toString();
+                            // save to the row associated with specific app index
+                            gestureBindingsTable.Controls.Add(key, commands.Key + 1, rowIndex);
+                        }
+                        */
+
+                    }
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
+
+            }
+        }
+
+        private void addTableRow(int index)
+        {
+
+
+        }
+
+        // end settings tab buttons
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
@@ -290,26 +391,6 @@ namespace GestureStudio
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
-        }
-
-        private void addGestureButton_Click(object sender, EventArgs e)
-        {
-            // returns a string form of the given keybinding or 
-            // null if no text was inputted to the text box;
-            //usage: 
-            using (MainForm mainForm = new MainForm())
-            {
-                if (DialogResult.OK == mainForm.ShowDialog())
-                {
-                    //label1.Text = mainForm.getKeyBind();
-                }
-                else
-                {
-                    //nothing was found
-                }
-
-            }
-            
         }
 
 

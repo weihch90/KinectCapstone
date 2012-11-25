@@ -96,6 +96,7 @@
             this.editAppButton.TabIndex = 2;
             this.editAppButton.Text = "Edit Application";
             this.editAppButton.UseVisualStyleBackColor = true;
+            this.editAppButton.Click += new System.EventHandler(this.editApplicationButton_Click);
             // 
             // addGestureButton
             // 
@@ -115,12 +116,13 @@
             this.setKeyBind.TabIndex = 3;
             this.setKeyBind.Text = "Edit Binding";
             this.setKeyBind.UseVisualStyleBackColor = true;
+            this.setKeyBind.Click += new System.EventHandler(this.editBindingButton_Click);
             // 
             // gestureBindingsTable
             // 
             this.gestureBindingsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetDouble;
             this.gestureBindingsTable.ColumnCount = 1;
-            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.gestureBindingsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -128,11 +130,11 @@
             this.gestureBindingsTable.Location = new System.Drawing.Point(57, 51);
             this.gestureBindingsTable.Name = "gestureBindingsTable";
             this.gestureBindingsTable.RowCount = 1;
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.gestureBindingsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.gestureBindingsTable.Size = new System.Drawing.Size(76, 31);
             this.gestureBindingsTable.TabIndex = 0;
             this.gestureBindingsTable.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);

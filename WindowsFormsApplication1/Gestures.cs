@@ -25,7 +25,7 @@ namespace GestureStudio
             return command;
         }
 
-        public string toString()
+        public override string ToString()
         {
             return command;
         }
@@ -87,7 +87,7 @@ namespace GestureStudio
         private static Dictionary<int, GestureInfo> gestureList;  // dictionary<id, GestureInfo>
 
         private static Gestures instance;
-        public static string[] Applications = {"app1", "app2", "app3", "app4"};
+        public static string[] Applications = {"WMP", "PP", "app3", "app4"};
         public static Gestures GetInstance()
         {
             if (instance == null)
@@ -173,11 +173,11 @@ namespace GestureStudio
                         {
                             if (first)
                             {
-                                sb.Append(commands.Key + ":" + commands.Value.toString());
+                                sb.Append(commands.Key + ":" + commands.Value.ToString());
                                 first = false;
                             }
                             else
-                                sb.Append("," + commands.Key + ":" + commands.Value.toString());
+                                sb.Append("," + commands.Key + ":" + commands.Value.ToString());
                         }
                         sb.Append("}");
                     }
@@ -201,6 +201,56 @@ namespace GestureStudio
         public static int getGesturesCount()
         {
             return gestureList.Count;
+        }
+
+        /*
+         * return gestureId of given gesture name
+         */
+        public static int getGestureId(string name)
+        {
+            foreach (int i in gestureList.Keys)
+            {
+                if (gestureList[i].getName() == name)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /*
+         * return gestureId of given gesture name
+         */
+        public static int getGestureIndex(string name)
+        {
+            int count = 0;
+            foreach (int i in gestureList.Keys)
+            {
+                if (gestureList[i].getName() == name)
+                {
+                    return count;
+                }
+                count++;
+            }
+
+            return -1;
+        }
+
+        public static int getAppIndex(string appName)
+        {
+            for (int i = 0; i < Applications.Length; i++)
+                if (Applications[i] == appName)
+                    return i;
+            return -1;
+        }
+
+        public static int getAppId(string appName)
+        {
+            for (int i = 0; i < Applications.Length; i++)
+                if (Applications[i] == appName)
+                    return i;
+            return -1;
         }
 
         /*
@@ -233,14 +283,26 @@ namespace GestureStudio
                 return null;
         }
 
-        public static void setAppKeyForGesture(int gestureId, int appId, string command)
+
+
+        public static void setAppKeyForGesture(string gestureName, string appName, string command)
         {
-            if (containGestureId(gestureId))
-            {
-                gestureList[gestureId].setAppCommand(appId, new AppKeyInfo(command));
-            }
+            setAppKeyForGesture(gestureName, appName, new AppKeyInfo(command));
         }
 
+        public static void setAppKeyForGesture(string gestureName, string appName, AppKeyInfo keyInfo)
+        {
+            int gestureId =getGestureId(gestureName);
+            int appId = getAppId(appName);
+            if (gestureId != -1 && appId != -1)
+                gestureList[gestureId].setAppCommand(appId, keyInfo);
+        }
+
+        public static void setAppKeyForGesture(int gestureId, int appId, string command)
+        {
+            setAppKeyForGesture(gestureId, appId, new AppKeyInfo(command));
+        }
+        
         public static void setAppKeyForGesture(int gestureId, int appId, AppKeyInfo keyInfo)
         {
             if (containGestureId(gestureId))
