@@ -17,6 +17,7 @@ namespace GestureStudio
         private int framesCount = 0;
         private GestureModel model;
         private Gestures gestures;
+        private Control controller;
         private bool disabled;
         private bool classifying;
 
@@ -85,6 +86,7 @@ namespace GestureStudio
             // instance initialization requires UI thread, wait until load
             this.model = GestureModel.Instance;
             this.gestures = Gestures.Instance;
+            this.controller = new Control();
             this.loadTable();
 
             // direct to tutorial page if necessary
@@ -181,7 +183,17 @@ namespace GestureStudio
                 {
                     int label = (int)o;
                     if (GestureStudio.GENERIC_GESTURES)
+                    {
                         this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
+                        // lookup which window is focused and find if it is in the gestures list
+                        // string focusedApp = ...
+                        // int appId = Gestures.getAppId(focusedApp);
+                        AppKeyInfo appInfo = Gestures.getAppKeyForGesture(label, 0 /*appId*/);
+                        if (appInfo == null)
+                            return;
+
+                        this.controller.parseThenExecute(appInfo.getCommand());
+                    } 
                     else
                         this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";
                 }, args.CategoryLabel);

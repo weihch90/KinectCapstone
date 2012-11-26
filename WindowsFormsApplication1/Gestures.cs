@@ -54,7 +54,10 @@ namespace GestureStudio
 
         public AppKeyInfo getAppKeyCommand(int id)
         {
-            return appkeys[id];
+            if (appkeys.ContainsKey(id))
+                return appkeys[id];
+            else
+                return null;
         }
 
         public Dictionary<int, AppKeyInfo> getAllCommands()

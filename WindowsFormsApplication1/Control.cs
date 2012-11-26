@@ -13,8 +13,9 @@ namespace GestureStudio
         bool firstRun;
         Stopwatch stopWatch;
         
-        public Control(int delaybuffer = 400)
+        public Control(int delaybuffer = 700)
         {
+            // http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
             stopWatch = new Stopwatch();
             buffer = delaybuffer;
             firstRun = true;
@@ -27,7 +28,50 @@ namespace GestureStudio
             stopWatch.Start();
         }
 
-        public bool ctrlShiftThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        public bool parseThenExecute(string command, int delay = 100, string app = "wmplayer") {
+            if (command == null)
+                return false;
+
+            string[] commands = command.Split('-');
+            int len = commands.Length;
+            if (len == 0)
+                return false;
+
+            int codeslen = len - 1;
+            ushort[] codes = new ushort[codeslen];
+            for (int i = 0; i < codeslen; i++)
+            {
+                ushort code = stringToHexCode(commands[i]);
+                if (code == 0)
+                    return false;
+                codes[i] = code;
+            }
+
+            char press = commands[len - 1][0];
+
+            if (!focusApp(app))
+                return false;
+
+            System.Threading.Thread.Sleep(delay);
+            holdOptionsThenPress(codes, press);
+
+            return true;
+        }
+
+        private ushort stringToHexCode(string key)
+        {
+            if (key.Equals("ctrl"))
+                return (ushort) 0x1d;
+            if (key.Equals("alt"))
+                return (ushort) 0x38;
+            if (key.Equals("shift"))
+                return (ushort) 0x2a;
+            
+
+            return 0;
+        }
+
+        public bool ctrlShiftThenPress(char ch, int delay = 100, string app = "wmplayer")
         {
             if (!focusApp(app))
                 return false;
@@ -38,7 +82,7 @@ namespace GestureStudio
             return true;
         }
 
-        public bool ctrlThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        public bool ctrlThenPress(char ch, int delay = 100, string app = "wmplayer")
         {
             if (!focusApp(app))
                 return false;
@@ -49,7 +93,7 @@ namespace GestureStudio
             return true;
         }
 
-        public bool shiftThenPress(char ch, int delay = 1000, string app = "wmplayer")
+        public bool shiftThenPress(char ch, int delay = 100, string app = "wmplayer")
         {
             if (!focusApp(app))
                 return false;
@@ -107,6 +151,21 @@ namespace GestureStudio
             IntPtr WindowHandle = processes[0].MainWindowHandle;
 
             WMP.SwitchWindow(WindowHandle);
+            return true;
+        }
+
+        public bool volumeUp() {
+            /* investigate why this doesn't work... */
+            if (!checkBuffer())
+            {
+                stopWatch.Start();
+                return false;
+            }
+            System.Threading.Thread.Sleep(100);
+            KeyDown(0xAF);
+            System.Threading.Thread.Sleep(100);
+            KeyUp(0xAF);
+            stopWatch.Start();
             return true;
         }
 
