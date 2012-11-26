@@ -11,7 +11,10 @@ namespace GestureStudio
     {
         public const string GestureLib_DictionartyPath = @"Dictionary.dic";
         public const string ModelFileName = @"model_new.svm";
-        public const string Gestures_Data_Path = @"../../data/gesturesInfo.data"; 
+        public const string ProblemFile = @"rgbdfea_depth_first_small_dict_threshold1500.mat";
+        public const string FeatureFile = @"my_rgbdfea_depth_first.mat";
+        public const string Gestures_Data_Path = @"../../data/gesturesInfo.data";
+        public const string SettingFile = @"../../data/settings.data";
         
         private const bool useNewDesign = true;
         public static bool GENERIC_GESTURES = false;

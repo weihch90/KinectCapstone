@@ -31,7 +31,6 @@ namespace GestureStudio
             this.message = new System.Windows.Forms.RichTextBox();
             this.fullFrameStream = new System.Windows.Forms.PictureBox();
             this.croppedFrameStream = new System.Windows.Forms.PictureBox();
-            this.framesPerSecond = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.stopButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
@@ -39,6 +38,9 @@ namespace GestureStudio
             this.classifyModeButton = new System.Windows.Forms.RadioButton();
             this.mainStatusDisplay = new System.Windows.Forms.StatusStrip();
             this.modelStatusDisplay = new System.Windows.Forms.ToolStripStatusLabel();
+            this.framesPerSecond = new System.Windows.Forms.ToolStripStatusLabel();
+            this.chooseFeatureFileButton = new System.Windows.Forms.Button();
+            this.featureFilePath = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.fullFrameStream)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -47,16 +49,18 @@ namespace GestureStudio
             // 
             // message
             // 
-            this.message.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.message.Location = new System.Drawing.Point(12, 498);
+            this.message.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.message.Enabled = false;
+            this.message.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.message.Location = new System.Drawing.Point(662, 355);
             this.message.Name = "message";
-            this.message.Size = new System.Drawing.Size(819, 38);
+            this.message.Size = new System.Drawing.Size(169, 166);
             this.message.TabIndex = 0;
             this.message.Text = "";
             // 
             // fullFrameStream
             // 
-            this.fullFrameStream.Location = new System.Drawing.Point(12, 12);
+            this.fullFrameStream.Location = new System.Drawing.Point(12, 41);
             this.fullFrameStream.Name = "fullFrameStream";
             this.fullFrameStream.Size = new System.Drawing.Size(640, 480);
             this.fullFrameStream.TabIndex = 8;
@@ -65,20 +69,11 @@ namespace GestureStudio
             // 
             // croppedFrameStream
             // 
-            this.croppedFrameStream.Location = new System.Drawing.Point(662, 12);
+            this.croppedFrameStream.Location = new System.Drawing.Point(662, 41);
             this.croppedFrameStream.Name = "croppedFrameStream";
             this.croppedFrameStream.Size = new System.Drawing.Size(169, 200);
             this.croppedFrameStream.TabIndex = 9;
             this.croppedFrameStream.TabStop = false;
-            // 
-            // framesPerSecond
-            // 
-            this.framesPerSecond.AutoSize = true;
-            this.framesPerSecond.Location = new System.Drawing.Point(659, 449);
-            this.framesPerSecond.Name = "framesPerSecond";
-            this.framesPerSecond.Size = new System.Drawing.Size(35, 13);
-            this.framesPerSecond.TabIndex = 10;
-            this.framesPerSecond.Text = "label2";
             // 
             // groupBox1
             // 
@@ -86,7 +81,7 @@ namespace GestureStudio
             this.groupBox1.Controls.Add(this.startButton);
             this.groupBox1.Controls.Add(this.trainingModeButton);
             this.groupBox1.Controls.Add(this.classifyModeButton);
-            this.groupBox1.Location = new System.Drawing.Point(662, 218);
+            this.groupBox1.Location = new System.Drawing.Point(662, 257);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(169, 92);
             this.groupBox1.TabIndex = 11;
@@ -138,10 +133,11 @@ namespace GestureStudio
             // mainStatusDisplay
             // 
             this.mainStatusDisplay.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modelStatusDisplay});
-            this.mainStatusDisplay.Location = new System.Drawing.Point(0, 547);
+            this.modelStatusDisplay,
+            this.framesPerSecond});
+            this.mainStatusDisplay.Location = new System.Drawing.Point(0, 533);
             this.mainStatusDisplay.Name = "mainStatusDisplay";
-            this.mainStatusDisplay.Size = new System.Drawing.Size(841, 22);
+            this.mainStatusDisplay.Size = new System.Drawing.Size(843, 22);
             this.mainStatusDisplay.TabIndex = 12;
             this.mainStatusDisplay.Text = "Ready...";
             // 
@@ -151,19 +147,45 @@ namespace GestureStudio
             this.modelStatusDisplay.Size = new System.Drawing.Size(85, 17);
             this.modelStatusDisplay.Text = "Model Status...";
             // 
+            // framesPerSecond
+            // 
+            this.framesPerSecond.Name = "framesPerSecond";
+            this.framesPerSecond.Size = new System.Drawing.Size(26, 17);
+            this.framesPerSecond.Text = "FPS";
+            // 
+            // chooseFeatureFileButton
+            // 
+            this.chooseFeatureFileButton.Location = new System.Drawing.Point(497, 12);
+            this.chooseFeatureFileButton.Name = "chooseFeatureFileButton";
+            this.chooseFeatureFileButton.Size = new System.Drawing.Size(156, 23);
+            this.chooseFeatureFileButton.TabIndex = 13;
+            this.chooseFeatureFileButton.Text = "Choose Feature File";
+            this.chooseFeatureFileButton.UseVisualStyleBackColor = true;
+            this.chooseFeatureFileButton.Click += new System.EventHandler(this.chooseFeatureFileButton_Click);
+            // 
+            // featureFilePath
+            // 
+            this.featureFilePath.AutoSize = true;
+            this.featureFilePath.Location = new System.Drawing.Point(12, 12);
+            this.featureFilePath.Name = "featureFilePath";
+            this.featureFilePath.Size = new System.Drawing.Size(263, 13);
+            this.featureFilePath.TabIndex = 14;
+            this.featureFilePath.Text = "Default: rgbdfea_depth_first_small_dict_threshold1500";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(841, 569);
+            this.ClientSize = new System.Drawing.Size(843, 555);
+            this.Controls.Add(this.featureFilePath);
+            this.Controls.Add(this.chooseFeatureFileButton);
             this.Controls.Add(this.mainStatusDisplay);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.framesPerSecond);
             this.Controls.Add(this.croppedFrameStream);
             this.Controls.Add(this.fullFrameStream);
             this.Controls.Add(this.message);
             this.Name = "MainForm";
-            this.Text = "Display";
+            this.Text = "Training Mode";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fullFrameStream)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.croppedFrameStream)).EndInit();
@@ -186,7 +208,6 @@ namespace GestureStudio
         private System.Windows.Forms.RichTextBox message;
         private System.Windows.Forms.PictureBox fullFrameStream;
         private System.Windows.Forms.PictureBox croppedFrameStream;
-        private System.Windows.Forms.Label framesPerSecond;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button startButton;
@@ -194,6 +215,9 @@ namespace GestureStudio
         private System.Windows.Forms.RadioButton classifyModeButton;
         private System.Windows.Forms.StatusStrip mainStatusDisplay;
         private System.Windows.Forms.ToolStripStatusLabel modelStatusDisplay;
+        private System.Windows.Forms.Button chooseFeatureFileButton;
+        private System.Windows.Forms.Label featureFilePath;
+        private System.Windows.Forms.ToolStripStatusLabel framesPerSecond;
     }
 }
 

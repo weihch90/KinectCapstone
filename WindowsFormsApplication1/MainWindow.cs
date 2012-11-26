@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,24 +13,112 @@ namespace GestureStudio
 {
     public partial class MainWindow : Form
     {
+        public static double Width_To_Height_Ratio = 1;
         private int framesCount = 0;
         private GestureModel model;
         private Gestures gestures;
         private bool disabled;
         private bool classifying;
 
-
+        private const int TableCellHeight = 30;
+        private const int TableCellWidth = 100;
+ 
         public MainWindow()
         {
-            this.model = new GestureModel();
-            gestures = Gestures.GetInstance();
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
+
+
+        }
+
+        private void loadTable()
+        {
+            Dictionary<int, GestureInfo> gestures = Gestures.getGestures();
+            // create table with correct size first
+            this.gestureBindingsTable.RowCount = gestures.Keys.Count + 1;
+            this.gestureBindingsTable.ColumnCount = Gestures.Applications.Length + 1;
+            this.gestureBindingsTable.Size
+                = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, (gestureBindingsTable.RowCount + 1) * TableCellHeight);
+            int row = 0;
+            
+		    // set column width
+            foreach (ColumnStyle style in gestureBindingsTable.ColumnStyles)
+            {
+                style.SizeType = SizeType.Absolute;
+                style.Width = TableCellWidth;
+            }
+
+            // first row of the table
+            Label corner = new Label();
+            corner.Text = "Gesture\\App";
+            gestureBindingsTable.Controls.Add(corner, 0, 0);
+
+            for (int col = 1; col < gestureBindingsTable.ColumnCount; col++)
+            {
+                Label appName = new Label();
+                appName.Text = Gestures.Applications[col - 1];
+                gestureBindingsTable.Controls.Add(appName, col, row);
+            }
+            row++;
+
+            // then assign values in to the table
+            foreach (KeyValuePair<int, GestureInfo> gesturePairs in gestures)
+            {
+                Label gestureName = new Label();
+
+                gestureName.Text = gesturePairs.Value.getName();
+                gestureBindingsTable.Controls.Add(gestureName, 0, row);
+                foreach (KeyValuePair<int, AppKeyInfo> commands in gesturePairs.Value.getAllCommands())
+                {
+                    Label key = new Label();
+                    key.Text = commands.Value.ToString();
+                    // save to the row associated with specific app index
+                    gestureBindingsTable.Controls.Add(key, commands.Key + 1, row);
+                }
+                row++;
+            }
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            // instance initialization requires UI thread, wait until load
+            this.model = GestureModel.Instance;
+            this.gestures = Gestures.Instance;
+            this.loadTable();
+
+            // direct to tutorial page if necessary
+            string[] lines = File.ReadAllLines(GestureStudio.SettingFile);
+            string[] directTutorial = lines[0].Split(':');
+            if (directTutorial[0] == "directTutorial" && directTutorial[1] == "yes")
+            {
+                using (DirectToTutorialForm directForm = new DirectToTutorialForm())
+                {
+                    DialogResult result = directForm.ShowDialog();
+                    if (DialogResult.Yes == result)
+                    {
+                        this.mainWindowTabs.SelectedTab = this.tutorialTab;
+                    }
+                    else if (DialogResult.No == result)
+                    {
+                        // don't show this dialog next time
+                        if (directForm.isIgnoreChecked())
+                        {
+                            using (StreamWriter file = new StreamWriter(GestureStudio.SettingFile))
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append(directTutorial[0] + ":no");
+                                file.WriteLine(sb.ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                    }
+
+                }
+            }
+
             SynchronizationContext ctx = SynchronizationContext.Current;
 
             this.model.FrameReady += (s, args) =>
@@ -54,12 +143,26 @@ namespace GestureStudio
                 }
                 ctx.Post((o) =>
                 {
-                    // resize images in order to fit into picture box in the home tab
-                    double croppedRatio_w_h = croppedFrame.Width / croppedFrame.Height;
-                    
                     Bitmap fitFull = new Bitmap(fullFrame, this.mainWindow_full.Width, this.mainWindow_full.Height);
-                    Bitmap fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, this.mainWindow_cropped.Height);
-                    
+                    Bitmap fitCropped;
+
+                    // make sure the cropped image has area
+                    if (croppedFrame.Height > 0 && croppedFrame.Width > 0)
+                    {
+                        // resize images in order to fit into picture box in the home tab
+                        double croppedRatio_w_h = (double)croppedFrame.Width / croppedFrame.Height;
+                        if (croppedRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
+                        {
+                            fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / croppedRatio_w_h));
+                        }
+                        else  // cropped image is long in vertical
+                        {
+                            fitCropped = new Bitmap(croppedFrame, (int)(this.mainWindow_cropped.Height * croppedRatio_w_h), this.mainWindow_cropped.Height);
+                        }
+                    }
+                    else
+                        fitCropped = null;
+
                     this.mainWindow_full.Image = fitFull;
                     this.mainWindow_cropped.Image = fitCropped;
                     framesCount++;
@@ -84,53 +187,7 @@ namespace GestureStudio
                 }, args.CategoryLabel);
             };
 
-            /*
-            this.model.ImageCollectionFinished += (s, args) =>
-            {
-                this.model.Stop();
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "Image collection finished. Building new prediction model now...";
-                }, null);
-            };
-            */
-            /*
-            this.model.NewModelReady += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.message.Text = "New prediction model ready.";
-                }, null);
-            };
-             */
-            /*
-            this.model.StatusChanged += (s, args) =>
-            {
-                ctx.Post((o) =>
-                {
-                    this.modelStatusDisplay.Text = args.Status;
-                }, null);
-            };
-            */
-            /*
-            System.Timers.Timer fpsCounter = new System.Timers.Timer(1000);
-            fpsCounter.AutoReset = true;
-            fpsCounter.Elapsed += (src, args) =>
-            {
-                if (disabled)
-                {
-                    return;
-                }
-                ctx.Post((o) =>
-                {
-                    this.framesPerSecond.Text = "FPS = " + framesCount;
-                    framesCount = 0;
-                }, null);
-            };
 
-            fpsCounter.Start();
-            */
-            this.model.BeginInitialize();
         }
 
         private String LabelToString(int i)
@@ -150,7 +207,7 @@ namespace GestureStudio
                 case 6:
                     return "Scissor";
                 case 7:
-                    return "Circle";
+                    return "Six";
                 case 8:
                     return "Stop";
             }
@@ -195,12 +252,7 @@ namespace GestureStudio
          */
         private void BindToApplications_Click(object sender, EventArgs e)
         {
-            this.mainWindowTabs.SelectedTab = this.BindToApplications;
-        }
-
-        private void AddNewGesturesButton_Click(object sender, EventArgs e)
-        {
-            this.mainWindowTabs.SelectedTab = this.AddNewGestures;
+            this.mainWindowTabs.SelectedTab = this.settingsTab;
         }
 
         private void TutorialButton_Click(object sender, EventArgs e)
@@ -210,7 +262,88 @@ namespace GestureStudio
         
         // end Home tab buttons
 
+        // Settings tab buttons
 
+        private void addGestureButton_Click(object sender, EventArgs e)
+        {
+            // returns a string form of the given keybinding or 
+            // null if no text was inputted to the text box;
+            //usage: 
+            using (MainForm mainForm = new MainForm())
+            {
+                if (DialogResult.OK == mainForm.ShowDialog())
+                {
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
+
+            }
+
+        }
+
+        private void editApplicationButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editBindingButton_Click(object sender, EventArgs e)
+        {
+            // returns a string form of the given keybinding or 
+            // null if no text was inputted to the text box;
+            //usage: 
+            using (KeyBindForm keyForm = new KeyBindForm())
+            {
+                if (DialogResult.OK == keyForm.ShowDialog())
+                {
+                    string gestureName = keyForm.getGestureName();
+                    string appName = keyForm.getAppName();
+
+                    if (keyForm.getKeyBind() != null && keyForm.getKeyBind().Trim() != "" 
+                        && keyForm.getGestureName() != null && keyForm.getAppName() != null)
+                    {
+                        Gestures.setAppKeyForGesture(gestureName, appName, keyForm.getKeyBind());
+                        Gestures.saveData();
+                        gestureBindingsTable.Hide();
+                        gestureBindingsTable.Controls.Clear();
+                        loadTable();
+                        gestureBindingsTable.Show();
+
+                    }
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
+
+            }
+        }
+
+        private void chooseDataFile_Click(object sender, EventArgs e)
+        {
+            DialogResult result = chooseFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string file = chooseFileDialog.FileName;
+                try
+                {
+                    Gestures.loadData(file);
+                    gestureBindingsTable.Hide();
+                    gestureBindingsTable.Controls.Clear();
+                    loadTable();
+                    gestureBindingsTable.Show();
+                }
+                catch (IOException)
+                {
+                }
+            }
+        }
+
+
+        // end settings tab buttons
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
@@ -233,6 +366,12 @@ namespace GestureStudio
         {
 
         }
+
+        private void chooseDataFileDialog_Ok(object sender, CancelEventArgs e)
+        {
+
+        }
+
 
 
     }

@@ -29,6 +29,7 @@ namespace GestureStudio
         private bool classifying = false;
         private int category;
         private bool initialized = false;
+        private string problemFile = null;
 
         // SVM interface
         private SvmModelBuilder modelBuilder;
@@ -36,6 +37,12 @@ namespace GestureStudio
         public int Category
         {
             get { return this.category; }
+        }
+
+        public string ProblemFile
+        {
+            get { return this.problemFile; }
+            set { this.problemFile = value; }
         }
 
         public GestureClassifier()
@@ -103,8 +110,11 @@ namespace GestureStudio
             if (!this.modelBuilder.LoadFromFile(modelFileName))
             {
                 // first time usage, train from feature file
-                string problemFile = @"..\..\rgbdfea_depth_first_small_dict_threshold1500.mat";
-                this.modelBuilder.TrainModel(problemFile);
+                if (this.problemFile == null)
+                {
+                    this.problemFile = GestureStudio.ProblemFile; //rgbdfea_depth_first_small_dict_threshold1500.mat
+                }
+                this.modelBuilder.TrainModel(this.problemFile);
 
                 //Console.WriteLine("Training finished. Saving Model as {0}", modelFileName);
                 this.modelBuilder.SaveModel(modelFileName);
