@@ -1,8 +1,8 @@
-1:Good{1:shift-a,0:ctrl-c,2:shift-d,3:ctrl-c}
-2:Noise{1:alt-a,0:alt-a}
-3:OK{1:shift-s,2:C,0:shift-a}
-4:Paper{0:shift-b}
-5:Rock
-6:Scissor
+1:Good{0:f8}
+2:Noise
+3:OK{0:ctrl-f}
+4:Paper{0:ctrl-p}
+5:Rock{0:f7}
+6:Scissor{0:f6}
 7:Circle
 8:Stop

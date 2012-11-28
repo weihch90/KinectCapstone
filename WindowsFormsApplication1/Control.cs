@@ -9,6 +9,10 @@ namespace GestureStudio
 {
     public class Control
     {
+        public static string[] KeysList = {"f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"};
+        public static ushort[] ConversionList = {0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47};
+        
+        public Dictionary<string, ushort> keyDict;
         int buffer;
         bool firstRun;
         Stopwatch stopWatch;
@@ -19,6 +23,12 @@ namespace GestureStudio
             stopWatch = new Stopwatch();
             buffer = delaybuffer;
             firstRun = true;
+
+            keyDict = new Dictionary<string, ushort>();
+            for (int i = 0; i < KeysList.Length; i++)
+            {
+                keyDict.Add(KeysList[i], ConversionList[i]);
+            }
         }
 
         public void startApp(string name, string args = "")
@@ -32,23 +42,32 @@ namespace GestureStudio
             if (command == null)
                 return false;
 
-            string[] commands = command.Split('-');
-            int len = commands.Length;
-            if (len == 0)
-                return false;
-
-            int codeslen = len - 1;
-            ushort[] codes = new ushort[codeslen];
-            for (int i = 0; i < codeslen; i++)
+            char press = (char) 0;
+            ushort[] codes = new ushort[1];
+            if (keyDict.ContainsKey(command))
             {
-                ushort code = stringToHexCode(commands[i]);
-                if (code == 0)
-                    return false;
-                codes[i] = code;
+                codes[0] = keyDict[command];
             }
+            else
+            {
+                string[] commands = command.Split('-');
+                int len = commands.Length;
+                if (len == 0)
+                    return false;
 
-            char press = commands[len - 1][0];
+                int codeslen = len - 1;
+                codes = new ushort[codeslen];
+                for (int i = 0; i < codeslen; i++)
+                {
+                    ushort code = stringToHexCode(commands[i]);
+                    if (code == 0)
+                        return false;
+                    codes[i] = code;
+                }
 
+                press = commands[len - 1][0];
+            }
+            
             if (!focusApp(app))
                 return false;
 
@@ -67,7 +86,6 @@ namespace GestureStudio
             if (key.Equals("shift"))
                 return (ushort) 0x2a;
             
-
             return 0;
         }
 

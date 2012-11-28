@@ -17,6 +17,7 @@ namespace GestureStudio
             InitializeComponent();
             setGestures();
             setApps();
+            setAdditionalKeys();
         }
 
         public string getGestureName()
@@ -31,13 +32,19 @@ namespace GestureStudio
 
         public string getKeyBind()
         {
-            if (keyInput.Text.Equals(""))
-                return null;
-
-            return (ctrlCheck.Checked ? "ctrl-" : "") +
+            if (newkeyRadio.Checked)
+            {
+                if (keyInput.Text.Equals(""))
+                    return null;
+                return (ctrlCheck.Checked ? "ctrl-" : "") +
                         (shiftCheck.Checked ? "shift-" : "") +
                         (altCheck.Checked ? "alt-" : "") +
                         keyInput.Text;
+            }
+            else if (fkeyRadio.Checked)
+                return (string)fkeyCombo.SelectedItem;
+
+            return null;
         }
 
         private void setApps()
@@ -56,6 +63,15 @@ namespace GestureStudio
             }
         }
 
+        private void setAdditionalKeys()
+        {
+            foreach (String key in Control.KeysList)
+            {
+                this.fkeyCombo.Items.Add(key);
+            }
+
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -72,6 +88,26 @@ namespace GestureStudio
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void setKeyLabel_Click(object sender, EventArgs e)
         {
 
         }

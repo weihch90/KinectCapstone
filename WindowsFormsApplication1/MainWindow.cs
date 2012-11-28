@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace GestureStudio
@@ -18,6 +19,8 @@ namespace GestureStudio
         private GestureModel model;
         private Gestures gestures;
         private Control controller;
+        private Stopwatch timer; 
+        private Dictionary<int, int> gestureCounts;
         private bool disabled;
         private bool classifying;
 
@@ -88,6 +91,9 @@ namespace GestureStudio
             this.gestures = Gestures.Instance;
             this.controller = new Control();
             this.loadTable();
+            this.timer = new Stopwatch();
+            this.gestureCounts = new Dictionary<int,int>();
+           
 
             // direct to tutorial page if necessary
             string[] lines = File.ReadAllLines(GestureStudio.SettingFile);
@@ -122,6 +128,7 @@ namespace GestureStudio
             }
 
             SynchronizationContext ctx = SynchronizationContext.Current;
+
 
             this.model.FrameReady += (s, args) =>
             {
@@ -184,15 +191,42 @@ namespace GestureStudio
                     int label = (int)o;
                     if (GestureStudio.GENERIC_GESTURES)
                     {
-                        this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
-                        // lookup which window is focused and find if it is in the gestures list
-                        // string focusedApp = ...
-                        // int appId = Gestures.getAppId(focusedApp);
-                        AppKeyInfo appInfo = Gestures.getAppKeyForGesture(label, 0 /*appId*/);
-                        if (appInfo == null)
-                            return;
+                        if (!this.gestureCounts.ContainsKey(label))
+                            this.gestureCounts.Add(label, 0);
+                        this.gestureCounts[label]++;
+                        
+                        this.timer.Stop();
+                        if (this.timer.ElapsedMilliseconds > 500)
+                        {
+                            this.timer.Reset();
+                            int maxLabel = 2;
+                            int maxCount = -1;
+                            int countSum = 0;
+                            foreach (int key in this.gestureCounts.Keys)
+                            {
+                                if (maxCount < this.gestureCounts[key])
+                                {
+                                    maxLabel = key;
+                                    maxCount = this.gestureCounts[key];
+                                    countSum += this.gestureCounts[key];
+                                }
+                            }
+                            this.gestureCounts.Clear();
+                            this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
 
-                        this.controller.parseThenExecute(appInfo.getCommand());
+                            // lookup which window is focused and find if it is in the gestures list
+                            // string focusedApp = ...
+                            // int appId = Gestures.getAppId(focusedApp);
+                            AppKeyInfo appInfo = Gestures.getAppKeyForGesture(maxLabel, 0 /*appId*/);
+                            if (appInfo == null)
+                                return;
+
+                            this.controller.parseThenExecute(appInfo.getCommand());
+                        }
+                        this.timer.Start();
+                        
+
+                        
                     } 
                     else
                         this.mainWindow_status.Text = "Your Gesture: [" + LabelToString(label) + "]";

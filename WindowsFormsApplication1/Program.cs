@@ -17,7 +17,7 @@ namespace GestureStudio
         public const string SettingFile = @"../../data/settings.data";
         
         private const bool useNewDesign = true;
-        public static bool GENERIC_GESTURES = false;
+        public static bool GENERIC_GESTURES = true;
 
         static MainForm mainForm;
         static MainWindow mainWindow;
