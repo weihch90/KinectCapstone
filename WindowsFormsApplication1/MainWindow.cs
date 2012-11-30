@@ -389,6 +389,23 @@ namespace GestureStudio
         }
 
 
+        private void collectDataButton_Click(object sender, EventArgs e)
+        {
+            using (CollectImageForm collectForm = new CollectImageForm())
+            {
+                if (DialogResult.OK == collectForm.ShowDialog())
+                {
+                    //label1.Text = mainForm.getKeyBind();
+                }
+                else
+                {
+                    //nothing was found
+                }
+
+            }
+        }
+
+
         // end settings tab buttons
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -417,6 +434,7 @@ namespace GestureStudio
         {
 
         }
+
 
 
 
