@@ -112,7 +112,7 @@ namespace GestureStudio
                 // first time usage, train from feature file
                 if (this.problemFile == null)
                 {
-                    this.problemFile = GestureStudio.ProblemFile; //rgbdfea_depth_first_small_dict_threshold1500.mat
+                    this.problemFile = GestureStudio.ProblemFile; //rgbdfea_normal_first_9.mat
                 }
                 this.modelBuilder.TrainModel(this.problemFile);
 

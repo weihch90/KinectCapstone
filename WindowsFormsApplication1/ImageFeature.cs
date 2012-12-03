@@ -13,12 +13,12 @@ namespace GestureStudio
     {
         private double[][] dic;
         private int[] dict_dimension;
-        LibOmp.LibOmp omp;
+        LibOmpNormal.LibOmpNormal ompNormal;
 
         public ImageFeature(string dictionaryPath)
         {
             this.dic = LoadDict(dictionaryPath);
-            this.omp = new LibOmp.LibOmp();
+            this.ompNormal = new LibOmpNormal.LibOmpNormal();
         }
 
         private double[][] LoadDict(string dictionaryPath)
@@ -36,7 +36,7 @@ namespace GestureStudio
             // Initialize the parameters of feature (data).
             MWStructArray fea_first = new MWStructArray(1, 1, new string[] { "pixels", "maxsize" });
             fea_first.SetField("pixels", new MWNumericArray(pixelData));
-            fea_first.SetField("maxsize", 100);
+            fea_first.SetField("maxsize", 75);
 
             // Initialize the parameters of dictionary.
             MWStructArray dic_first = new MWStructArray(1, 1, new string[] { "dicsize", "patchsize", "samplenum", "dic" });
@@ -49,7 +49,7 @@ namespace GestureStudio
             // Orthogonal matching pursuit encoder
             Stopwatch ompTimer = Stopwatch.StartNew();
 
-            MWArray rgbdfea = omp.extract_feature(fea_first, dic_first);
+            MWArray rgbdfea = ompNormal.extract_feature_normal(fea_first, dic_first);
 
             ompTimer.Stop();
 

@@ -138,7 +138,7 @@ namespace GestureStudio
         {
             if (this.problemFile == null)
             {
-                this.problemFile = GestureStudio.ProblemFile; // Original feature file (rgbdfea_depth_first_small_dict_threshold1500.mat)
+                this.problemFile = GestureStudio.ProblemFile; // Original feature file (rgbdfea_normal_first_9.mat)
             }
             string featureFile = GestureStudio.FeatureFile; // Updated feature file, used for creating model
             this.modelBuilder.TrainModel(this.problemFile, featureFile, featureVector);
