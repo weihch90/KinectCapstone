@@ -299,9 +299,9 @@ namespace GestureStudio
             {
                 svm_type = 0,
                 kernel_type = 0,
-                cache_size = 256,
+                cache_size = 512,
                 eps = 0.1,
-                C = 1,
+                C = 10,
                 nr_weight = 0,
                 weight_label = null,
                 weight = null

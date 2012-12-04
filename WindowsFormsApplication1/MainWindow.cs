@@ -244,21 +244,23 @@ namespace GestureStudio
             switch (i)
             {
                 case 1:
-                    return "Good";
+                    return "Thumbs Up";
                 case 2:
-                    return "Noise";
+                    return "L";
                 case 3:
                     return "OK";
                 case 4:
-                    return "Paper";
+                    return "Thumbs Down";
                 case 5:
-                    return "Rock";
+                    return "C";
                 case 6:
-                    return "Scissor";
+                    return "Noise";
                 case 7:
-                    return "Six";
+                    return "Paper";
                 case 8:
-                    return "Stop";
+                    return "Rock";
+                case 9:
+                    return "Six";
             }
             return "";
         }
