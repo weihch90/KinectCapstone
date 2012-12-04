@@ -90,7 +90,6 @@ namespace GestureStudio
         private static Dictionary<int, GestureInfo> gestureList;  // dictionary<id, GestureInfo>
 
         private static Gestures instance;
-        public static string[] Applications = {"WMP", "PP", "app3", "app4"};
         private static string dataPath = GestureStudio.Gestures_Data_Path;
 
         public static Gestures Instance
@@ -252,22 +251,6 @@ namespace GestureStudio
             return -1;
         }
 
-        public static int getAppIndex(string appName)
-        {
-            for (int i = 0; i < Applications.Length; i++)
-                if (Applications[i] == appName)
-                    return i;
-            return -1;
-        }
-
-        public static int getAppId(string appName)
-        {
-            for (int i = 0; i < Applications.Length; i++)
-                if (Applications[i] == appName)
-                    return i;
-            return -1;
-        }
-
         /*
          * Returns all the gestures
          */
@@ -308,7 +291,7 @@ namespace GestureStudio
         public static void setAppKeyForGesture(string gestureName, string appName, AppKeyInfo keyInfo)
         {
             int gestureId =getGestureId(gestureName);
-            int appId = getAppId(appName);
+            int appId = KeyControls.getAppId(appName);
             if (gestureId != -1 && appId != -1)
                 gestureList[gestureId].setAppCommand(appId, keyInfo);
         }

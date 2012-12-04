@@ -43,8 +43,10 @@
             this.fkeyCombo = new System.Windows.Forms.ComboBox();
             this.fkeyRadio = new System.Windows.Forms.RadioButton();
             this.newkeyRadio = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
+            this.customKeyGroup = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.selectCommand = new System.Windows.Forms.ComboBox();
+            this.customKeyGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // ctrlCheck
@@ -94,7 +96,7 @@
             // saveButton
             // 
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Location = new System.Drawing.Point(204, 261);
+            this.saveButton.Location = new System.Drawing.Point(201, 315);
             this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(56, 19);
@@ -105,7 +107,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(264, 261);
+            this.cancelButton.Location = new System.Drawing.Point(261, 315);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(56, 19);
@@ -143,6 +145,7 @@
             this.selectApp.Name = "selectApp";
             this.selectApp.Size = new System.Drawing.Size(121, 21);
             this.selectApp.TabIndex = 8;
+            this.selectApp.SelectedIndexChanged += new System.EventHandler(this.SelectAppIndex_Changed);
             // 
             // selectGestureLabel
             // 
@@ -196,31 +199,53 @@
             this.newkeyRadio.Text = "custom";
             this.newkeyRadio.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // customKeyGroup
             // 
-            this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox1.Controls.Add(this.fkeyRadio);
-            this.groupBox1.Controls.Add(this.fkeyCombo);
-            this.groupBox1.Controls.Add(this.newkeyRadio);
-            this.groupBox1.Controls.Add(this.keyInput);
-            this.groupBox1.Controls.Add(this.altCheck);
-            this.groupBox1.Controls.Add(this.ctrlCheck);
-            this.groupBox1.Controls.Add(this.shiftCheck);
-            this.groupBox1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.groupBox1.Location = new System.Drawing.Point(15, 162);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(339, 94);
-            this.groupBox1.TabIndex = 15;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Set Key Command";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.customKeyGroup.BackColor = System.Drawing.SystemColors.Control;
+            this.customKeyGroup.Controls.Add(this.fkeyRadio);
+            this.customKeyGroup.Controls.Add(this.fkeyCombo);
+            this.customKeyGroup.Controls.Add(this.newkeyRadio);
+            this.customKeyGroup.Controls.Add(this.keyInput);
+            this.customKeyGroup.Controls.Add(this.altCheck);
+            this.customKeyGroup.Controls.Add(this.ctrlCheck);
+            this.customKeyGroup.Controls.Add(this.shiftCheck);
+            this.customKeyGroup.Cursor = System.Windows.Forms.Cursors.Default;
+            this.customKeyGroup.Enabled = false;
+            this.customKeyGroup.Location = new System.Drawing.Point(12, 216);
+            this.customKeyGroup.Name = "customKeyGroup";
+            this.customKeyGroup.Size = new System.Drawing.Size(339, 94);
+            this.customKeyGroup.TabIndex = 15;
+            this.customKeyGroup.TabStop = false;
+            this.customKeyGroup.Text = "Custom Set Key Command";
+            this.customKeyGroup.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 165);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "Select Command";
+            // 
+            // selectCommand
+            // 
+            this.selectCommand.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.selectCommand.Enabled = false;
+            this.selectCommand.FormattingEnabled = true;
+            this.selectCommand.Location = new System.Drawing.Point(16, 181);
+            this.selectCommand.Name = "selectCommand";
+            this.selectCommand.Size = new System.Drawing.Size(121, 21);
+            this.selectCommand.TabIndex = 17;
             // 
             // KeyBindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 291);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(357, 340);
+            this.Controls.Add(this.selectCommand);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.customKeyGroup);
             this.Controls.Add(this.selectApplicationLabel);
             this.Controls.Add(this.selectGestureLabel);
             this.Controls.Add(this.selectApp);
@@ -233,8 +258,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Add Binding";
             this.Load += new System.EventHandler(this.Form2_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.customKeyGroup.ResumeLayout(false);
+            this.customKeyGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,6 +281,8 @@
         private System.Windows.Forms.ComboBox fkeyCombo;
         private System.Windows.Forms.RadioButton fkeyRadio;
         private System.Windows.Forms.RadioButton newkeyRadio;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox customKeyGroup;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox selectCommand;
     }
 }

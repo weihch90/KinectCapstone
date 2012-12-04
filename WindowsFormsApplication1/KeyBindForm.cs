@@ -32,24 +32,37 @@ namespace GestureStudio
 
         public string getKeyBind()
         {
-            if (newkeyRadio.Checked)
-            {
-                if (keyInput.Text.Equals(""))
-                    return null;
-                return (ctrlCheck.Checked ? "ctrl-" : "") +
-                        (shiftCheck.Checked ? "shift-" : "") +
-                        (altCheck.Checked ? "alt-" : "") +
-                        keyInput.Text;
-            }
-            else if (fkeyRadio.Checked)
-                return (string)fkeyCombo.SelectedItem;
 
+            if (this.customKeyGroup.Enabled)
+            {
+                if (newkeyRadio.Checked)
+                {
+                    if (keyInput.Text.Equals(""))
+                        return null;
+                    return (ctrlCheck.Checked ? "ctrl-" : "") +
+                            (shiftCheck.Checked ? "shift-" : "") +
+                            (altCheck.Checked ? "alt-" : "") +
+                            keyInput.Text;
+                }
+                else if (fkeyRadio.Checked)
+                    return (string)fkeyCombo.SelectedItem;
+            }
+            else
+            {
+                string appName = ((string)this.selectApp.SelectedItem).Trim();
+                string command = ((string)this.selectCommand.SelectedItem).Trim();
+                if (appName != "" && command != "")
+                {
+                    return command;
+                }
+            }
             return null;
         }
 
         private void setApps()
         {
-            foreach (String app in Gestures.Applications)
+            this.selectApp.Items.Clear();
+            foreach (String app in KeyControls.getApplications())
             {
                 this.selectApp.Items.Add(app);
             }
@@ -57,9 +70,21 @@ namespace GestureStudio
 
         private void setGestures()
         {
+            this.selectGesture.Items.Clear();
             foreach (GestureInfo gesture in Gestures.getGestures().Values)
             {
                 this.selectGesture.Items.Add(gesture.getName());
+            }
+        }
+
+
+        private void setCommands()
+        {
+            string appName = (string)this.selectApp.SelectedItem;
+            this.selectCommand.Items.Clear();
+            foreach (string command in KeyControls.getKeyMatches()[KeyControls.getAppId(appName)].Keys)
+            {
+                this.selectCommand.Items.Add(command);
             }
         }
 
@@ -110,6 +135,19 @@ namespace GestureStudio
         private void setKeyLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void SelectAppIndex_Changed(object sender, EventArgs e)
+        {
+            if ((string)this.selectApp.SelectedItem != "")
+            {
+                this.selectCommand.Enabled = true;
+                this.setCommands();
+            }
+            else
+            {
+                this.selectCommand.Enabled = false;
+            }
         }
     }
 }

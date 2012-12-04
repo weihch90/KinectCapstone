@@ -15,6 +15,7 @@ namespace GestureStudio
         public const string FeatureFile = @"my_rgbdfea_depth_first.mat";
         public const string Gestures_Data_Path = @"../../data/gesturesInfo.data";
         public const string SettingFile = @"../../data/settings.data";
+        public const string KeySettingsFile_Path = @"../../data/keySettings.data";
         
         private const bool useNewDesign = true;
         public static bool GENERIC_GESTURES = true;

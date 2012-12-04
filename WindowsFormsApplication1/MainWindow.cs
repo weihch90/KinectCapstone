@@ -18,6 +18,7 @@ namespace GestureStudio
         private int framesCount = 0;
         private GestureModel model;
         private Gestures gestures;
+        private KeyControls keyControls;
         private Control controller;
         private Stopwatch timer; 
         private Dictionary<int, int> gestureCounts;
@@ -39,9 +40,10 @@ namespace GestureStudio
         private void loadTable()
         {
             Dictionary<int, GestureInfo> gestures = Gestures.getGestures();
+            string[] applications = KeyControls.getApplications();
             // create table with correct size first
             this.gestureBindingsTable.RowCount = gestures.Keys.Count + 1;
-            this.gestureBindingsTable.ColumnCount = Gestures.Applications.Length + 1;
+            this.gestureBindingsTable.ColumnCount = applications.Length + 1;
             this.gestureBindingsTable.Size
                 = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, (gestureBindingsTable.RowCount + 1) * TableCellHeight);
             int row = 0;
@@ -61,7 +63,7 @@ namespace GestureStudio
             for (int col = 1; col < gestureBindingsTable.ColumnCount; col++)
             {
                 Label appName = new Label();
-                appName.Text = Gestures.Applications[col - 1];
+                appName.Text = applications[col - 1];
                 gestureBindingsTable.Controls.Add(appName, col, row);
             }
             row++;
@@ -89,6 +91,7 @@ namespace GestureStudio
             // instance initialization requires UI thread, wait until load
             this.model = GestureModel.Instance;
             this.gestures = Gestures.Instance;
+            this.keyControls = KeyControls.Instance;
             this.controller = new Control();
             this.loadTable();
             this.timer = new Stopwatch();
@@ -218,10 +221,10 @@ namespace GestureStudio
                             // string focusedApp = ...
                             // int appId = Gestures.getAppId(focusedApp);
                             AppKeyInfo appInfo = Gestures.getAppKeyForGesture(maxLabel, 0 /*appId*/);
-                            if (appInfo == null)
+                            if (appInfo == null || KeyControls.getKeyMatches()[0/*appId*/] == null)
                                 return;
 
-                            this.controller.parseThenExecute(appInfo.getCommand());
+                            this.controller.parseThenExecute(KeyControls.getKeyMatches()[0][appInfo.getCommand()]);
                         }
                         this.timer.Start();
                         
