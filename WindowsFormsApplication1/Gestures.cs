@@ -115,9 +115,14 @@ namespace GestureStudio
             return dataPath;
         }
 
-        public static void loadData(string path)
+        public static void changeDataFile(string path)
         {
             dataPath = path;
+        }
+
+        public static void loadData(string path)
+        {
+            changeDataFile(path);
             string[] lines = File.ReadAllLines(path);
 
             gestureList = new Dictionary<int, GestureInfo>();
@@ -266,6 +271,12 @@ namespace GestureStudio
                 gestureList.Remove(id);
             }
             gestureList.Add(id, new GestureInfo(gestureName));
+        }
+
+        public static void addNewGesture(string gestureName)
+        {
+            int id = gestureList.Count + 1;
+            addNewGesture(id, gestureName);
         }
 
         public static bool containGestureId(int id)

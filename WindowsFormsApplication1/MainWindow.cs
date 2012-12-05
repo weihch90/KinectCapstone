@@ -39,50 +39,27 @@ namespace GestureStudio
 
         private void loadTable()
         {
+            gestureDataGridView.Columns.Clear();
             Dictionary<int, GestureInfo> gestures = Gestures.getGestures();
             string[] applications = KeyControls.getApplications();
-            // create table with correct size first
-            this.gestureBindingsTable.RowCount = gestures.Keys.Count + 1;
-            this.gestureBindingsTable.ColumnCount = applications.Length + 1;
-            this.gestureBindingsTable.Size
-                = new Size(gestureBindingsTable.ColumnCount * TableCellWidth, (gestureBindingsTable.RowCount + 1) * TableCellHeight);
-            int row = 0;
             
-		    // set column width
-            foreach (ColumnStyle style in gestureBindingsTable.ColumnStyles)
+            // create table with correct size first
+            gestureDataGridView.Columns.Add("Gesture\\App", "Gesture\\App");
+            for (int i = 0; i < applications.Length; i++)
             {
-                style.SizeType = SizeType.Absolute;
-                style.Width = TableCellWidth;
+                gestureDataGridView.Columns.Add(applications[i], applications[i]);
             }
 
-            // first row of the table
-            Label corner = new Label();
-            corner.Text = "Gesture\\App";
-            gestureBindingsTable.Controls.Add(corner, 0, 0);
-
-            for (int col = 1; col < gestureBindingsTable.ColumnCount; col++)
+            foreach (KeyValuePair<int, GestureInfo> gesturePair in gestures)
             {
-                Label appName = new Label();
-                appName.Text = applications[col - 1];
-                gestureBindingsTable.Controls.Add(appName, col, row);
-            }
-            row++;
-
-            // then assign values in to the table
-            foreach (KeyValuePair<int, GestureInfo> gesturePairs in gestures)
-            {
-                Label gestureName = new Label();
-
-                gestureName.Text = gesturePairs.Value.getName();
-                gestureBindingsTable.Controls.Add(gestureName, 0, row);
-                foreach (KeyValuePair<int, AppKeyInfo> commands in gesturePairs.Value.getAllCommands())
+                string[] gestureInfo = new string[gesturePair.Value.getAllCommands().Count + 1];
+                gestureInfo[0] = gesturePair.Value.getName(); // gesture name
+                int index = 1;
+                foreach (KeyValuePair<int, AppKeyInfo> command in gesturePair.Value.getAllCommands())
                 {
-                    Label key = new Label();
-                    key.Text = commands.Value.ToString();
-                    // save to the row associated with specific app index
-                    gestureBindingsTable.Controls.Add(key, commands.Key + 1, row);
+                    gestureInfo[index++] = command.Value.ToString();
                 }
-                row++;
+                gestureDataGridView.Rows.Add(gestureInfo);
             }
         }
 
@@ -357,11 +334,10 @@ namespace GestureStudio
                     {
                         Gestures.setAppKeyForGesture(gestureName, appName, keyForm.getKeyBind());
                         Gestures.saveData();
-                        gestureBindingsTable.Hide();
-                        gestureBindingsTable.Controls.Clear();
+                        gestureDataGridView.Hide();
+                        gestureDataGridView.Controls.Clear();
                         loadTable();
-                        gestureBindingsTable.Show();
-
+                        gestureDataGridView.Show();
                     }
                     //label1.Text = mainForm.getKeyBind();
                 }
@@ -382,10 +358,10 @@ namespace GestureStudio
                 try
                 {
                     Gestures.loadData(file);
-                    gestureBindingsTable.Hide();
-                    gestureBindingsTable.Controls.Clear();
+                    gestureDataGridView.Hide();
+                    gestureDataGridView.Controls.Clear();
                     loadTable();
-                    gestureBindingsTable.Show();
+                    gestureDataGridView.Show();
                 }
                 catch (IOException)
                 {
@@ -438,6 +414,29 @@ namespace GestureStudio
         private void chooseDataFileDialog_Ok(object sender, CancelEventArgs e)
         {
 
+        }
+
+        private void mainWindowTabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mainWindowTabs.SelectedIndex == 1)
+            {
+                try
+                {
+                    Gestures.loadData(Gestures.getPath());
+                    gestureDataGridView.Hide();
+                    gestureDataGridView.Controls.Clear();
+                    loadTable();
+                    gestureDataGridView.Show();
+                }
+                catch (IOException)
+                {
+                }
+            }
+        }
+
+        private void gestureDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            gestureDataGridView.ClearSelection();
         }
 
 
