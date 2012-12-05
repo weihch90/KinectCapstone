@@ -10,7 +10,7 @@ namespace GestureStudio
     public class Control
     {
         public static string[] KeysList = {"f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12"};
-        public static ushort[] ConversionList = {0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47};
+        public static ushort[] ConversionList = {0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46};
         
         public Dictionary<string, ushort> keyDict;
         int buffer;

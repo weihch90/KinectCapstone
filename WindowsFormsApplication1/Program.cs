@@ -18,7 +18,7 @@ namespace GestureStudio
         public const string KeySettingsFile_Path = @"../../data/keySettings.data";
         
         private const bool useNewDesign = true;
-        public static bool GENERIC_GESTURES = false;
+        public static bool GENERIC_GESTURES = true;
 
         static MainForm mainForm;
         static MainWindow mainWindow;

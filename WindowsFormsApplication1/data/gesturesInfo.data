@@ -1,8 +1,9 @@
-1:Good{0:f8}
-2:Noise
-3:OK{0:ctrl-f}
-4:Paper{0:ctrl-p}
-5:Rock{0:f7}
-6:Scissor{0:f6}
-7:Circle
-8:Stop
+1:Thumbs_up{0:increase volume}
+2:L{0:previous}
+3:OK{0:next}
+4:Thumbs_down{0:decrease volume}
+5:C
+6:Noise
+7:Paper{0:play/pause}
+8:Rock
+9:Six{0:mute}

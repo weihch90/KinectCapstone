@@ -199,7 +199,7 @@ namespace GestureStudio
                         this.gestureCounts[label]++;
                         
                         this.timer.Stop();
-                        if (this.timer.ElapsedMilliseconds > 500)
+                        if (this.timer.ElapsedMilliseconds > 0)
                         {
                             this.timer.Reset();
                             int maxLabel = 2;
@@ -215,15 +215,15 @@ namespace GestureStudio
                                 }
                             }
                             this.gestureCounts.Clear();
+                                                        // lookup which window is focused and find if it is in the gestures list
                             this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
-
-                            // lookup which window is focused and find if it is in the gestures list
                             // string focusedApp = ...
                             // int appId = Gestures.getAppId(focusedApp);
                             AppKeyInfo appInfo = Gestures.getAppKeyForGesture(maxLabel, 0 /*appId*/);
                             if (appInfo == null || KeyControls.getKeyMatches()[0/*appId*/] == null)
                                 return;
 
+                            
                             this.controller.parseThenExecute(KeyControls.getKeyMatches()[0][appInfo.getCommand()]);
                         }
                         this.timer.Start();
