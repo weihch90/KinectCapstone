@@ -3,7 +3,7 @@ using csmatio.types;
 using libsvm;
 using System.IO;
 using System.Collections.Generic;
-using RgbdfeaLib;
+using rgbdfea;
 ﻿using MathWorks.MATLAB.NET.Arrays;
 using System.Linq;
 
@@ -316,7 +316,7 @@ namespace GestureStudio
             double[] featureData = MatrixUtil.FlattenMatrix(featureVector);
             MWCharArray rgbdFile = new MWCharArray(featureFilePath);
             MWNumericArray newFeature = new MWNumericArray(dataLength, featureVector.Count, featureData);
-            rgbdfea rgbdfea = new rgbdfea();
+            rgbdfea.rgbdfea rgbdfea = new rgbdfea.rgbdfea();
             rgbdfea.appendFeature(rgbdFile, newFeature);
 
             TrainModel(completeFeatureFilePath);

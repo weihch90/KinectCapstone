@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.gestureName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.startButton = new System.Windows.Forms.Button();
             this.countDownLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // gestureName
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(260, 20);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "Name of the new gesture.";
+            this.gestureName.Location = new System.Drawing.Point(12, 25);
+            this.gestureName.Name = "gestureName";
+            this.gestureName.Size = new System.Drawing.Size(260, 20);
+            this.gestureName.TabIndex = 0;
+            this.gestureName.Text = "Name of the new gesture.";
             // 
             // label1
             // 
@@ -79,7 +79,7 @@
             this.Controls.Add(this.countDownLabel);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.gestureName);
             this.Name = "TrainingStartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TrainingStartForm";
@@ -90,7 +90,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox gestureName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Label countDownLabel;

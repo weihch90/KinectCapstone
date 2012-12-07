@@ -12,7 +12,7 @@ namespace GestureStudio
         public event EventHandler ImageCollectionFinished;
         public event EventHandler NewModelReady;
 
-        private const int SAMPLENUM = 50;
+        private const int SAMPLENUM = 30;
 
         // Feature vector interface
         private ImageFeature imgFeature;
@@ -72,6 +72,14 @@ namespace GestureStudio
 
             // init omp
             this.imgFeature = new ImageFeature(GestureStudio.GestureLib_DictionartyPath);
+
+            // update GestureInfo.data
+            if (this.problemFile == null || this.problemFile.Equals(GestureStudio.FeatureFileEmpty))
+                Gestures.loadData(GestureStudio.GesturesDataPathEmpty);
+            else if (this.problemFile.Equals(GestureStudio.FeatureFileNew))
+                Gestures.loadData(GestureStudio.GesturesDataPathNew);
+            else // demo version, this will take a long time. So avoid this in the demo.
+                Gestures.loadData(GestureStudio.GesturesDataPathDemo);
 
             // done initialization
             if (initializeCallback != null)
@@ -138,11 +146,12 @@ namespace GestureStudio
         {
             if (this.problemFile == null)
             {
-                this.problemFile = GestureStudio.ProblemFile; // Original feature file (rgbdfea_normal_first_9.mat)
+                this.problemFile = GestureStudio.FeatureFileEmpty; // empty feature file (rgbdfea_normal_first_empty.mat)
             }
-            string featureFile = GestureStudio.FeatureFile; // Updated feature file, used for creating model
+
+            string featureFile = GestureStudio.FeatureFileNew; // Updated feature file, used for creating model
             this.modelBuilder.TrainModel(this.problemFile, featureFile, featureVector);
-            this.modelBuilder.SaveModel(GestureStudio.ModelFileName);
+            this.modelBuilder.SaveModel(GestureStudio.ModelFileNew); // model_new.svm
 
             // Model ready
             this.NewModelReady(this, null);

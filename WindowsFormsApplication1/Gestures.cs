@@ -90,7 +90,7 @@ namespace GestureStudio
         private static Dictionary<int, GestureInfo> gestureList;  // dictionary<id, GestureInfo>
 
         private static Gestures instance;
-        private static string dataPath = GestureStudio.Gestures_Data_Path;
+        private static string dataPath = GestureStudio.GesturesDataPathDemo;
 
         public static Gestures Instance
         {
@@ -107,7 +107,7 @@ namespace GestureStudio
 
         // private constructor
         private Gestures() {
-            loadData(GestureStudio.Gestures_Data_Path);
+            loadData(GestureStudio.GesturesDataPathDemo);
         }
 
         public static string getPath()

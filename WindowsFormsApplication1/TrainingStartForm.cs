@@ -27,6 +27,13 @@ namespace GestureStudio
         {
             SynchronizationContext ctx = SynchronizationContext.Current;
 
+            // Save the new gesture name to gestureInfoNew.data
+            string name = gestureName.Text;
+            Gestures.addNewGesture(name);
+            Gestures.saveData(GestureStudio.GesturesDataPathNew);
+            Gestures.loadData(GestureStudio.GesturesDataPathNew);
+
+            // Count down 5.
             int countDown = 5;
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000;

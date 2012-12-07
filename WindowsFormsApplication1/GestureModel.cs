@@ -64,6 +64,7 @@ namespace GestureStudio
 
         // feature file path
         private string featureFilePath;
+        private string modelFilePath;
         
         private GestureModel()
         {  
@@ -108,6 +109,7 @@ namespace GestureStudio
             this.classifier = null;
             this.trainer = null;
             this.featureFilePath = null;
+            this.modelFilePath = null;
             
             GestureStudio.DisplayLoadingWindow("Loading Kinect Sensor...");
             ThreadPool.QueueUserWorkItem((state) =>
@@ -220,9 +222,22 @@ namespace GestureStudio
             this.mode = ProgramMode.Learning;
         }
 
-        public void SetFeatureFilePath(string featureFilePath)
+        public string FeatureFilePath
         {
-            this.featureFilePath = featureFilePath;
+            get { return this.featureFilePath; }
+            set { this.featureFilePath = value; }
+        }
+
+        public string ModelFilePath
+        {
+            get { return this.modelFilePath; }
+            set 
+            { 
+                this.modelFilePath = value;
+                // notify the classifier a new model has loaded, update the update flag.
+                if (this.classifier != null)
+                    this.classifier.HasUpdates = true; 
+            }
         }
 
         public void Stop()
@@ -237,10 +252,11 @@ namespace GestureStudio
 
         private void Classify()
         {
-            if (this.classifier == null)
+            if (this.classifier == null || this.classifier.HasUpdates /* update flag */)
             {
                 this.classifier = new GestureClassifier();
                 this.classifier.ProblemFile = this.featureFilePath;
+                this.classifier.ModelFile = this.modelFilePath;
                 this.classifier.CategoryDetected += classifier_CategoryDetected;
                 GestureStudio.DisplayLoadingWindow("Loading Image Classifier...");
                 this.classifier.BeginInitialize(() =>
@@ -274,6 +290,7 @@ namespace GestureStudio
             {
                 this.trainer = new GestureLearner();
                 this.trainer.ProblemFile = this.featureFilePath;
+
                 this.trainer.ImageCollectionFinished += trainer_ImageCollectionFinished;
                 this.trainer.NewModelReady += trainer_NewModelReady;
                 GestureStudio.DisplayLoadingWindow("Loading Gesture Trainer...");

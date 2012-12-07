@@ -47,6 +47,7 @@
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.gestureDataGridView = new System.Windows.Forms.DataGridView();
+            this.chooseModelButton = new System.Windows.Forms.Button();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
@@ -126,6 +127,7 @@
             // 
             // homeTab
             // 
+            this.homeTab.Controls.Add(this.chooseModelButton);
             this.homeTab.Controls.Add(this.mainWindow_cropped);
             this.homeTab.Controls.Add(this.mainWindow_full);
             this.homeTab.Controls.Add(this.tutorialButton);
@@ -277,6 +279,18 @@
             this.gestureDataGridView.TabIndex = 5;
             this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
             // 
+            // chooseModelButton
+            // 
+            this.chooseModelButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chooseModelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chooseModelButton.Location = new System.Drawing.Point(210, 368);
+            this.chooseModelButton.Name = "chooseModelButton";
+            this.chooseModelButton.Size = new System.Drawing.Size(155, 60);
+            this.chooseModelButton.TabIndex = 10;
+            this.chooseModelButton.Text = "Choose Model";
+            this.chooseModelButton.UseVisualStyleBackColor = true;
+            this.chooseModelButton.Click += new System.EventHandler(this.chooseModelButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -319,6 +333,7 @@
         private System.Windows.Forms.Button chooseDataFileButton;
         private System.Windows.Forms.OpenFileDialog chooseFileDialog;
         private System.Windows.Forms.DataGridView gestureDataGridView;
+        private System.Windows.Forms.Button chooseModelButton;
 
     }
 }

@@ -29,7 +29,9 @@ namespace GestureStudio
         private bool classifying = false;
         private int category;
         private bool initialized = false;
-        private string problemFile = null;
+        private string problemFile = GestureStudio.FeatureFileDemo;
+        private string modelFile = GestureStudio.ModelFileDemo;
+        private bool hasUpdates = false;
 
         // SVM interface
         private SvmModelBuilder modelBuilder;
@@ -43,6 +45,24 @@ namespace GestureStudio
         {
             get { return this.problemFile; }
             set { this.problemFile = value; }
+        }
+
+        public string ModelFile
+        {
+            get { return this.modelFile; }
+            set 
+            {
+                if (value != null)
+                {
+                    this.modelFile = value;
+                }
+            }
+        }
+
+        public bool HasUpdates
+        {
+            get { return this.hasUpdates; }
+            set { this.hasUpdates = value;  }
         }
 
         public GestureClassifier()
@@ -71,6 +91,7 @@ namespace GestureStudio
             this.imgFeature = new ImageFeature(GestureStudio.GestureLib_DictionartyPath);
 
             this.initialized = true;
+            this.hasUpdates = false;
             if (initializeCallback != null)
             {
                 initializeCallback();
@@ -107,18 +128,13 @@ namespace GestureStudio
         {
             this.modelBuilder = new SvmModelBuilder();
 
-            String modelFileName = GestureStudio.ModelFileName;
-            if (!this.modelBuilder.LoadFromFile(modelFileName))
+            if (!this.modelBuilder.LoadFromFile(this.modelFile))
             {
                 // first time usage, train from feature file
-                if (this.problemFile == null)
-                {
-                    this.problemFile = GestureStudio.ProblemFile; //rgbdfea_normal_first_9.mat
-                }
                 this.modelBuilder.TrainModel(this.problemFile);
 
                 //Console.WriteLine("Training finished. Saving Model as {0}", modelFileName);
-                this.modelBuilder.SaveModel(modelFileName);
+                this.modelBuilder.SaveModel(modelFile);
             }
         }
 
