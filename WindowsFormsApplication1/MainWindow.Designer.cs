@@ -281,8 +281,7 @@
             // 
             this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
             // 
-<<<<<<< HEAD
-=======
+
             // gestureDataGridView
             // 
             this.gestureDataGridView.AllowUserToAddRows = false;
@@ -325,7 +324,6 @@
             this.chooseModelButton.UseVisualStyleBackColor = true;
             this.chooseModelButton.Click += new System.EventHandler(this.chooseModelButton_Click);
             // 
->>>>>>> 3699b6908eca9c94fc93dee65d4e3278e62e437c
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
