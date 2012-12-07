@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tutorialTab = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
+            this.gestureDataGridView = new System.Windows.Forms.DataGridView();
             this.chooseDataFileButton = new System.Windows.Forms.Button();
             this.addGestureButton = new System.Windows.Forms.Button();
             this.setKeyBind = new System.Windows.Forms.Button();
@@ -46,15 +47,14 @@
             this.homeLabel = new System.Windows.Forms.Label();
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.gestureDataGridView = new System.Windows.Forms.DataGridView();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).BeginInit();
             this.homeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).BeginInit();
             this.mainWindowTabs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tutorialTab
@@ -90,6 +90,36 @@
             this.settingsTab.Text = "Settings";
             this.settingsTab.UseVisualStyleBackColor = true;
             this.settingsTab.Click += new System.EventHandler(this.BindToApplications_Click);
+            // 
+            // gestureDataGridView
+            // 
+            this.gestureDataGridView.AllowUserToAddRows = false;
+            this.gestureDataGridView.AllowUserToDeleteRows = false;
+            this.gestureDataGridView.AllowUserToResizeColumns = false;
+            this.gestureDataGridView.AllowUserToResizeRows = false;
+            this.gestureDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gestureDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gestureDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gestureDataGridView.Enabled = false;
+            this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
+            this.gestureDataGridView.Name = "gestureDataGridView";
+            this.gestureDataGridView.RowHeadersVisible = false;
+            this.gestureDataGridView.Size = new System.Drawing.Size(418, 359);
+            this.gestureDataGridView.TabIndex = 5;
+            this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
             // 
             // chooseDataFileButton
             // 
@@ -144,7 +174,7 @@
             // 
             // mainWindow_cropped
             // 
-            this.mainWindow_cropped.BackColor = System.Drawing.Color.Black;
+            this.mainWindow_cropped.BackColor = System.Drawing.Color.Transparent;
             this.mainWindow_cropped.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.mainWindow_cropped.Location = new System.Drawing.Point(449, 111);
@@ -247,36 +277,6 @@
             // 
             this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
             // 
-            // gestureDataGridView
-            // 
-            this.gestureDataGridView.AllowUserToAddRows = false;
-            this.gestureDataGridView.AllowUserToDeleteRows = false;
-            this.gestureDataGridView.AllowUserToResizeColumns = false;
-            this.gestureDataGridView.AllowUserToResizeRows = false;
-            this.gestureDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gestureDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.gestureDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gestureDataGridView.Enabled = false;
-            this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
-            this.gestureDataGridView.Name = "gestureDataGridView";
-            this.gestureDataGridView.RowHeadersVisible = false;
-            this.gestureDataGridView.Size = new System.Drawing.Size(418, 359);
-            this.gestureDataGridView.TabIndex = 5;
-            this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -289,12 +289,12 @@
             this.tutorialTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.settingsTab.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).EndInit();
             this.homeTab.ResumeLayout(false);
             this.homeTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).EndInit();
             this.mainWindowTabs.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }

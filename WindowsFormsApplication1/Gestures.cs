@@ -91,6 +91,7 @@ namespace GestureStudio
 
         private static Gestures instance;
         private static string dataPath = GestureStudio.Gestures_Data_Path;
+        public static int NOISE_LABEL = 6;
 
         public static Gestures Instance
         {

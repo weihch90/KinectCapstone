@@ -24,6 +24,7 @@ namespace GestureStudio
         private Dictionary<int, int> gestureCounts;
         private bool disabled;
         private bool classifying;
+ 
 
         private const int TableCellHeight = 30;
         private const int TableCellWidth = 100;
@@ -73,7 +74,6 @@ namespace GestureStudio
             this.loadTable();
             this.timer = new Stopwatch();
             this.gestureCounts = new Dictionary<int,int>();
-           
 
             // direct to tutorial page if necessary
             string[] lines = File.ReadAllLines(GestureStudio.SettingFile);
@@ -134,26 +134,38 @@ namespace GestureStudio
                 {
                     Bitmap fitFull = new Bitmap(fullFrame, this.mainWindow_full.Width, this.mainWindow_full.Height);
                     Bitmap fitCropped;
-
-                    // make sure the cropped image has area
-                    if (croppedFrame.Height > 0 && croppedFrame.Width > 0)
+                    if (GestureStudio.DISPLAY_DETECTED_GESTURE_IMG)
                     {
-                        // resize images in order to fit into picture box in the home tab
-                        double croppedRatio_w_h = (double)croppedFrame.Width / croppedFrame.Height;
-                        if (croppedRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
-                        {
-                            fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / croppedRatio_w_h));
-                        }
-                        else  // cropped image is long in vertical
-                        {
-                            fitCropped = new Bitmap(croppedFrame, (int)(this.mainWindow_cropped.Height * croppedRatio_w_h), this.mainWindow_cropped.Height);
-                        }
+
+
                     }
                     else
-                        fitCropped = null;
+                    {
+                        // make sure the cropped image has area
+                        if (croppedFrame.Height > 0 && croppedFrame.Width > 0)
+                        {
+                            // resize images in order to fit into picture box in the home tab
+                            double croppedRatio_w_h = (double)croppedFrame.Width / croppedFrame.Height;
+                            if (croppedRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
+                            {
+                                fitCropped = new Bitmap(croppedFrame, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / croppedRatio_w_h));
+                            }
+                            else  // cropped image is long in vertical
+                            {
+                                fitCropped = new Bitmap(croppedFrame, (int)(this.mainWindow_cropped.Height * croppedRatio_w_h), this.mainWindow_cropped.Height);
+                            }
+                        }
+                        else
+                            fitCropped = null;
+
+                        this.mainWindow_cropped.Image = fitCropped;
+                    }
+
+
+
 
                     this.mainWindow_full.Image = fitFull;
-                    this.mainWindow_cropped.Image = fitCropped;
+
                     framesCount++;
                 }, null);
 
@@ -192,8 +204,37 @@ namespace GestureStudio
                                 }
                             }
                             this.gestureCounts.Clear();
-                                                        // lookup which window is focused and find if it is in the gestures list
-                            this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
+                            if (GestureStudio.DISPLAY_DETECTED_GESTURE_IMG) {
+                                string img_path = GestureStudio.Gesture_Image_Path + "/" + Gestures.getGestureName(maxLabel) + ".png";
+                                Bitmap img = new Bitmap(img_path);
+                                Bitmap resized_img;
+                                if (File.Exists(img_path) && img.Height > 0 && img.Width > 0)
+                                {
+                                    // resize images in order to fit into picture box in the home tab
+                                    double imgRatio_w_h = (double)img.Width / img.Height;
+                                    if (imgRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
+                                    {
+                                        resized_img = new Bitmap(img, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / imgRatio_w_h));
+                                    }
+                                    else  // cropped image is long in vertical
+                                    {
+                                        resized_img = new Bitmap(img, (int)(this.mainWindow_cropped.Height * imgRatio_w_h), this.mainWindow_cropped.Height);
+                                    }
+                                }
+                                else
+                                    resized_img = null;
+
+                                this.mainWindow_cropped.Image = resized_img;
+                            }
+                            // lookup which window is focused and find if it is in the gestures list
+                            if (Gestures.getGestureName(maxLabel).ToLower() != "Noise")
+                            {
+                                this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
+                            }
+                            else
+                            {
+                                this.mainWindow_status.Text = "Your Gesture: []";
+                            }
                             // string focusedApp = ...
                             // int appId = Gestures.getAppId(focusedApp);
                             AppKeyInfo appInfo = Gestures.getAppKeyForGesture(maxLabel, 0 /*appId*/);
@@ -265,6 +306,7 @@ namespace GestureStudio
             {
                 this.model.Stop();
                 this.controlButton.Text = "Start";
+                this.mainWindow_status.Text = "Your Gesture: []";
             }
             else
             {
@@ -432,6 +474,12 @@ namespace GestureStudio
                 {
                 }
             }
+
+            this.model.Stop();
+            this.controlButton.Text = "Start";
+            this.mainWindow_status.Text = "Your Gesture: []";
+            this.classifying = false;
+
         }
 
         private void gestureDataGridView_SelectionChanged(object sender, EventArgs e)

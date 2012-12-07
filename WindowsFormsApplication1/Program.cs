@@ -16,9 +16,12 @@ namespace GestureStudio
         public const string Gestures_Data_Path = @"../../data/gesturesInfo.data";
         public const string SettingFile = @"../../data/settings.data";
         public const string KeySettingsFile_Path = @"../../data/keySettings.data";
+        public const string Gesture_Image_Path = @"../../data/gestureImages";
         
         private const bool useNewDesign = true;
         public static bool GENERIC_GESTURES = true;
+        public static bool DISPLAY_DETECTED_GESTURE_IMG = true;
+        public static bool TABLE_DISPLAY_GESTURE_IMG = true;
 
         static MainForm mainForm;
         static MainWindow mainWindow;
