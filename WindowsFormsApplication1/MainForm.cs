@@ -134,13 +134,15 @@ namespace GestureStudio
                 case 5:
                     return "C";
                 case 6:
-                    return "Noise";
+                    return "Back";
                 case 7:
-                    return "Paper";
+                    return "Noise";
                 case 8:
-                    return "Rock";
+                    return "Paper";
                 case 9:
-                    return "Six";
+                    return "Forward";
+                case 10:
+                    return "Rock on";
             }
             return "";
         }
@@ -173,7 +175,7 @@ namespace GestureStudio
             {
                 string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
                 this.featureFilePath.Text = fileToOpen;
-                this.model.SetFeatureFilePath(@fileToOpen);
+                this.model.FeatureFilePath = @fileToOpen;
             }
         }
     }

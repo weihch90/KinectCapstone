@@ -271,14 +271,16 @@ namespace GestureStudio
                     return "Thumbs Down";
                 case 5:
                     return "C";
-                case 6:
-                    return "Noise";
+                case 6 :
+                    return "Back";
                 case 7:
-                    return "Paper";
+                    return "Noise";
                 case 8:
-                    return "Rock";
+                    return "Paper";
                 case 9:
-                    return "Six";
+                    return "Forward";
+                case 10:
+                    return "Rock on";
             }
             return "";
         }
@@ -485,6 +487,24 @@ namespace GestureStudio
         private void gestureDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             gestureDataGridView.ClearSelection();
+        }
+
+        private void chooseModelButton_Click(object sender, EventArgs e)
+        {
+            var FD = new System.Windows.Forms.OpenFileDialog();
+            if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
+                this.model.ModelFilePath = @fileToOpen;
+
+                // Update gesture data based on model chosen.
+                if (fileToOpen.Equals(GestureStudio.ModelFileNew))
+                    Gestures.loadData(GestureStudio.GesturesDataPathNew);
+                else if (fileToOpen.Equals(GestureStudio.ModelFileEmpty))
+                    Gestures.loadData(GestureStudio.GesturesDataPathEmpty);
+                else // Demo version
+                    Gestures.loadData(GestureStudio.GesturesDataPathDemo);
+            }
         }
 
 

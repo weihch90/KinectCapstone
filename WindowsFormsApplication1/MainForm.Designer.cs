@@ -168,9 +168,9 @@ namespace GestureStudio
             this.featureFilePath.AutoSize = true;
             this.featureFilePath.Location = new System.Drawing.Point(12, 12);
             this.featureFilePath.Name = "featureFilePath";
-            this.featureFilePath.Size = new System.Drawing.Size(263, 13);
+            this.featureFilePath.Size = new System.Drawing.Size(176, 13);
             this.featureFilePath.TabIndex = 14;
-            this.featureFilePath.Text = "Default: rgbdfea_depth_first_small_dict_threshold1500";
+            this.featureFilePath.Text = "Default: rgbdfea_normal_first_empty";
             // 
             // MainForm
             // 

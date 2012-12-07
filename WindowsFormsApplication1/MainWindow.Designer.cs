@@ -47,6 +47,9 @@
             this.homeLabel = new System.Windows.Forms.Label();
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            this.gestureDataGridView = new System.Windows.Forms.DataGridView();
+            this.chooseModelButton = new System.Windows.Forms.Button();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
@@ -156,6 +159,7 @@
             // 
             // homeTab
             // 
+            this.homeTab.Controls.Add(this.chooseModelButton);
             this.homeTab.Controls.Add(this.mainWindow_cropped);
             this.homeTab.Controls.Add(this.mainWindow_full);
             this.homeTab.Controls.Add(this.tutorialButton);
@@ -277,6 +281,51 @@
             // 
             this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
             // 
+<<<<<<< HEAD
+=======
+            // gestureDataGridView
+            // 
+            this.gestureDataGridView.AllowUserToAddRows = false;
+            this.gestureDataGridView.AllowUserToDeleteRows = false;
+            this.gestureDataGridView.AllowUserToResizeColumns = false;
+            this.gestureDataGridView.AllowUserToResizeRows = false;
+            this.gestureDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gestureDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gestureDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gestureDataGridView.Enabled = false;
+            this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
+            this.gestureDataGridView.Name = "gestureDataGridView";
+            this.gestureDataGridView.RowHeadersVisible = false;
+            this.gestureDataGridView.Size = new System.Drawing.Size(418, 359);
+            this.gestureDataGridView.TabIndex = 5;
+            this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
+            // 
+            // chooseModelButton
+            // 
+            this.chooseModelButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chooseModelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chooseModelButton.Location = new System.Drawing.Point(210, 368);
+            this.chooseModelButton.Name = "chooseModelButton";
+            this.chooseModelButton.Size = new System.Drawing.Size(155, 60);
+            this.chooseModelButton.TabIndex = 10;
+            this.chooseModelButton.Text = "Choose Model";
+            this.chooseModelButton.UseVisualStyleBackColor = true;
+            this.chooseModelButton.Click += new System.EventHandler(this.chooseModelButton_Click);
+            // 
+>>>>>>> 3699b6908eca9c94fc93dee65d4e3278e62e437c
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -319,6 +368,7 @@
         private System.Windows.Forms.Button chooseDataFileButton;
         private System.Windows.Forms.OpenFileDialog chooseFileDialog;
         private System.Windows.Forms.DataGridView gestureDataGridView;
+        private System.Windows.Forms.Button chooseModelButton;
 
     }
 }

@@ -9,11 +9,16 @@ namespace GestureStudio
 {
     static class GestureStudio
     {
-        public const string GestureLib_DictionartyPath = @"NewDictionary.dic";
-        public const string ModelFileName = @"model_new.svm";
-        public const string ProblemFile = @"rgbdfea_normal_first_9_resize75.mat";
-        public const string FeatureFile = @"my_rgbdfea_depth_first.mat";
-        public const string Gestures_Data_Path = @"../../data/gesturesInfo.data";
+        public const string GestureLib_DictionartyPath = @"Dictionary.dic";
+        public const string ModelFileDemo = @"model.svm";
+        public const string ModelFileEmpty = @"model_empty.svm";
+        public const string ModelFileNew = @"model_new.svm";
+        public const string FeatureFileDemo = @"feature_10.mat";
+        public const string FeatureFileEmpty = @"feature_empty.mat";
+        public const string FeatureFileNew = @"feature_new.mat";
+        public const string GesturesDataPathDemo = @"../../data/gesturesInfo.data";
+        public const string GesturesDataPathEmpty = @"../../data/gesturesInfoEmpty.data";
+        public const string GesturesDataPathNew = @"../../data/gesturesInfoNew.data";
         public const string SettingFile = @"../../data/settings.data";
         public const string KeySettingsFile_Path = @"../../data/keySettings.data";
         public const string Gesture_Image_Path = @"../../data/gestureImages";
