@@ -17,7 +17,7 @@ namespace GestureStudio
         bool firstRun;
         Stopwatch stopWatch;
         
-        public Control(int delaybuffer = 700)
+        public Control(int delaybuffer = 200)
         {
             // http://msdn.microsoft.com/en-us/library/windows/desktop/dd375731(v=vs.85).aspx
             stopWatch = new Stopwatch();

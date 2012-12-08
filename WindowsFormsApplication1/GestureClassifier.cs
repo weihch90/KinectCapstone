@@ -101,7 +101,8 @@ namespace GestureStudio
         public void ClassifyImage(DepthFrame croppedFrame)
         {
             double ratio = ((double)croppedFrame.Width) / (croppedFrame.Width + croppedFrame.Height);
-            if (croppedFrame.Width < 200 && croppedFrame.Height < 200 && ratio > 0.2 && ratio < 0.8)
+            // Ignore too big/small cropped images and broken case.
+            if (croppedFrame.Width < 200 && croppedFrame.Height < 200 && croppedFrame.Width >= 10 && croppedFrame.Height >= 10 && ratio > 0.2 && ratio < 0.8)
             {
                 short[,] imageData = MatrixUtil.RawFrameTo2D(croppedFrame.Pixels, croppedFrame.Height, croppedFrame.Width);
 

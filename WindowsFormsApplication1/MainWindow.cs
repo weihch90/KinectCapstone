@@ -24,6 +24,8 @@ namespace GestureStudio
         private Dictionary<int, int> gestureCounts;
         private bool disabled;
         private bool classifying;
+
+        private Stopwatch volumeTimer;
  
 
         private const int TableCellHeight = 30;
@@ -55,12 +57,15 @@ namespace GestureStudio
             {
                 string[] gestureInfo = new string[gesturePair.Value.getAllCommands().Count + 1];
                 gestureInfo[0] = gesturePair.Value.getName(); // gesture name
-                int index = 1;
-                foreach (KeyValuePair<int, AppKeyInfo> command in gesturePair.Value.getAllCommands())
+                if (!gestureInfo[0].Equals("Noise"))
                 {
-                    gestureInfo[index++] = command.Value.ToString();
+                    int index = 1;
+                    foreach (KeyValuePair<int, AppKeyInfo> command in gesturePair.Value.getAllCommands())
+                    {
+                        gestureInfo[index++] = command.Value.ToString();
+                    }
+                    gestureDataGridView.Rows.Add(gestureInfo);
                 }
-                gestureDataGridView.Rows.Add(gestureInfo);
             }
         }
 
@@ -73,6 +78,8 @@ namespace GestureStudio
             this.controller = new Control();
             this.loadTable();
             this.timer = new Stopwatch();
+            this.volumeTimer = new Stopwatch();
+            this.volumeTimer.Start();
             this.gestureCounts = new Dictionary<int,int>();
 
             // direct to tutorial page if necessary
@@ -127,8 +134,10 @@ namespace GestureStudio
                     int croppedWidth = this.model.CroppedFrame.Width;
                     int croppedHeight = this.model.CroppedFrame.Height;
                     Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, 5);
-                    g.DrawRectangle(pen, startX + croppedWidth / 2, startY + croppedHeight / 2, 1, 1);
-                    g.DrawRectangle(pen, startX, startY, croppedWidth, croppedHeight);
+                    if (croppedWidth > 10 && croppedHeight > 10 && croppedHeight < 200 && croppedHeight < 200) {
+                        g.DrawRectangle(pen, startX + croppedWidth / 2, startY + croppedHeight / 2, 1, 1);
+                        g.DrawRectangle(pen, startX, startY, croppedWidth, croppedHeight);
+                    }
                 }
                 ctx.Post((o) =>
                 {
@@ -188,9 +197,11 @@ namespace GestureStudio
                         this.gestureCounts[label]++;
                         
                         this.timer.Stop();
-                        if (this.timer.ElapsedMilliseconds > 0)
+
+                        if (this.timer.ElapsedMilliseconds > 0 && this.volumeTimer.ElapsedMilliseconds > 3000)
                         {
                             this.timer.Reset();
+
                             int maxLabel = 2;
                             int maxCount = -1;
                             int countSum = 0;
@@ -206,34 +217,29 @@ namespace GestureStudio
                             this.gestureCounts.Clear();
                             if (GestureStudio.DISPLAY_DETECTED_GESTURE_IMG) {
                                 string img_path = GestureStudio.Gesture_Image_Path + "/" + Gestures.getGestureName(maxLabel) + ".png";
-                                Bitmap img = new Bitmap(img_path);
-                                Bitmap resized_img;
-                                if (File.Exists(img_path) && img.Height > 0 && img.Width > 0)
+
+                                Bitmap resized_img = null;
+                                if (File.Exists(img_path))
                                 {
-                                    // resize images in order to fit into picture box in the home tab
-                                    double imgRatio_w_h = (double)img.Width / img.Height;
-                                    if (imgRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
-                                    {
-                                        resized_img = new Bitmap(img, this.mainWindow_cropped.Width, (int)(this.mainWindow_cropped.Width / imgRatio_w_h));
-                                    }
-                                    else  // cropped image is long in vertical
-                                    {
-                                        resized_img = new Bitmap(img, (int)(this.mainWindow_cropped.Height * imgRatio_w_h), this.mainWindow_cropped.Height);
-                                    }
+                                    Bitmap img = new Bitmap(img_path);
+                                    // resize
+
+                                    resized_img = new Bitmap(img, this.mainWindow_cropped.Width, this.mainWindow_cropped.Height);
                                 }
-                                else
-                                    resized_img = null;
 
                                 this.mainWindow_cropped.Image = resized_img;
                             }
                             // lookup which window is focused and find if it is in the gestures list
-                            if (Gestures.getGestureName(maxLabel).ToLower() != "Noise")
+                            if (Gestures.getGestureName(maxLabel) != null && Gestures.getGestureName(maxLabel).ToLower() != "noise")
                             {
+
                                 this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
+                                this.commandLabel.Text = "[" + Gestures.getGestures()[maxLabel].getAllCommands()[0].getCommand() + "]";
                             }
                             else
                             {
                                 this.mainWindow_status.Text = "Your Gesture: []";
+                                this.commandLabel.Text = "[]";
                             }
                             // string focusedApp = ...
                             // int appId = Gestures.getAppId(focusedApp);
@@ -241,8 +247,13 @@ namespace GestureStudio
                             if (appInfo == null || KeyControls.getKeyMatches()[0/*appId*/] == null)
                                 return;
 
-                            
-                            this.controller.parseThenExecute(KeyControls.getKeyMatches()[0][appInfo.getCommand()]);
+                            string detectedCommand = KeyControls.getKeyMatches()[0][appInfo.getCommand()];
+                            if (detectedCommand != null && !detectedCommand.Equals("f8") && !detectedCommand.Equals("f9"))
+                            {
+                                this.volumeTimer.Reset();
+                                this.volumeTimer.Start();
+                            }
+                            this.controller.parseThenExecute(detectedCommand);
                         }
                         this.timer.Start();
                         

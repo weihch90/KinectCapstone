@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tutorialTab = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
@@ -37,6 +37,7 @@
             this.addGestureButton = new System.Windows.Forms.Button();
             this.setKeyBind = new System.Windows.Forms.Button();
             this.homeTab = new System.Windows.Forms.TabPage();
+            this.chooseModelButton = new System.Windows.Forms.Button();
             this.mainWindow_cropped = new System.Windows.Forms.PictureBox();
             this.mainWindow_full = new System.Windows.Forms.PictureBox();
             this.tutorialButton = new System.Windows.Forms.Button();
@@ -47,9 +48,8 @@
             this.homeLabel = new System.Windows.Forms.Label();
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
-
-            this.gestureDataGridView = new System.Windows.Forms.DataGridView();
-            this.chooseModelButton = new System.Windows.Forms.Button();
+            this.commandLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tutorialTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
@@ -106,15 +106,15 @@
             this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gestureDataGridView.Enabled = false;
             this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
@@ -159,6 +159,8 @@
             // 
             // homeTab
             // 
+            this.homeTab.Controls.Add(this.label2);
+            this.homeTab.Controls.Add(this.commandLabel);
             this.homeTab.Controls.Add(this.chooseModelButton);
             this.homeTab.Controls.Add(this.mainWindow_cropped);
             this.homeTab.Controls.Add(this.mainWindow_full);
@@ -168,6 +170,7 @@
             this.homeTab.Controls.Add(this.mainWindow_status);
             this.homeTab.Controls.Add(this.settingsButton);
             this.homeTab.Controls.Add(this.homeLabel);
+            this.homeTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.homeTab.Location = new System.Drawing.Point(4, 25);
             this.homeTab.Name = "homeTab";
             this.homeTab.Padding = new System.Windows.Forms.Padding(3);
@@ -176,11 +179,23 @@
             this.homeTab.Text = "Home";
             this.homeTab.UseVisualStyleBackColor = true;
             // 
+            // chooseModelButton
+            // 
+            this.chooseModelButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.chooseModelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chooseModelButton.Location = new System.Drawing.Point(210, 368);
+            this.chooseModelButton.Name = "chooseModelButton";
+            this.chooseModelButton.Size = new System.Drawing.Size(155, 60);
+            this.chooseModelButton.TabIndex = 10;
+            this.chooseModelButton.Text = "Choose Model";
+            this.chooseModelButton.UseVisualStyleBackColor = true;
+            this.chooseModelButton.Click += new System.EventHandler(this.chooseModelButton_Click);
+            // 
             // mainWindow_cropped
             // 
             this.mainWindow_cropped.BackColor = System.Drawing.Color.Transparent;
             this.mainWindow_cropped.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainWindow_cropped.Location = new System.Drawing.Point(449, 111);
             this.mainWindow_cropped.Name = "mainWindow_cropped";
             this.mainWindow_cropped.Size = new System.Drawing.Size(120, 120);
@@ -281,40 +296,25 @@
             // 
             this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
             // 
-
-            // gestureDataGridView
+            // commandLabel
             // 
-            this.gestureDataGridView.AllowUserToAddRows = false;
-            this.gestureDataGridView.AllowUserToDeleteRows = false;
-            this.gestureDataGridView.AllowUserToResizeColumns = false;
-            this.gestureDataGridView.AllowUserToResizeRows = false;
-            this.gestureDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gestureDataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.gestureDataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
-            this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gestureDataGridView.Enabled = false;
-            this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
-            this.gestureDataGridView.Name = "gestureDataGridView";
-            this.gestureDataGridView.RowHeadersVisible = false;
-            this.gestureDataGridView.Size = new System.Drawing.Size(418, 359);
-            this.gestureDataGridView.TabIndex = 5;
-            this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
+            this.commandLabel.AutoSize = true;
+            this.commandLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commandLabel.Location = new System.Drawing.Point(445, 289);
+            this.commandLabel.Name = "commandLabel";
+            this.commandLabel.Size = new System.Drawing.Size(20, 24);
+            this.commandLabel.TabIndex = 11;
+            this.commandLabel.Text = "[]";
             // 
-            // chooseModelButton
+            // label2
             // 
-            this.chooseModelButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.chooseModelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chooseModelButton.Location = new System.Drawing.Point(210, 368);
-            this.chooseModelButton.Name = "chooseModelButton";
-            this.chooseModelButton.Size = new System.Drawing.Size(155, 60);
-            this.chooseModelButton.TabIndex = 10;
-            this.chooseModelButton.Text = "Choose Model";
-            this.chooseModelButton.UseVisualStyleBackColor = true;
-            this.chooseModelButton.Click += new System.EventHandler(this.chooseModelButton_Click);
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(445, 259);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(149, 20);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Sending Command:";
             // 
             // MainWindow
             // 
@@ -359,6 +359,8 @@
         private System.Windows.Forms.OpenFileDialog chooseFileDialog;
         private System.Windows.Forms.DataGridView gestureDataGridView;
         private System.Windows.Forms.Button chooseModelButton;
+        private System.Windows.Forms.Label commandLabel;
+        private System.Windows.Forms.Label label2;
 
     }
 }

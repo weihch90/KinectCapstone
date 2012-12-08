@@ -73,7 +73,8 @@ namespace GestureStudio
             this.selectGesture.Items.Clear();
             foreach (GestureInfo gesture in Gestures.getGestures().Values)
             {
-                this.selectGesture.Items.Add(gesture.getName());
+                if(!gesture.getName().Equals("Noise"))
+                    this.selectGesture.Items.Add(gesture.getName());
             }
         }
 

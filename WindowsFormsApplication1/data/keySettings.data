@@ -1,5 +1,4 @@
-WMP, PP
-0:toggle display for full-screen:alt-enter
+WMP
 0:full-screen:ctrl-1
 0:skin mode:ctrl-2
 0:previous:ctrl-b
@@ -10,6 +9,5 @@ WMP, PP
 0:repeat:ctrl-t
 0:fast forward:ctrl-shift-f
 0:mute:f7
-0:decrease volume:f8
-0:increase volume:f9
-1:full screen:f11
+0:volume down:f8
+0:volume up:f9
