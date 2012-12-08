@@ -53,7 +53,7 @@ namespace GestureStudio
         // ...
         private static void loadData()
         {
-            string[] lines = File.ReadAllLines(GestureStudio.KeySettingsFile_Path);
+            string[] lines = File.ReadAllLines(GestureStudio.KeySettingsFilePath);
             keyMatches = new Dictionary<int, Dictionary<string, string>>();
             string[] apps = lines[0].Split(',');
             applications = new string[apps.Length];

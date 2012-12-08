@@ -36,11 +36,9 @@ namespace GestureStudio
             this.disabled = false;
             this.classifying = false;
             InitializeComponent();
-
-
         }
 
-        private void loadTable()
+        private void LoadTable()
         {
             gestureDataGridView.Columns.Clear();
             Dictionary<int, GestureInfo> gestures = Gestures.getGestures();
@@ -69,6 +67,39 @@ namespace GestureStudio
             }
         }
 
+        private void LoadTutorial()
+        {
+            tutorialGridView.Rows.Clear();
+            tutorialGridView.Columns.Clear();
+            string[] imagePaths = Directory.GetFiles(GestureStudio.GestureImagePath);
+
+            for (int i = 0; i < imagePaths.Length / 3; i++)
+            {
+                DataGridViewImageColumn ImageColumn = new System.Windows.Forms.DataGridViewImageColumn() { HeaderText = "Gesture" };
+                DataGridViewTextBoxColumn TextColumn = new System.Windows.Forms.DataGridViewTextBoxColumn() { HeaderText = "Name" };
+                tutorialGridView.Columns.Add(ImageColumn);
+                tutorialGridView.Columns.Add(TextColumn);
+            }
+
+            for (int i = 0; i < imagePaths.Length / 3; i++)
+            {
+                // Read in three images. Add to row.
+                FileStream fs1 = File.OpenRead(imagePaths[i * 3]);
+                byte[] by1 = new byte[fs1.Length];
+                fs1.Read(by1, 0, by1.Length);
+                String name1 = System.IO.Path.GetFileNameWithoutExtension(imagePaths[i * 3]);
+                FileStream fs2 = File.OpenRead(imagePaths[i * 3 + 1]);
+                byte[] by2 = new byte[fs2.Length];
+                fs2.Read(by2, 0, by2.Length);
+                String name2 = System.IO.Path.GetFileNameWithoutExtension(imagePaths[i * 3 + 1]);
+                FileStream fs3 = File.OpenRead(imagePaths[i * 3 + 2]);
+                byte[] by3 = new byte[fs3.Length];
+                fs3.Read(by3, 0, by3.Length);
+                String name3 = System.IO.Path.GetFileNameWithoutExtension(imagePaths[i * 3 + 2]);
+                tutorialGridView.Rows.Add(by1, name1, by2, name2, by3, name3);
+            }
+        }
+
         private void MainWindow_Load(object sender, EventArgs e)
         {
             // instance initialization requires UI thread, wait until load
@@ -76,7 +107,8 @@ namespace GestureStudio
             this.gestures = Gestures.Instance;
             this.keyControls = KeyControls.Instance;
             this.controller = new Control();
-            this.loadTable();
+            this.LoadTable();
+            this.LoadTutorial();
             this.timer = new Stopwatch();
             this.volumeTimer = new Stopwatch();
             this.volumeTimer.Start();
@@ -216,7 +248,7 @@ namespace GestureStudio
                             }
                             this.gestureCounts.Clear();
                             if (GestureStudio.DISPLAY_DETECTED_GESTURE_IMG) {
-                                string img_path = GestureStudio.Gesture_Image_Path + "/" + Gestures.getGestureName(maxLabel) + ".png";
+                                string img_path = GestureStudio.GestureImagePath + "/" + Gestures.getGestureName(maxLabel) + ".png";
 
                                 Bitmap resized_img = null;
                                 if (File.Exists(img_path))
@@ -391,7 +423,7 @@ namespace GestureStudio
                         Gestures.saveData();
                         gestureDataGridView.Hide();
                         gestureDataGridView.Controls.Clear();
-                        loadTable();
+                        LoadTable();
                         gestureDataGridView.Show();
                     }
                     //label1.Text = mainForm.getKeyBind();
@@ -415,7 +447,7 @@ namespace GestureStudio
                     Gestures.loadData(file);
                     gestureDataGridView.Hide();
                     gestureDataGridView.Controls.Clear();
-                    loadTable();
+                    LoadTable();
                     gestureDataGridView.Show();
                 }
                 catch (IOException)
@@ -480,7 +512,7 @@ namespace GestureStudio
                     Gestures.loadData(Gestures.getPath());
                     gestureDataGridView.Hide();
                     gestureDataGridView.Controls.Clear();
-                    loadTable();
+                    LoadTable();
                     gestureDataGridView.Show();
                 }
                 catch (IOException)
@@ -503,10 +535,12 @@ namespace GestureStudio
         private void chooseModelButton_Click(object sender, EventArgs e)
         {
             var FD = new System.Windows.Forms.OpenFileDialog();
+            FD.Filter = "model files (*.svm)|*.svm|All files (*.*)|*.*";
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
                 this.model.ModelFilePath = @fileToOpen;
+                this.modelFileLabel.Text = fileToOpen;
 
                 // Update gesture data based on model chosen.
                 if (fileToOpen.Equals(GestureStudio.ModelFileNew))
@@ -517,9 +551,5 @@ namespace GestureStudio
                     Gestures.loadData(GestureStudio.GesturesDataPathDemo);
             }
         }
-
-
-
-
     }
 }

@@ -9,7 +9,7 @@ namespace GestureStudio
 {
     static class GestureStudio
     {
-        public const string GestureLib_DictionartyPath = @"Dictionary.dic";
+        public const string GestureLib_DictionartyPath = @"DictionaryNormal.dic";
         public const string ModelFileDemo = @"model.svm";
         public const string ModelFileEmpty = @"model_empty.svm";
         public const string ModelFileNew = @"model_new.svm";
@@ -20,8 +20,8 @@ namespace GestureStudio
         public const string GesturesDataPathEmpty = @"../../data/gesturesInfoEmpty.data";
         public const string GesturesDataPathNew = @"../../data/gesturesInfoNew.data";
         public const string SettingFile = @"../../data/settings.data";
-        public const string KeySettingsFile_Path = @"../../data/keySettings.data";
-        public const string Gesture_Image_Path = @"../../data/gestureImages";
+        public const string KeySettingsFilePath = @"../../data/keySettings.data";
+        public const string GestureImagePath = @"../../data/gestureImages";
         
         private const bool useNewDesign = true;
         public static bool GENERIC_GESTURES = true;

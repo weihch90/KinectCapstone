@@ -34,7 +34,7 @@
             // loaderMessage
             // 
             this.loaderMessage.AutoSize = true;
-            this.loaderMessage.Location = new System.Drawing.Point(14, 41);
+            this.loaderMessage.Location = new System.Drawing.Point(14, 18);
             this.loaderMessage.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.loaderMessage.Name = "loaderMessage";
             this.loaderMessage.Size = new System.Drawing.Size(142, 20);
@@ -45,11 +45,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(378, 105);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(378, 78);
             this.Controls.Add(this.loaderMessage);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "LoadingWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

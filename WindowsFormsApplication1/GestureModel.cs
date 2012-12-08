@@ -304,7 +304,7 @@ namespace GestureStudio
             {
                 if (!this.trainer.GestureDataReady)
                 {
-                    this.UpdateStatus("Collecting Gesture " + this.trainer.CurrentSampleCount + " of 50");
+                    this.UpdateStatus("Collecting Gesture " + this.trainer.CurrentSampleCount + " of 30");
                     this.trainer.LearnGesture(this.croppedFrame);
                 }
                 else if (!this.trainer.ModelBuildStarted)

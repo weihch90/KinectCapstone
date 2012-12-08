@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tutorialTab = new System.Windows.Forms.TabPage();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.settingsTab = new System.Windows.Forms.TabPage();
             this.gestureDataGridView = new System.Windows.Forms.DataGridView();
-            this.chooseDataFileButton = new System.Windows.Forms.Button();
             this.addGestureButton = new System.Windows.Forms.Button();
             this.setKeyBind = new System.Windows.Forms.Button();
             this.homeTab = new System.Windows.Forms.TabPage();
+            this.modelFileLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.commandLabel = new System.Windows.Forms.Label();
             this.chooseModelButton = new System.Windows.Forms.Button();
             this.mainWindow_cropped = new System.Windows.Forms.PictureBox();
             this.mainWindow_full = new System.Windows.Forms.PictureBox();
@@ -48,21 +49,20 @@
             this.homeLabel = new System.Windows.Forms.Label();
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.commandLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.tutorialGridView = new System.Windows.Forms.DataGridView();
             this.tutorialTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.settingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).BeginInit();
             this.homeTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).BeginInit();
             this.mainWindowTabs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tutorialGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tutorialTab
             // 
-            this.tutorialTab.Controls.Add(this.pictureBox3);
+            this.tutorialTab.Controls.Add(this.tutorialGridView);
             this.tutorialTab.Location = new System.Drawing.Point(4, 25);
             this.tutorialTab.Name = "tutorialTab";
             this.tutorialTab.Padding = new System.Windows.Forms.Padding(3);
@@ -71,18 +71,9 @@
             this.tutorialTab.Text = "Tutorial";
             this.tutorialTab.UseVisualStyleBackColor = true;
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Location = new System.Drawing.Point(38, 39);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(528, 395);
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            // 
             // settingsTab
             // 
             this.settingsTab.Controls.Add(this.gestureDataGridView);
-            this.settingsTab.Controls.Add(this.chooseDataFileButton);
             this.settingsTab.Controls.Add(this.addGestureButton);
             this.settingsTab.Controls.Add(this.setKeyBind);
             this.settingsTab.Location = new System.Drawing.Point(4, 25);
@@ -106,15 +97,15 @@
             this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gestureDataGridView.Enabled = false;
             this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
@@ -124,23 +115,12 @@
             this.gestureDataGridView.TabIndex = 5;
             this.gestureDataGridView.SelectionChanged += new System.EventHandler(this.gestureDataGridView_SelectionChanged);
             // 
-            // chooseDataFileButton
-            // 
-            this.chooseDataFileButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chooseDataFileButton.Location = new System.Drawing.Point(293, 401);
-            this.chooseDataFileButton.Name = "chooseDataFileButton";
-            this.chooseDataFileButton.Size = new System.Drawing.Size(152, 51);
-            this.chooseDataFileButton.TabIndex = 4;
-            this.chooseDataFileButton.Text = "Choose Data File";
-            this.chooseDataFileButton.UseVisualStyleBackColor = true;
-            this.chooseDataFileButton.Click += new System.EventHandler(this.chooseDataFile_Click);
-            // 
             // addGestureButton
             // 
             this.addGestureButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addGestureButton.Location = new System.Drawing.Point(27, 401);
             this.addGestureButton.Name = "addGestureButton";
-            this.addGestureButton.Size = new System.Drawing.Size(127, 51);
+            this.addGestureButton.Size = new System.Drawing.Size(127, 38);
             this.addGestureButton.TabIndex = 1;
             this.addGestureButton.Text = "New Gesture";
             this.addGestureButton.UseVisualStyleBackColor = true;
@@ -151,7 +131,7 @@
             this.setKeyBind.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.setKeyBind.Location = new System.Drawing.Point(160, 401);
             this.setKeyBind.Name = "setKeyBind";
-            this.setKeyBind.Size = new System.Drawing.Size(127, 51);
+            this.setKeyBind.Size = new System.Drawing.Size(127, 38);
             this.setKeyBind.TabIndex = 3;
             this.setKeyBind.Text = "Edit Binding";
             this.setKeyBind.UseVisualStyleBackColor = true;
@@ -159,6 +139,7 @@
             // 
             // homeTab
             // 
+            this.homeTab.Controls.Add(this.modelFileLabel);
             this.homeTab.Controls.Add(this.label2);
             this.homeTab.Controls.Add(this.commandLabel);
             this.homeTab.Controls.Add(this.chooseModelButton);
@@ -179,13 +160,43 @@
             this.homeTab.Text = "Home";
             this.homeTab.UseVisualStyleBackColor = true;
             // 
+            // modelFileLabel
+            // 
+            this.modelFileLabel.AutoSize = true;
+            this.modelFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modelFileLabel.Location = new System.Drawing.Point(46, 379);
+            this.modelFileLabel.Name = "modelFileLabel";
+            this.modelFileLabel.Size = new System.Drawing.Size(81, 18);
+            this.modelFileLabel.TabIndex = 13;
+            this.modelFileLabel.Text = "model.svm";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(427, 258);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(149, 20);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Sending Command:";
+            // 
+            // commandLabel
+            // 
+            this.commandLabel.AutoSize = true;
+            this.commandLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commandLabel.Location = new System.Drawing.Point(427, 289);
+            this.commandLabel.Name = "commandLabel";
+            this.commandLabel.Size = new System.Drawing.Size(20, 24);
+            this.commandLabel.TabIndex = 11;
+            this.commandLabel.Text = "[]";
+            // 
             // chooseModelButton
             // 
             this.chooseModelButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.chooseModelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chooseModelButton.Location = new System.Drawing.Point(210, 368);
+            this.chooseModelButton.Location = new System.Drawing.Point(184, 368);
             this.chooseModelButton.Name = "chooseModelButton";
-            this.chooseModelButton.Size = new System.Drawing.Size(155, 60);
+            this.chooseModelButton.Size = new System.Drawing.Size(132, 38);
             this.chooseModelButton.TabIndex = 10;
             this.chooseModelButton.Text = "Choose Model";
             this.chooseModelButton.UseVisualStyleBackColor = true;
@@ -196,7 +207,7 @@
             this.mainWindow_cropped.BackColor = System.Drawing.Color.Transparent;
             this.mainWindow_cropped.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.mainWindow_cropped.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mainWindow_cropped.Location = new System.Drawing.Point(449, 111);
+            this.mainWindow_cropped.Location = new System.Drawing.Point(431, 111);
             this.mainWindow_cropped.Name = "mainWindow_cropped";
             this.mainWindow_cropped.Size = new System.Drawing.Size(120, 120);
             this.mainWindow_cropped.TabIndex = 9;
@@ -217,9 +228,9 @@
             // 
             this.tutorialButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.tutorialButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tutorialButton.Location = new System.Drawing.Point(498, 367);
+            this.tutorialButton.Location = new System.Drawing.Point(507, 368);
             this.tutorialButton.Name = "tutorialButton";
-            this.tutorialButton.Size = new System.Drawing.Size(71, 60);
+            this.tutorialButton.Size = new System.Drawing.Size(71, 39);
             this.tutorialButton.TabIndex = 7;
             this.tutorialButton.Text = "Tutorial";
             this.tutorialButton.UseVisualStyleBackColor = true;
@@ -239,9 +250,9 @@
             // 
             this.controlButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.controlButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.controlButton.Location = new System.Drawing.Point(49, 368);
+            this.controlButton.Location = new System.Drawing.Point(322, 368);
             this.controlButton.Name = "controlButton";
-            this.controlButton.Size = new System.Drawing.Size(155, 60);
+            this.controlButton.Size = new System.Drawing.Size(87, 38);
             this.controlButton.TabIndex = 0;
             this.controlButton.Text = "Start";
             this.controlButton.UseVisualStyleBackColor = true;
@@ -260,9 +271,9 @@
             // 
             this.settingsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.settingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.settingsButton.Location = new System.Drawing.Point(421, 368);
+            this.settingsButton.Location = new System.Drawing.Point(431, 368);
             this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(71, 60);
+            this.settingsButton.Size = new System.Drawing.Size(71, 38);
             this.settingsButton.TabIndex = 3;
             this.settingsButton.Text = "Settings";
             this.settingsButton.UseVisualStyleBackColor = true;
@@ -296,25 +307,21 @@
             // 
             this.chooseFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.chooseDataFileDialog_Ok);
             // 
-            // commandLabel
+            // tutorialGridView
             // 
-            this.commandLabel.AutoSize = true;
-            this.commandLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commandLabel.Location = new System.Drawing.Point(445, 289);
-            this.commandLabel.Name = "commandLabel";
-            this.commandLabel.Size = new System.Drawing.Size(20, 24);
-            this.commandLabel.TabIndex = 11;
-            this.commandLabel.Text = "[]";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(445, 259);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 20);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Sending Command:";
+            this.tutorialGridView.AllowUserToAddRows = false;
+            this.tutorialGridView.AllowUserToDeleteRows = false;
+            this.tutorialGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tutorialGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.tutorialGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tutorialGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tutorialGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tutorialGridView.Location = new System.Drawing.Point(7, 29);
+            this.tutorialGridView.Name = "tutorialGridView";
+            this.tutorialGridView.ReadOnly = true;
+            this.tutorialGridView.RowHeadersVisible = false;
+            this.tutorialGridView.Size = new System.Drawing.Size(598, 405);
+            this.tutorialGridView.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -326,7 +333,6 @@
             this.Text = "MainWindow";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tutorialTab.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.settingsTab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).EndInit();
             this.homeTab.ResumeLayout(false);
@@ -334,6 +340,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_cropped)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainWindow_full)).EndInit();
             this.mainWindowTabs.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tutorialGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -341,7 +348,6 @@
         #endregion
 
         private System.Windows.Forms.TabPage tutorialTab;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.TabPage settingsTab;
         private System.Windows.Forms.Button setKeyBind;
         private System.Windows.Forms.TabPage homeTab;
@@ -355,12 +361,13 @@
         private System.Windows.Forms.Label homeLabel;
         private System.Windows.Forms.TabControl mainWindowTabs;
         private System.Windows.Forms.Button addGestureButton;
-        private System.Windows.Forms.Button chooseDataFileButton;
         private System.Windows.Forms.OpenFileDialog chooseFileDialog;
         private System.Windows.Forms.DataGridView gestureDataGridView;
         private System.Windows.Forms.Button chooseModelButton;
         private System.Windows.Forms.Label commandLabel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label modelFileLabel;
+        private System.Windows.Forms.DataGridView tutorialGridView;
 
     }
 }

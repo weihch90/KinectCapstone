@@ -7,6 +7,7 @@ namespace GestureStudio
 {
     public partial class MainForm : Form
     {
+        public static double Width_To_Height_Ratio = 1;
         private int framesCount = 0;
         private GestureModel model;
         private bool disabled;
@@ -56,25 +57,32 @@ namespace GestureStudio
                     }
                     
                     ctx.Post((o) => {
-                        this.fullFrameStream.Image = fullFrame;
-                        this.croppedFrameStream.Image = croppedFrame;
+                        Bitmap fitFull = new Bitmap(fullFrame, this.fullFrameStream.Width, this.fullFrameStream.Height);
+                        Bitmap fitCropped;
+
+                        // make sure the cropped image has area
+                        if (croppedFrame.Height > 0 && croppedFrame.Width > 0)
+                        {
+                            // resize images in order to fit into picture box in the home tab
+                            double croppedRatio_w_h = (double)croppedFrame.Width / croppedFrame.Height;
+                            if (croppedRatio_w_h > Width_To_Height_Ratio)  // cropped image is long in horizontal
+                            {
+                                fitCropped = new Bitmap(croppedFrame, this.croppedFrameStream.Width, (int)(this.croppedFrameStream.Width / croppedRatio_w_h));
+                            }
+                            else  // cropped image is long in vertical
+                            {
+                                fitCropped = new Bitmap(croppedFrame, (int)(this.croppedFrameStream.Height * croppedRatio_w_h), this.croppedFrameStream.Height);
+                            }
+                        }
+                        else
+                            fitCropped = null;
+
+                        this.croppedFrameStream.Image = fitCropped;
+                        this.fullFrameStream.Image = fitFull;
+
                         framesCount++;
                     }, null);
                 };
-
-            this.model.CategoryDetected += (s, args) =>
-            {
-                if (disabled)
-                {
-                    return;
-                }
-
-                ctx.Post((o) =>
-                {
-                    int label = (int)o;
-                    this.message.Text = LabelToString(label);
-                }, args.CategoryLabel);
-            };
 
             this.model.ImageCollectionFinished += (s, args) =>
                 {
@@ -119,37 +127,9 @@ namespace GestureStudio
             fpsCounter.Start();
         }
                 
-        private String LabelToString(int i)
-        {
-            switch (i)
-            {
-                case 1:
-                    return "Thumbs Up";
-                case 2:
-                    return "L";
-                case 3:
-                    return "OK";
-                case 4:
-                    return "Thumbs Down";
-                case 5:
-                    return "C";
-                case 6:
-                    return "Back";
-                case 7:
-                    return "Noise";
-                case 8:
-                    return "Paper";
-                case 9:
-                    return "Forward";
-                case 10:
-                    return "Rock on";
-            }
-            return "";
-        }
-        
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (this.classifyModeButton.Checked)
+            /*if (this.classifyModeButton.Checked)
             {
                 this.model.StartClassify();
             }
@@ -160,7 +140,8 @@ namespace GestureStudio
             else
             {
                 MessageBox.Show("Pick a program mode to run.");
-            }
+            }*/
+            this.model.StartLearning();
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -171,6 +152,7 @@ namespace GestureStudio
         private void chooseFeatureFileButton_Click(object sender, EventArgs e)
         {
             var FD = new System.Windows.Forms.OpenFileDialog();
+            FD.Filter = "feature files (*.mat)|*.mat|All files (*.*)|*.*";
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string fileToOpen = System.IO.Path.GetFileName(FD.FileName);
