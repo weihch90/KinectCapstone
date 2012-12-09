@@ -230,7 +230,7 @@ namespace GestureStudio
                         
                         this.timer.Stop();
 
-                        if (this.timer.ElapsedMilliseconds > 0 && this.volumeTimer.ElapsedMilliseconds > 3000)
+                        if (this.timer.ElapsedMilliseconds > 0 && this.volumeTimer.ElapsedMilliseconds > 2500)
                         {
                             this.timer.Reset();
 
@@ -266,7 +266,10 @@ namespace GestureStudio
                             {
 
                                 this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
-                                this.commandLabel.Text = "[" + Gestures.getGestures()[maxLabel].getAllCommands()[0].getCommand() + "]";
+                                if (Gestures.getGestures()[maxLabel].getAllCommands().Count != 0)
+                                    this.commandLabel.Text = "[" + Gestures.getGestures()[maxLabel].getAllCommands()[0].getCommand() + "]";
+                                else
+                                    this.commandLabel.Text = "[]";
                             }
                             else
                             {
@@ -550,6 +553,19 @@ namespace GestureStudio
                 else // Demo version
                     Gestures.loadData(GestureStudio.GesturesDataPathDemo);
             }
+        }
+
+        private void homeButton_Click(object sender, EventArgs e)
+        {
+            this.mainWindowTabs.SelectedTab = this.homeTab;
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            Gestures.resetGestureInfo();
+            Gestures.saveData();
+            Gestures.loadData(Gestures.getPath());
+            LoadTable();
         }
     }
 }

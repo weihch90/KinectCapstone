@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tutorialTab = new System.Windows.Forms.TabPage();
             this.settingsTab = new System.Windows.Forms.TabPage();
             this.gestureDataGridView = new System.Windows.Forms.DataGridView();
@@ -50,6 +50,8 @@
             this.mainWindowTabs = new System.Windows.Forms.TabControl();
             this.chooseFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tutorialGridView = new System.Windows.Forms.DataGridView();
+            this.homeButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.tutorialTab.SuspendLayout();
             this.settingsTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gestureDataGridView)).BeginInit();
@@ -62,6 +64,7 @@
             // 
             // tutorialTab
             // 
+            this.tutorialTab.Controls.Add(this.homeButton);
             this.tutorialTab.Controls.Add(this.tutorialGridView);
             this.tutorialTab.Location = new System.Drawing.Point(4, 25);
             this.tutorialTab.Name = "tutorialTab";
@@ -73,6 +76,7 @@
             // 
             // settingsTab
             // 
+            this.settingsTab.Controls.Add(this.resetButton);
             this.settingsTab.Controls.Add(this.gestureDataGridView);
             this.settingsTab.Controls.Add(this.addGestureButton);
             this.settingsTab.Controls.Add(this.setKeyBind);
@@ -97,15 +101,15 @@
             this.gestureDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gestureDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.gestureDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gestureDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.gestureDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gestureDataGridView.Enabled = false;
             this.gestureDataGridView.Location = new System.Drawing.Point(27, 24);
@@ -320,8 +324,30 @@
             this.tutorialGridView.Name = "tutorialGridView";
             this.tutorialGridView.ReadOnly = true;
             this.tutorialGridView.RowHeadersVisible = false;
-            this.tutorialGridView.Size = new System.Drawing.Size(598, 405);
+            this.tutorialGridView.Size = new System.Drawing.Size(598, 361);
             this.tutorialGridView.TabIndex = 0;
+            // 
+            // homeButton
+            // 
+            this.homeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.homeButton.Location = new System.Drawing.Point(27, 401);
+            this.homeButton.Name = "homeButton";
+            this.homeButton.Size = new System.Drawing.Size(127, 38);
+            this.homeButton.TabIndex = 2;
+            this.homeButton.Text = "Try It Now";
+            this.homeButton.UseVisualStyleBackColor = true;
+            this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resetButton.Location = new System.Drawing.Point(293, 401);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(127, 38);
+            this.resetButton.TabIndex = 6;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // MainWindow
             // 
@@ -368,6 +394,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label modelFileLabel;
         private System.Windows.Forms.DataGridView tutorialGridView;
+        private System.Windows.Forms.Button homeButton;
+        private System.Windows.Forms.Button resetButton;
 
     }
 }

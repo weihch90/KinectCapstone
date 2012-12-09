@@ -331,5 +331,16 @@ namespace GestureStudio
                 gestureList[gestureId].deleteAppCommand(appId);
             }
         }
+
+        public static void resetGestureInfo()
+        {
+            for (int i = 0; i < gestureList.Count; i++)
+            {
+                KeyValuePair<int, GestureInfo> pair = gestureList.ElementAt(i);
+                gestureList.Remove(pair.Key);
+                GestureInfo info = new GestureInfo(pair.Value.getName());
+                gestureList.Add(pair.Key, info);
+            }
+        }
     }
 }

@@ -106,6 +106,7 @@ namespace GestureStudio
                     ctx.Post((o) =>
                         {
                             this.modelStatusDisplay.Text = args.Status;
+                            this.message.Text = args.Status;
                         }, null);
                 };
 
