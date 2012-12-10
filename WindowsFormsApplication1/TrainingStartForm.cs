@@ -26,6 +26,7 @@ namespace GestureStudio
         private void startButton_Click(object sender, EventArgs e)
         {
             SynchronizationContext ctx = SynchronizationContext.Current;
+            
 
             // Save the new gesture name to gestureInfoNew.data
             string name = gestureName.Text;
@@ -49,6 +50,9 @@ namespace GestureStudio
                     {
                         this.OnStart();
                         timer.Stop();
+                        countDown = 5;
+                        this.countDownLabel.Text = countDown.ToString();
+                        this.gestureName.Text = "Name of the new gesture.";
                     }
                 };
 

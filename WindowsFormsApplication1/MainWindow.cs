@@ -19,11 +19,10 @@ namespace GestureStudio
         private GestureModel model;
         private Gestures gestures;
         private KeyControls keyControls;
-        private Control controller;
-        private Stopwatch timer; 
-        private Dictionary<int, int> gestureCounts;
+        private Control controller; 
         private bool disabled;
         private bool classifying;
+        private BackgroundWorker bWork;
 
         private Stopwatch volumeTimer;
  
@@ -109,10 +108,10 @@ namespace GestureStudio
             this.controller = new Control();
             this.LoadTable();
             this.LoadTutorial();
-            this.timer = new Stopwatch();
             this.volumeTimer = new Stopwatch();
             this.volumeTimer.Start();
-            this.gestureCounts = new Dictionary<int,int>();
+            this.bWork = new BackgroundWorker();
+            bWork.DoWork += new DoWorkEventHandler(bw_DoWork);
 
             // direct to tutorial page if necessary
             string[] lines = File.ReadAllLines(GestureStudio.SettingFile);
@@ -224,31 +223,14 @@ namespace GestureStudio
                     int label = (int)o;
                     if (GestureStudio.GENERIC_GESTURES)
                     {
-                        if (!this.gestureCounts.ContainsKey(label))
-                            this.gestureCounts.Add(label, 0);
-                        this.gestureCounts[label]++;
-                        
-                        this.timer.Stop();
 
-                        if (this.timer.ElapsedMilliseconds > 0 && this.volumeTimer.ElapsedMilliseconds > 2500)
+
+                        if (this.volumeTimer.ElapsedMilliseconds > 2500)
                         {
-                            this.timer.Reset();
-
-                            int maxLabel = 2;
-                            int maxCount = -1;
-                            int countSum = 0;
-                            foreach (int key in this.gestureCounts.Keys)
-                            {
-                                if (maxCount < this.gestureCounts[key])
-                                {
-                                    maxLabel = key;
-                                    maxCount = this.gestureCounts[key];
-                                    countSum += this.gestureCounts[key];
-                                }
-                            }
-                            this.gestureCounts.Clear();
+                            
+                            
                             if (GestureStudio.DISPLAY_DETECTED_GESTURE_IMG) {
-                                string img_path = GestureStudio.GestureImagePath + "/" + Gestures.getGestureName(maxLabel) + ".png";
+                                string img_path = GestureStudio.GestureImagePath + "/" + Gestures.getGestureName(label) + ".png";
 
                                 Bitmap resized_img = null;
                                 if (File.Exists(img_path))
@@ -262,12 +244,12 @@ namespace GestureStudio
                                 this.mainWindow_cropped.Image = resized_img;
                             }
                             // lookup which window is focused and find if it is in the gestures list
-                            if (Gestures.getGestureName(maxLabel) != null && Gestures.getGestureName(maxLabel).ToLower() != "noise")
+                            if (Gestures.getGestureName(label) != null && Gestures.getGestureName(label).ToLower() != "noise")
                             {
 
-                                this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(maxLabel) + "]";
-                                if (Gestures.getGestures()[maxLabel].getAllCommands().Count != 0)
-                                    this.commandLabel.Text = "[" + Gestures.getGestures()[maxLabel].getAllCommands()[0].getCommand() + "]";
+                                this.mainWindow_status.Text = "Your Gesture: [" + Gestures.getGestureName(label) + "]";
+                                if (Gestures.getGestures()[label].getAllCommands().Count != 0)
+                                    this.commandLabel.Text = "[" + Gestures.getGestures()[label].getAllCommands()[0].getCommand() + "]";
                                 else
                                     this.commandLabel.Text = "[]";
                             }
@@ -278,7 +260,7 @@ namespace GestureStudio
                             }
                             // string focusedApp = ...
                             // int appId = Gestures.getAppId(focusedApp);
-                            AppKeyInfo appInfo = Gestures.getAppKeyForGesture(maxLabel, 0 /*appId*/);
+                            AppKeyInfo appInfo = Gestures.getAppKeyForGesture(label, 0 /*appId*/);
                             if (appInfo == null || KeyControls.getKeyMatches()[0/*appId*/] == null)
                                 return;
 
@@ -288,11 +270,12 @@ namespace GestureStudio
                                 this.volumeTimer.Reset();
                                 this.volumeTimer.Start();
                             }
-                            this.controller.parseThenExecute(detectedCommand);
-                        }
-                        this.timer.Start();
-                        
 
+                            if (!this.bWork.IsBusy) {
+                                this.bWork.RunWorkerAsync(detectedCommand); //() => { this.controller.parseThenExecute(detectedCommand);}); 
+                            }
+                            
+                        }                    
                         
                     } 
                     else
@@ -302,6 +285,12 @@ namespace GestureStudio
 
 
         }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this.controller.parseThenExecute((string)e.Argument);
+        }
+
 
         private String LabelToString(int i)
         {

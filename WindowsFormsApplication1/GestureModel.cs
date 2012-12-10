@@ -299,6 +299,10 @@ namespace GestureStudio
                     GestureStudio.HideLoadingWindow();
                 });
             }
+            else if (this.trainer.CurrentSampleCount == 0)
+            {
+
+            }
 
             if (this.trainer.Initialized)
             {
